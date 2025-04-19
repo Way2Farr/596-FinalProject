@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -15,16 +16,18 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateGameState(GameState.PlayerMove);
+        UpdateGameState(GameState.ChooseOption);
     }
     public void UpdateGameState(GameState newState)
     {
         State = newState;
 
         switch (newState)
-        {
+        {   
+            case GameState.ChooseOption:
+                break;
             case GameState.PlayerMove:
-                HandlePlayerMove();  
+                //HandlePlayerMove();  
                 break;
             case GameState.PlayerAttack:
                 break;
@@ -36,9 +39,30 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Lose:
                 break;
+            case GameState.Flee:
+                break;
         }
 
         OnStateChange?.Invoke(newState);
+    }
+
+    public void ButtonSetState(int setState)
+    {
+        switch (setState)
+        {
+            case 0:
+                UpdateGameState(GameState.PlayerAttack);
+                break;
+            case 1:
+                UpdateGameState(GameState.PlayerMove);
+                break;
+            case 2:
+                UpdateGameState(GameState.Flee);
+                break;
+            default:
+                break;
+
+        }
     }
 
     private void HandlePlayerMove()
@@ -48,11 +72,13 @@ public class GameManager : MonoBehaviour
 
     public enum GameState
 {
+    ChooseOption,
     PlayerMove,
     PlayerAttack,
     EnemyMove,
     EnemyAttack,
     Victory,
-    Lose
+    Lose,
+    Flee
 }
 }
