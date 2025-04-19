@@ -3,15 +3,15 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
     [SerializeField]
-    private Color _baseColor, _offsetColor;
+    protected Color _baseColor, _offsetColor;
     [SerializeField]
-    private SpriteRenderer _renderer;
+    protected SpriteRenderer _renderer;
     [SerializeField]
-    private GameObject _highlight;
+    protected GameObject _highlight;
 
-    public void Init(bool isOffset)
+    public virtual void Init(int x, int y)
     {
-        _renderer.color = isOffset ? _baseColor : _offsetColor;
+        //_renderer.color = isOffset ? _baseColor : _offsetColor;
     }
 
     private void OnMouseEnter()
