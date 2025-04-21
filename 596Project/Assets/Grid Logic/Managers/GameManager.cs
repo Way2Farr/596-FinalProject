@@ -21,9 +21,12 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
         State = newState;
-
+        Debug.Log(newState.ToString());
         switch (newState)
-        {   
+        {
+            case GameState.SpawnUnits:
+                SpawnPlayerUnits();
+                break;
             case GameState.ChooseOption:
                 break;
             case GameState.PlayerMove:
@@ -65,6 +68,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void SpawnPlayerUnits()
+    {
+        
+        GameManager.Instance.UpdateGameState(GameState.ChooseOption);
+    }
     private void HandlePlayerMove()
     {
         throw new NotImplementedException();
@@ -72,6 +80,7 @@ public class GameManager : MonoBehaviour
 
     public enum GameState
 {
+    SpawnUnits,
     ChooseOption,
     PlayerMove,
     PlayerAttack,

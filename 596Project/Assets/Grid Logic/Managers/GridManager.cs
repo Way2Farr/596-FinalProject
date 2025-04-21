@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager Instance;
     [SerializeField] 
     private int _width, _height;
 
@@ -15,6 +16,16 @@ public class GridManager : MonoBehaviour
 
     private Dictionary<Vector2, Tile> _tiles;
 
+    [SerializeField]
+    private Vector2 heroSpawnPosition = new Vector2(2, 2);
+
+    [SerializeField]
+    private Vector2 enemySpawnPosition = new Vector2(7, 7);
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -47,6 +58,20 @@ public class GridManager : MonoBehaviour
 
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
         _cam.transform.position = _cam.transform.position + new Vector3(0, -1);
+
+        // GameManager.Instance.UpdateGameState(GameManager.GameState.SpawnUnits);
+        UnitManager.Instance.SpawnHeroes();
+        UnitManager.Instance.SpawnEnemies();
+    }
+
+    public Tile GetHeroSpawnTile()
+    {
+        return GetTileAtPoint(heroSpawnPosition);
+    }
+
+    public Tile GetEnemySpawnTile()
+    {
+        return GetTileAtPoint(enemySpawnPosition);
     }
 
     public Tile GetTileAtPoint(Vector2 pos)

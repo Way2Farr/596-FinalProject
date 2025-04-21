@@ -98,6 +98,8 @@ MonoBehaviour:
   _offsetColor: {r: 0, g: 0, b: 0, a: 0}
   _renderer: {fileID: 5646824695550369450}
   _highlight: {fileID: 5638480627409230776}
+  _isWalkable: 0
+  OccupiedUnit: {fileID: 0}
 --- !u!1 &5638480627409230776 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8262066169203091360, guid: 4d0b57c1f3ea6e34e900922939e7b7fe, type: 3}
