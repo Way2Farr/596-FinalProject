@@ -21,6 +21,9 @@ public class UnitManager : MonoBehaviour
     
     public void SpawnHeroes()
     {
+
+
+        // Set to spawn one random player for now
         var heroCount = 1;
 
         for (int i = 0; i < heroCount; i++)
@@ -35,6 +38,8 @@ public class UnitManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
+    
+        // Set to spawn one random enemy for now
         var enemyCount = 1;
 
         for (int i = 0; i < enemyCount; i++)
@@ -52,6 +57,8 @@ public class UnitManager : MonoBehaviour
         return (T)_units.Where(u => u.Faction == Faction).OrderBy(o => Random.value).First().UnitPrefab;
     }
 
+
+    // Set the selected player
     public void SetSelectedHero (BasePlayer player)
     {
         SelectedHero = player;

@@ -14,7 +14,7 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private Transform _cam;
 
-    private Dictionary<Vector2, Tile> _tiles;
+    public Dictionary<Vector2, Tile> _tiles;
 
     [SerializeField]
     private Vector2 heroSpawnPosition = new Vector2(2, 2);
@@ -40,26 +40,34 @@ public class GridManager : MonoBehaviour
 
     void GenerateGrid()
     {
+
+        // Each Tile is connected to a Position vector
         _tiles = new Dictionary<Vector2, Tile>();
+
+        // Generate the grid according to _width and _height
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
             {
+                // functionality to generate random obstacles; not implemented
                 var randomTile = Random.Range(0, 6) == 4 ? _tilePrefab : _tilePrefab;
                 var spawnedTile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, _gridMother);
                 spawnedTile.name = $"Tile {x} {y}";
 
                 
+                // spawn each tile
                 spawnedTile.Init(x, y);
 
+                // add Tile to dictionary
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
 
+        // set camera to center on grid
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
         _cam.transform.position = _cam.transform.position + new Vector3(0, -1);
 
-        // GameManager.Instance.UpdateGameState(GameManager.GameState.SpawnUnits);
+        // Spawn in Player and Enemy
         UnitManager.Instance.SpawnHeroes();
         UnitManager.Instance.SpawnEnemies();
     }
@@ -74,6 +82,8 @@ public class GridManager : MonoBehaviour
         return GetTileAtPoint(enemySpawnPosition);
     }
 
+
+    // Get Tile at a given (x, y)
     public Tile GetTileAtPoint(Vector2 pos)
     {
         if (_tiles.TryGetValue(pos, out var tile))

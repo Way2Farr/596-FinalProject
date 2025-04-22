@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     {
         State = newState;
         Debug.Log(newState.ToString());
+
+        // Call function for a given state
         switch (newState)
         {
             case GameState.SpawnUnits:
@@ -66,6 +68,11 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
+    }
+
+    public void MoveLogic()
+    {
+
     }
 
     private void SpawnPlayerUnits()
