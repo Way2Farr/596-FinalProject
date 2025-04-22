@@ -8,6 +8,8 @@ public class GroundTile : Tile
         var isOffset = (x + y) % 2 == 1;
 
         _renderer.color = isOffset ? _offsetColor : _baseColor;
+
+        _position = new Vector2(x, y);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

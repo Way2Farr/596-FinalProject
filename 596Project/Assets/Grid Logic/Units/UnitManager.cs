@@ -11,6 +11,7 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
     private List<ScriptableUnit> _units;
 
+    public BasePlayer Player;
     public BasePlayer SelectedHero;
     private void Awake()
     {
@@ -33,7 +34,9 @@ public class UnitManager : MonoBehaviour
             var randomSpawnTile = GridManager.Instance.GetHeroSpawnTile();
 
             randomSpawnTile.SetUnit(spawnedHero);
+            Player = spawnedHero;
         }
+
     }
 
     public void SpawnEnemies()
@@ -62,5 +65,49 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero (BasePlayer player)
     {
         SelectedHero = player;
+    }
+
+    public void ShowMovementOverlay()
+    {
+
+        ClearMovementOverlay();
+        UnitManager.Instance.SetSelectedHero(Player);
+        float tempRange = (float)Player.getMovementRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
+        foreach (Tile tile in _inRangeTiles)
+        {
+            tile.RangeActive();
+        }
+    }
+
+    public void ClearMovementOverlay()
+    {
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
+        foreach (Tile tile in _inRangeTiles)
+        {
+            tile.RangeInactive();
+        }
+    }
+
+    public void ShowAttackOverlay()
+    {
+
+        ClearAttackOverlay();
+        UnitManager.Instance.SetSelectedHero(Player);
+        float tempRange = (float)Player.getAttackRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
+        foreach (Tile tile in _inRangeTiles)
+        {
+            tile.RangeActive();
+        }
+    }
+
+    public void ClearAttackOverlay()
+    {
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
+        foreach (Tile tile in _inRangeTiles)
+        {
+            tile.RangeInactive();
+        }
     }
 }

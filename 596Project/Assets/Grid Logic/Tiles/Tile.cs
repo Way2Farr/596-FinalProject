@@ -9,7 +9,19 @@ public class Tile : MonoBehaviour
     [SerializeField]
     protected GameObject _highlight;
 
+    [SerializeField]
+    protected GameObject _rangeIndicator;
+
+    [SerializeField]
+    protected GameObject _attackRangeIndicator;
+
     [SerializeField] private bool _isWalkable = true;
+
+    [SerializeField]
+    public Vector2 _position;
+
+    [SerializeField]
+    public bool _inMovementRange, _inAttackRange = false;
 
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit != null;
@@ -33,34 +45,87 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance.State != GameManager.GameState.PlayerMove) return;
 
-        if (OccupiedUnit != null)
+        // TODO: Make into separate functions
+        // MOUSE DOWN LOGIC IF PLAYER ATTACK
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
-            if (OccupiedUnit.Faction == Faction.Hero)
+            if (OccupiedUnit != null)
             {
-                UnitManager.Instance.SetSelectedHero((BasePlayer)OccupiedUnit);
-            }
-            else
-            {
-                if(UnitManager.Instance.SelectedHero != null)
+                if (OccupiedUnit.Faction == Faction.Hero)
                 {
-                    var enemy = (BaseEnemy)OccupiedUnit;
-
-                    Destroy(enemy.gameObject);
-                    UnitManager.Instance.SetSelectedHero(null);
+                    UnitManager.Instance.SetSelectedHero((BasePlayer)OccupiedUnit);
                 }
+                else if (_inAttackRange)
+                {
+                    if (UnitManager.Instance.SelectedHero != null)
+                    {
+                        var enemy = (BaseEnemy)OccupiedUnit;
+
+                        Destroy(enemy.gameObject);
+                        UnitManager.Instance.SetSelectedHero(null);
+                        UnitManager.Instance.ClearAttackOverlay();
+                        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                    }
+                }
+                
+
             }
+            else if (_inAttackRange)
+            {
+                UnitManager.Instance.ClearAttackOverlay();
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            }
+        }
+
+        // MOUSE DOWN LOGIC IF PLAYER MOVE
+        else if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        {
+            if (UnitManager.Instance.SelectedHero != null && _inMovementRange)
+            {
+                SetUnit(UnitManager.Instance.SelectedHero);
+                UnitManager.Instance.ShowMovementOverlay();
+                UnitManager.Instance.SetSelectedHero(null);
+
+                UnitManager.Instance.ClearMovementOverlay();
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+            }
+        }
+        
+
+        
+    }
+
+    public void RangeActive()
+    {
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        {
+            _inMovementRange = true;
+            _rangeIndicator.SetActive(true);
         }
         else
         {
-            if(UnitManager.Instance.SelectedHero != null)
-            {
-                SetUnit(UnitManager.Instance.SelectedHero);
-                UnitManager.Instance.SetSelectedHero(null);
-            }
+            _inAttackRange = true;
+            _attackRangeIndicator.SetActive(true);
+        }
+        
+    }
+
+    public void RangeInactive()
+    {
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        {
+            _inMovementRange = false;
+            _rangeIndicator.SetActive(false);
+        }
+        else
+        {
+            _inAttackRange = false;
+            _attackRangeIndicator.SetActive(false);
         }
     }
+
 
     public void SetUnit(BaseUnit unit)
     {

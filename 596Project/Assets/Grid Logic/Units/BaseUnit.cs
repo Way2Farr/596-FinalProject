@@ -6,7 +6,7 @@ public class BaseUnit : MonoBehaviour
     public Faction Faction;
 
     [SerializeField]
-    private int _maxHealth, _attack, _defense, _movement;
+    private int _maxHealth, _attack, _defense, _movementRange, _attackRange;
     private int _currentHealth;
 
     [SerializeField]
@@ -22,4 +22,24 @@ public class BaseUnit : MonoBehaviour
     {
         
     }
+
+    public int getMovementRange()
+    {
+        return _movementRange;
+    }
+    public void setMovementRange(int movementRange)
+    {
+        _movementRange = (movementRange);
+    }
+
+    public int getAttackRange() 
+    { 
+        return (_attackRange);
+    }
+
+    public void setAttackRange(int attackRange)
+    {
+        _attackRange = (attackRange);
+    }
+
 }

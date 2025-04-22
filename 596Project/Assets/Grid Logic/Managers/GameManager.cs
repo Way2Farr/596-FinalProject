@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
 using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
+using Mono.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -32,9 +35,11 @@ public class GameManager : MonoBehaviour
             case GameState.ChooseOption:
                 break;
             case GameState.PlayerMove:
+                UnitManager.Instance.ShowMovementOverlay();
                 //HandlePlayerMove();  
                 break;
             case GameState.PlayerAttack:
+                UnitManager.Instance.ShowAttackOverlay();
                 break;
             case GameState.EnemyMove:
                 break;
@@ -50,6 +55,8 @@ public class GameManager : MonoBehaviour
 
         OnStateChange?.Invoke(newState);
     }
+
+    
 
     public void ButtonSetState(int setState)
     {

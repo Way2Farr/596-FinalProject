@@ -22,6 +22,9 @@ public class GridManager : MonoBehaviour
     [SerializeField]
     private Vector2 enemySpawnPosition = new Vector2(7, 7);
 
+    [SerializeField]
+    public int GridScale = 10;
+
     private void Awake()
     {
         Instance = this;
@@ -38,12 +41,15 @@ public class GridManager : MonoBehaviour
         
     }
 
+
+    // Spawns in Grid 
     void GenerateGrid()
     {
 
         // Each Tile is connected to a Position vector
         _tiles = new Dictionary<Vector2, Tile>();
 
+        _gridMother.localScale = new Vector3(GridScale, GridScale, GridScale);
         // Generate the grid according to _width and _height
         for (int x = 0; x < _width; x++)
         {
@@ -51,7 +57,10 @@ public class GridManager : MonoBehaviour
             {
                 // functionality to generate random obstacles; not implemented
                 var randomTile = Random.Range(0, 6) == 4 ? _tilePrefab : _tilePrefab;
-                var spawnedTile = Instantiate(randomTile, new Vector3(x, y), Quaternion.identity, _gridMother);
+
+                // Instantiate tile position according to the scale of the grid. 
+                // The + 4f is to offset (I don't know why)
+                var spawnedTile = Instantiate(randomTile, new Vector3(x * GridScale, Mathf.RoundToInt(y * GridScale) + 4f), Quaternion.identity, _gridMother);
                 spawnedTile.name = $"Tile {x} {y}";
 
                 
@@ -64,8 +73,8 @@ public class GridManager : MonoBehaviour
         }
 
         // set camera to center on grid
-        _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
-        _cam.transform.position = _cam.transform.position + new Vector3(0, -1);
+        _cam.transform.position = GridScale * new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -9);
+        _cam.transform.position = _cam.transform.position + new Vector3(0, -6f);
 
         // Spawn in Player and Enemy
         UnitManager.Instance.SpawnHeroes();
