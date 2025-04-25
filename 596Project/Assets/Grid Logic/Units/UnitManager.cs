@@ -72,9 +72,9 @@ public class UnitManager : MonoBehaviour
 
         ClearMovementOverlay();
         UnitManager.Instance.SetSelectedHero(Player);
-        float tempRange = (float)Player.getMovementRange();
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in _inRangeTiles)
+        //float tempRange = (float)Player.getMovementRange();
+        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
+        foreach (Tile tile in Player.getAccessableTiles())
         {
             tile.RangeActive();
         }
@@ -83,7 +83,7 @@ public class UnitManager : MonoBehaviour
     public void ClearMovementOverlay()
     {
         List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
-        foreach (Tile tile in _inRangeTiles)
+        foreach (Tile tile in GridManager.Instance._tilesList)
         {
             tile.RangeInactive();
         }
@@ -94,9 +94,9 @@ public class UnitManager : MonoBehaviour
 
         ClearAttackOverlay();
         UnitManager.Instance.SetSelectedHero(Player);
-        float tempRange = (float)Player.getAttackRange();
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in _inRangeTiles)
+        //float tempRange = (float)Player.getAttackRange();
+        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
+        foreach (Tile tile in Player.getAccessableTiles())
         {
             tile.RangeActive();
         }
@@ -105,7 +105,7 @@ public class UnitManager : MonoBehaviour
     public void ClearAttackOverlay()
     {
         List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
-        foreach (Tile tile in _inRangeTiles)
+        foreach (Tile tile in GridManager.Instance._tilesList)
         {
             tile.RangeInactive();
         }

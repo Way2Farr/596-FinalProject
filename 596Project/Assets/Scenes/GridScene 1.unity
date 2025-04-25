@@ -706,9 +706,6 @@ MonoBehaviour:
   heroSpawnPosition: {x: 1, y: 1}
   enemySpawnPosition: {x: 6, y: 6}
   GridScale: 10
-  _camYOffset: -33
-  _camZOffset: -39
-  _camRotationOffset: -52.5
 --- !u!4 &766687744
 Transform:
   m_ObjectHideFlags: 0

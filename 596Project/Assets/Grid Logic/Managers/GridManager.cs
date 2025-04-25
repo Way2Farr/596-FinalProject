@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -24,6 +25,10 @@ public class GridManager : MonoBehaviour
 
     [SerializeField]
     public int GridScale = 10;
+    [SerializeField]
+    private float _camYOffset, _camZOffset, _camRotationOffset;
+
+    public List<Tile> _tilesList;
 
     private void Awake()
     {
@@ -72,9 +77,12 @@ public class GridManager : MonoBehaviour
             }
         }
 
+        _tilesList = _tiles.Values.ToList();
         // set camera to center on grid
         _cam.transform.position = GridScale * new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -9);
         _cam.transform.position = _cam.transform.position + new Vector3(0, -6f);
+        _cam.transform.position = new Vector3(_cam.transform.position.x, _camYOffset, _camZOffset);
+        _cam.transform.rotation *= Quaternion.Euler(_camRotationOffset, 0, 0);
 
         // Spawn in Player and Enemy
         UnitManager.Instance.SpawnHeroes();

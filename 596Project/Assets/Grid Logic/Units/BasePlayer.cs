@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BasePlayer : BaseUnit
@@ -12,5 +13,10 @@ public class BasePlayer : BaseUnit
     void Update()
     {
         
+    }
+
+    public override List<Tile> getAccessableTiles()
+    {
+        return base.getAccessableTiles();
     }
 }

@@ -1,4 +1,8 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using System.Linq;
 
 public class BaseUnit : MonoBehaviour
 {
@@ -42,4 +46,11 @@ public class BaseUnit : MonoBehaviour
         _attackRange = (attackRange);
     }
 
+    public virtual List<Tile> getAccessableTiles ()
+    {
+        float tempRange = this.getMovementRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange).ToList();
+
+        return _inRangeTiles;
+    }
 }

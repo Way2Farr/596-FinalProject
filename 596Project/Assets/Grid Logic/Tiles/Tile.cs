@@ -133,7 +133,7 @@ public class Tile : MonoBehaviour
         {
             unit.OccupiedTile.OccupiedUnit = null;
         }
-        unit.transform.position = transform.position;
+        unit.transform.position = new Vector3(transform.position.x, transform.position.y, -9);
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
     }
