@@ -567,7 +567,7 @@ Camera:
   m_GameObject: {fileID: 612221371}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -709,6 +709,7 @@ MonoBehaviour:
   _camYOffset: -33
   _camZOffset: -39
   _camRotationOffset: -52.5
+  _tilesList: []
 --- !u!4 &766687744
 Transform:
   m_ObjectHideFlags: 0

@@ -31,14 +31,17 @@ public class GameManager : MonoBehaviour
         {
             case GameState.SpawnUnits:
                 SpawnPlayerUnits();
+                
                 break;
             case GameState.ChooseOption:
                 break;
             case GameState.PlayerMove:
                 UnitManager.Instance.ShowMovementOverlay();
+                //UnitManager.Instance.ShowEnemyMovementOverlay();
                 //HandlePlayerMove();  
                 break;
             case GameState.PlayerAttack:
+                //UnitManager.Instance.ShowEnemyAttackOverlay();
                 UnitManager.Instance.ShowAttackOverlay();
                 break;
             case GameState.EnemyMove:

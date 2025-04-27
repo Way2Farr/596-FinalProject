@@ -15,8 +15,8 @@ public class BasePlayer : BaseUnit
         
     }
 
-    public override List<Tile> getAccessableTiles()
+    public override List<Tile> getMovementTiles()
     {
-        return base.getAccessableTiles();
+        return base.getMovementTiles();
     }
 }
