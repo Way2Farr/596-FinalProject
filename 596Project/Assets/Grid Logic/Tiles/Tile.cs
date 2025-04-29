@@ -52,11 +52,7 @@ public class Tile : MonoBehaviour
         {
             if (OccupiedUnit != null)
             {
-                if (OccupiedUnit.Faction == Faction.Hero)
-                {
-                    UnitManager.Instance.SetSelectedHero((BasePlayer)OccupiedUnit);
-                }
-                else if (_inAttackRange)
+                if (_inAttackRange)
                 {
                     if (UnitManager.Instance.SelectedHero != null)
                     {
@@ -87,8 +83,9 @@ public class Tile : MonoBehaviour
                 UnitManager.Instance.ShowMovementOverlay();
                 UnitManager.Instance.SetSelectedHero(null);
 
+                UnitManager.Instance._startMoving = true;
                 UnitManager.Instance.ClearMovementOverlay();
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
 
             }
         }
@@ -129,11 +126,33 @@ public class Tile : MonoBehaviour
 
     public void SetUnit(BaseUnit unit)
     {
+
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        {
+            // Set original tile
+            UnitManager.Instance._startingTile = unit.OccupiedTile;
+        }
+        else
+        {
+            unit.transform.position = new Vector3(transform.position.x, transform.position.y, -9);
+        }
+
+
+        
+
         if (unit.OccupiedTile != null)
         {
             unit.OccupiedTile.OccupiedUnit = null;
         }
-        unit.transform.position = new Vector3(transform.position.x, transform.position.y, -9);
+
+
+
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        {
+            // Set ending tile
+            UnitManager.Instance._endTile = this;
+        }
+        
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
     }

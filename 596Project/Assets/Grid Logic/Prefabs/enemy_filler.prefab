@@ -102,3 +102,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
   Faction: 1
+  _maxHealth: 10
+  _attack: 10
+  _defense: 10
+  _movementRange: 20
+  _attackRange: 20
+  _name: 

@@ -86,6 +86,7 @@ public class GridManager : MonoBehaviour
 
         // Spawn in Player and Enemy
         UnitManager.Instance.SpawnHeroes();
+
         UnitManager.Instance.SpawnEnemies();
     }
 

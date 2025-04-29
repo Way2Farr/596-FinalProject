@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy1 : BaseEnemy
@@ -12,5 +13,10 @@ public class Enemy1 : BaseEnemy
     void Update()
     {
         
+    }
+
+    public override List<Tile> getMovementTiles()
+    {
+        return base.getMovementTiles();
     }
 }
