@@ -47,7 +47,7 @@ public class MenuManager : MonoBehaviour
             foreach(GameObject panel in _menu)
             {
                 panel.SetActive(true);
-                UnitStats();
+                
             }
         }
         else
