@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
+                SceneManager.LoadScene("Shop (Nick)");
                 break;
             default:
                 break;
