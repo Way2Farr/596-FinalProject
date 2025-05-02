@@ -34,6 +34,8 @@ public class UnitManager : MonoBehaviour
     public void Update()
     {
         MoveTile();
+        MenuManager.Instance.UpdateCount();
+        MenuManager.Instance.UnitStats();
     }
     public void SpawnHeroes()
     {
@@ -85,7 +87,7 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero (BasePlayer player)
     {
         SelectedHero = player;
-        //MenuManager.Instance.unitStats();
+        
     }
 
     public void ShowMovementOverlay()
@@ -181,15 +183,17 @@ public class UnitManager : MonoBehaviour
         bool movementFlag = false;
         if(_startMoving && GameManager.Instance.State == GameManager.GameState.PlayerMove && _startingTile != null && _endTile != null)
         {
+            
             Player.transform.position = Vector3.MoveTowards(Player.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Player.transform.position.z), MoveSpeed);
             movementFlag = true;
         }
         
         if (movementFlag)
         {
-            Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
+            //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
+                GameManager.Instance.TurnManager.Tick(); // new
                 GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 _startMoving = false;
             }

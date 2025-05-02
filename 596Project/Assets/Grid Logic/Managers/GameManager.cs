@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
+//--------------
+    public TurnManager TurnManager {get; private set;}
 
     private void Awake()
     {
@@ -24,6 +26,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.ChooseOption);
+//------------
+        TurnManager = new TurnManager();
+
     }
     public void UpdateGameState(GameState newState)
     {

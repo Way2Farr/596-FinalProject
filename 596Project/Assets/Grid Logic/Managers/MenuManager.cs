@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour
     public TMP_Text unitName;
     public UnityEngine.UI.Image unitIMG;
 
+    public TMP_Text turnCount;
     public Canvas unitCanvas;
 
     //___________________________________________________________________________________\\
@@ -84,4 +85,9 @@ public class MenuManager : MonoBehaviour
     unitCanvas.enabled = true;
     }
 
+
+    public void UpdateCount() {
+    
+    turnCount.text = "Current Turn:" + GameManager.Instance.TurnManager.GetCurrentCount();
+    }
 }
