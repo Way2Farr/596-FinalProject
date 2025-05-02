@@ -85,6 +85,7 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero (BasePlayer player)
     {
         SelectedHero = player;
+        //MenuManager.Instance.unitStats();
     }
 
     public void ShowMovementOverlay()
@@ -194,5 +195,9 @@ public class UnitManager : MonoBehaviour
             }
             
         }
+        
     }
+
+
+    
 }

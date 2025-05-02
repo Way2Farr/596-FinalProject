@@ -6,26 +6,20 @@ using System.Linq;
 
 public class BaseUnit : MonoBehaviour
 {
+    
     public Tile OccupiedTile;
     public Faction Faction;
 
+    [Header("UI Elements")]
+    public Canvas healthbarCanvas;
+
+
     [SerializeField]
-    private int _maxHealth, _attack, _defense, _movementRange, _attackRange;
-    private int _currentHealth;
+    public int _maxHealth, _attack, _defense, _movementRange, _attackRange;
+    public int _currentHealth;
 
     [SerializeField]
     private string _name;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public int getMovementRange()
     {

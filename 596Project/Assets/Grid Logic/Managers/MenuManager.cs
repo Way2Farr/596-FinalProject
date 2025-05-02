@@ -2,9 +2,26 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections;
+using System.Collections.Generic;
 
 public class MenuManager : MonoBehaviour
 {
+    //___________________________________________________________________________________\\
+    [Header("UI Stats")]
+    public TMP_Text unitHEALTH;
+    public TMP_Text unitATK;
+    public TMP_Text unitDEF;
+    public TMP_Text unitRAN;
+    public TMP_Text unitSPD;
+    public TMP_Text unitName;
+    public UnityEngine.UI.Image unitIMG;
+
+    public Canvas unitCanvas;
+
+    //___________________________________________________________________________________\\
+
+    
     public static MenuManager Instance;
     [SerializeField] private GameObject[] _menu;
     [SerializeField] private TextMeshProUGUI _stateText;
@@ -26,9 +43,11 @@ public class MenuManager : MonoBehaviour
         if(state == GameManager.GameState.ChooseOption)
         {
             Debug.Log("Activate menu.");
+            
             foreach(GameObject panel in _menu)
             {
                 panel.SetActive(true);
+                UnitStats();
             }
         }
         else
@@ -42,14 +61,27 @@ public class MenuManager : MonoBehaviour
         //throw new NotImplementedException();
     }
 
-    void Start()
+  //___________________________________________________________________________________\\
+
+
+    
+    public void UnitStats(){
+
+    BasePlayer selectedHero = UnitManager.Instance.Player;
+
+        if (selectedHero == null)
     {
-        
+        Debug.LogWarning("No hero selected to display stats.");
+        return;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    unitHEALTH.text = $"Health: {selectedHero._maxHealth}";
+    unitATK.text = $"ATK: {selectedHero._attack}";
+    unitDEF.text = $"DEF: {selectedHero._defense}";
+    unitRAN.text = $"RAN: {selectedHero._movementRange}";
+    unitSPD.text = $"SPD: {selectedHero._movementRange}";
+    unitName.text = selectedHero.name;
+    unitCanvas.enabled = true;
     }
+
 }

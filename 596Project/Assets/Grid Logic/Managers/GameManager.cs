@@ -4,14 +4,18 @@ using Unity.VisualScripting;
 using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
     public static GameManager Instance;
 
     public GameState State;
 
     public static event Action<GameState> OnStateChange;
+
+
     private void Awake()
     {
         Instance = this;
