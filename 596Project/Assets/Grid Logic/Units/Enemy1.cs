@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy1 : BaseEnemy
@@ -17,6 +18,9 @@ public class Enemy1 : BaseEnemy
 
     public override List<Tile> getMovementTiles()
     {
-        return base.getMovementTiles();
+        float tempRange = this.getMovementRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => t._position.x == this.OccupiedTile._position.x).ToList();
+
+        return _inRangeTiles;
     }
 }
