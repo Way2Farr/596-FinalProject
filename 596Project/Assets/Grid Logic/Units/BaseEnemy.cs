@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseEnemy : BaseUnit
@@ -13,4 +14,9 @@ public class BaseEnemy : BaseUnit
     {
         
     }
+
+    /*public override List<Tile> getMovementTiles()
+    {
+        return base.getMovementTiles();
+    }*/
 }

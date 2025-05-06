@@ -183,13 +183,27 @@ public class UnitManager : MonoBehaviour
         {
             Player.transform.position = Vector3.MoveTowards(Player.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Player.transform.position.z), MoveSpeed);
             movementFlag = true;
+            Player.startMoving();
+
+            Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
+
+            // TODO: Problem for later; offset isn't programmed correctly :(
+            if (Player.transform.position.x - _endTile.transform.position.x < 0)
+            {
+                Player._spriteRenderer.flipX = true;
+            }
+            else
+            {
+                Player._spriteRenderer.flipX = false;
+            }
         }
         
         if (movementFlag)
         {
-            Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
+            //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
+                Player.stopMoving();
                 GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 _startMoving = false;
             }
