@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class ButtonAddition : MonoBehaviour
 {
     [Header("Buttons")]
@@ -104,5 +104,9 @@ public class ButtonAddition : MonoBehaviour
             currentMRange = currentMRange + 10;
             mMoveText.text = "MRange: " + currentMRange.ToString();
         }
+    }
+    public void NextLevel()
+    {
+        SceneManager.LoadScene("NextLevel");
     }
 } 
