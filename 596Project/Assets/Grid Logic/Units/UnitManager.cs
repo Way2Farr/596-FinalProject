@@ -24,6 +24,9 @@ public class UnitManager : MonoBehaviour
     [SerializeField]
     public Tile _startingTile, _endTile;
     public bool _startMoving;
+    public bool hasAttacked = false;
+    public bool hasMoved = false;
+    public bool endedTurn = false;
     private void Awake()
     {
         Instance = this;
@@ -132,6 +135,7 @@ public class UnitManager : MonoBehaviour
         {
             tile.RangeInactive();
         }
+       
     }
 
     public void ShowEnemyMovementOverlay()
@@ -186,6 +190,7 @@ public class UnitManager : MonoBehaviour
             
             Player.transform.position = Vector3.MoveTowards(Player.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Player.transform.position.z), MoveSpeed);
             movementFlag = true;
+            
         }
         
         if (movementFlag)
@@ -193,13 +198,83 @@ public class UnitManager : MonoBehaviour
             //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
-                GameManager.Instance.TurnManager.Tick(); // new
+                
                 GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 _startMoving = false;
+                MovementFlag();
+                
+                
             }
             
         }
         
+    }
+
+//--------------------------------------------------------------------
+    public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
+
+        int setDamage = Selected._attack - (Enemy._defense / 3);
+        setDamage = Mathf.Max(setDamage,0); // If it goes negative set it to zero
+        Enemy._maxHealth -= setDamage;
+
+        Debug.Log("Enemy Health is at: " + Enemy._maxHealth + " Damage is at: " + setDamage);
+
+        if (Enemy._maxHealth <= 0) {
+            Destroy(Enemy.gameObject);
+        }
+
+        SetSelectedHero(null);
+        AttackFlag();
+
+    }
+
+    public void AttackFlag() {
+
+        hasAttacked = true;
+        ClearAttackOverlay();
+        Debug.Log("attacked has been flagged!");
+        TurnCheck();
+    }
+
+    public void MovementFlag() {
+        hasMoved = true;
+        ClearMovementOverlay();
+        Debug.Log("Movement has been flagged!");
+        TurnCheck();
+    }
+
+    public void TurnCheck() {
+
+    if(endedTurn) {
+        Debug.Log("Manually ended turn");
+        TurnReset();
+        return;
+    }
+
+    if(hasAttacked && hasMoved) { // Complete Turn
+        Debug.Log("A full turn has passed!");
+        TurnReset(); 
+        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        return;
+    }
+
+    if(!hasAttacked) { 
+        Debug.Log("You can still attack!");
+    }
+    
+    else if (!hasMoved) {
+            Debug.Log("You can still move!");
+        }
+    
+    }
+    
+
+    public void TurnReset() {
+        hasAttacked = false;
+        hasMoved = false;
+        endedTurn = false;
+        GameManager.Instance.TurnManager.Tick();
+
     }
 
 

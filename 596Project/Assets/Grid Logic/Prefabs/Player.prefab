@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 8500416343475107365}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,9 +190,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OccupiedTile: {fileID: 0}
   Faction: 0
+  healthbarCanvas: {fileID: 0}
   _maxHealth: 10
   _attack: 10
   _defense: 10
-  _movementRange: 20
+  _movementRange: 40
   _attackRange: 30
+  _currentHealth: 10
   _name: 

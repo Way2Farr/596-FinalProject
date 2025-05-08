@@ -32,6 +32,12 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateGameState(GameState newState)
     {
+
+        if (State == newState) {
+        Debug.Log($"State is already {newState}. No update needed.");
+        return;
+    }
+
         State = newState;
         Debug.Log(newState.ToString());
 
@@ -42,17 +48,33 @@ public class GameManager : MonoBehaviour
                 SpawnPlayerUnits();
                 
                 break;
+
             case GameState.ChooseOption:
                 break;
+                
             case GameState.PlayerMove:
+            if (UnitManager.Instance.hasMoved) {
+                Debug.Log("You already moved!");
+                UnitManager.Instance.ClearMovementOverlay();
+                return;
+        }
+            else{
                 UnitManager.Instance.ShowMovementOverlay();
-                //UnitManager.Instance.ShowEnemyMovementOverlay();
-                //HandlePlayerMove();  
+            }
                 break;
+
             case GameState.PlayerAttack:
-                //UnitManager.Instance.ShowEnemyAttackOverlay();
+                if (UnitManager.Instance.hasAttacked) {
+
+                    Debug.Log("You already attacked!");
+                    UnitManager.Instance.ClearAttackOverlay();
+                    return;
+            }
+            else{
                 UnitManager.Instance.ShowAttackOverlay();
+            }    
                 break;
+
             case GameState.EnemyMove:
                 break;
             case GameState.EnemyAttack:
@@ -74,14 +96,15 @@ public class GameManager : MonoBehaviour
     {
         switch (setState)
         {
-            case 0:
+            case 1:
                 UpdateGameState(GameState.PlayerAttack);
                 break;
-            case 1:
+            case 2:
                 UpdateGameState(GameState.PlayerMove);
                 break;
-            case 2:
-                UpdateGameState(GameState.Flee);
+            case 3:
+                UnitManager.Instance.endedTurn = true;
+                UnitManager.Instance.TurnCheck();
                 break;
             default:
                 break;

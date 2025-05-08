@@ -33,8 +33,6 @@ public class MenuManager : MonoBehaviour
         Instance = this;
         GameManager.OnStateChange += GameManagerOnOnStateChange;
     }
-
-
     private void OnDestroy()
     {
         GameManager.OnStateChange -= GameManagerOnOnStateChange;
@@ -43,17 +41,18 @@ public class MenuManager : MonoBehaviour
     {
         if(state == GameManager.GameState.ChooseOption)
         {
-            Debug.Log("Activate menu.");
+            //Debug.Log("Activate menu.");
             
             foreach(GameObject panel in _menu)
             {
                 panel.SetActive(true);
                 
             }
+            UnitStats(); // Update current stats
         }
         else
         {
-            Debug.Log("Deactivate menu.");
+            //Debug.Log("Deactivate menu.");
             foreach (GameObject panel in _menu)
             {
                 panel.SetActive(false);
