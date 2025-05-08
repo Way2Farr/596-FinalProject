@@ -1,6 +1,8 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
@@ -34,6 +36,7 @@ public class UnitManager : MonoBehaviour
     public void Update()
     {
         MoveTile();
+        EnemyMoveTile();
         MenuManager.Instance.UpdateCount();
         MenuManager.Instance.UnitStats();
     }
@@ -119,7 +122,7 @@ public class UnitManager : MonoBehaviour
         UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in Player.getMovementTiles())
+        foreach (Tile tile in Player.getAttackTiles())
         {
             tile.RangeActive();
         }
@@ -145,12 +148,28 @@ public class UnitManager : MonoBehaviour
         {
             tile.RangeActive();
         }
+
+        StartCoroutine(EnemyPause()); // wait one second before moving
+    }
+
+    IEnumerator EnemyPause()
+    {
+        yield return new WaitForSeconds(1f);
+        
+        // if state = EnemyMove
+        List<Tile> EnemyRange = Enemy.getMovementTiles();
+        Tile enemyTile = EnemyRange[Random.Range(0, EnemyRange.Count)];
+        enemyTile.SetUnit(Enemy);
+        _startMoving = true;
+        ClearEnemyMovementOverlay();
+
+        // if state = EnemyAttack call other function
     }
 
     public void ClearEnemyMovementOverlay()
     {
         List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
-        foreach (Tile tile in GridManager.Instance._tilesList)
+        foreach (Tile tile in GridManager.Instance._tilesList) 
         {
             tile.RangeInactive();
         }
@@ -163,7 +182,7 @@ public class UnitManager : MonoBehaviour
         //UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in Enemy.getMovementTiles())
+        foreach (Tile tile in Enemy.getAttackTiles())
         {
             tile.RangeActive();
         }
@@ -194,14 +213,41 @@ public class UnitManager : MonoBehaviour
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
                 GameManager.Instance.TurnManager.Tick(); // new
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
             }
             
         }
-        
     }
 
+    public void EnemyMoveTile()
+    {
+        bool movementFlag = false;
+        if (_startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && _startingTile != null && _endTile != null)
+        {
 
+            Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Enemy.transform.position.z), MoveSpeed);
+            movementFlag = true;
+        }
+
+        if (movementFlag)
+        {
+            //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
+            if (Vector3.Distance(Enemy.transform.position, _endTile.transform.position) <= 9f)
+            {
+                GameManager.Instance.TurnManager.Tick(); // new
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                _startMoving = false;
+            }
+
+        }
+    }
+
+    public void EnemyChoose() {
+        // if enemy in range then EnemyAttack
+
+        // else EnemyMove
+        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+    }
     
 }

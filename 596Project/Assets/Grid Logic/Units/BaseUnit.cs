@@ -43,7 +43,7 @@ public class BaseUnit : MonoBehaviour
     public virtual List<Tile> getMovementTiles ()
     {
         float tempRange = this.getMovementRange();
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange).ToList();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && !t.OccupiedUnit).ToList();
 
         return _inRangeTiles;
     }
@@ -51,7 +51,7 @@ public class BaseUnit : MonoBehaviour
     public virtual List<Tile> getAttackTiles()
     {
         float tempRange = this.getMovementRange();
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange).ToList();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && t._position != OccupiedTile._position).ToList();
 
         return _inRangeTiles;
     }
