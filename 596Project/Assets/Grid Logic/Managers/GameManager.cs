@@ -96,13 +96,13 @@ public class GameManager : MonoBehaviour
     {
         switch (setState)
         {
-            case 1:
+            case 0:
                 UpdateGameState(GameState.PlayerAttack);
                 break;
-            case 2:
+            case 1:
                 UpdateGameState(GameState.PlayerMove);
                 break;
-            case 3:
+            case 2:
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
                 break;

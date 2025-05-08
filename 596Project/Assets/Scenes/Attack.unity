@@ -2280,7 +2280,7 @@ PrefabInstance:
       objectReference: {fileID: 351891895}
     - target: {fileID: 1624115615756435100, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2214826886135035688, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_Name
@@ -2296,7 +2296,7 @@ PrefabInstance:
       objectReference: {fileID: 351891895}
     - target: {fileID: 5987532340056125256, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7186509158063599128, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2304,7 +2304,7 @@ PrefabInstance:
       objectReference: {fileID: 351891895}
     - target: {fileID: 7186509158063599128, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7721006876337853573, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_text

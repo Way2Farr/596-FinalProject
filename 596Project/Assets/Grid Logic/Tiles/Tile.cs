@@ -75,6 +75,7 @@ public class Tile : MonoBehaviour
                 UnitManager.Instance.ClearAttackOverlay();
                 
             }
+        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
     }
 
     private void HandlePlayerMove() {
