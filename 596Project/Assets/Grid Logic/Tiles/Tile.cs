@@ -113,7 +113,7 @@ public class Tile : MonoBehaviour
 
     public void RangeActive()
     {
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
         {
             _inMovementRange = true;
             _rangeIndicator.SetActive(true);
@@ -127,7 +127,7 @@ public class Tile : MonoBehaviour
     }
     public void RangeInactive()
     {
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
         {
             _inMovementRange = false;
             _rangeIndicator.SetActive(false);
