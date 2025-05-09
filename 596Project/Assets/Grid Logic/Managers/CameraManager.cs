@@ -17,6 +17,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float lerpSpeed;
 
+    private bool playerMoving = false;
+
     private void Awake() {
         Instance = this;
     }
@@ -40,14 +42,20 @@ public class CameraManager : MonoBehaviour
         _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, centerFOV, Time.deltaTime * lerpSpeed);
     }
 
-    void Update() { 
-        if ((GameManager.Instance.State == GameManager.GameState.ChooseOption) && (centerFOV != 0f)) {
-            setCenter();
-        }
+    void Update() {
         if (UnitManager.Instance._startMoving && GameManager.Instance.State == GameManager.GameState.PlayerMove && UnitManager.Instance._startingTile != null && UnitManager.Instance._endTile != null) {
+            playerMoving = true;
+        }
+        else {
+            playerMoving = false;
+        }
+
+        if (playerMoving) {
             Vector3 movePosition = new Vector3(UnitManager.Instance.Player.transform.position.x, UnitManager.Instance.Player.transform.position.y + (_camYOffset * 1.5f), _camZOffset);
             _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
             _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, 30f, Time.deltaTime * lerpSpeed);
+        } else { 
+            setCenter(); 
         }
     }
 }

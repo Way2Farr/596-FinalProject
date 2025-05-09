@@ -17,14 +17,18 @@ public class MenuManager : MonoBehaviour
     public TMP_Text unitName;
     public UnityEngine.UI.Image unitIMG;
 
+    //___________________________________________________________________________________\\
+    public TMP_Text eventMsg;
+
     public TMP_Text turnCount;
     public Canvas unitCanvas;
-
     //___________________________________________________________________________________\\
 
     
     public static MenuManager Instance;
     [SerializeField] private GameObject[] _menu;
+
+    [SerializeField]  GameObject eventTxt;
     [SerializeField] private TextMeshProUGUI _stateText;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -32,6 +36,7 @@ public class MenuManager : MonoBehaviour
     {
         Instance = this;
         GameManager.OnStateChange += GameManagerOnOnStateChange;
+       
     }
     private void OnDestroy()
     {
@@ -39,6 +44,8 @@ public class MenuManager : MonoBehaviour
     }
     private void GameManagerOnOnStateChange(GameManager.GameState state)
     {
+        eventTxt.SetActive(false);
+
         if(state == GameManager.GameState.ChooseOption)
         {
             //Debug.Log("Activate menu.");
@@ -89,4 +96,22 @@ public class MenuManager : MonoBehaviour
     
     turnCount.text = "Current Turn:" + GameManager.Instance.TurnManager.GetCurrentCount();
     }
+
+//___________________________________________________________________________________\\
+
+    public void EventMessages (string debug) {
+
+        eventTxt.SetActive(true);
+        eventMsg.text = debug;
+        StartCoroutine(HideMessage(1f));
+
+    }
+
+    private IEnumerator HideMessage(float time) {
+        yield return new WaitForSeconds(time);
+        eventTxt.SetActive(false);
+
+    }
+  
+
 }

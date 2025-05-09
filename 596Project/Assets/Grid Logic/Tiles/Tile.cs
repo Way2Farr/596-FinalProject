@@ -68,14 +68,31 @@ public class Tile : MonoBehaviour
                         UnitManager.Instance.HandleAttack(UnitManager.Instance.SelectedHero, enemy);
     
                     }
-            }
+
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Attack in range");
+
+                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+
+        }
             else if (_inAttackRange)
             {
                 UnitManager.Instance.AttackFlag();
                 UnitManager.Instance.ClearAttackOverlay();
-                
-            }
-        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Attack not in range");
+
+                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+
+        }
+        
     }
 
     private void HandlePlayerMove() {
@@ -89,11 +106,14 @@ public class Tile : MonoBehaviour
 
                 UnitManager.Instance._startMoving = true;
                 UnitManager.Instance.ClearMovementOverlay();
+
+
             }
-        }
+    }
+
     public void RangeActive()
     {
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
         {
             _inMovementRange = true;
             _rangeIndicator.SetActive(true);
@@ -107,7 +127,7 @@ public class Tile : MonoBehaviour
     }
     public void RangeInactive()
     {
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
         {
             _inMovementRange = false;
             _rangeIndicator.SetActive(false);
@@ -121,7 +141,7 @@ public class Tile : MonoBehaviour
     public void SetUnit(BaseUnit unit)
     {
 
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
         {
             // Set original tile
             UnitManager.Instance._startingTile = unit.OccupiedTile;
@@ -134,7 +154,10 @@ public class Tile : MonoBehaviour
         {
             unit.OccupiedTile.OccupiedUnit = null;
         }
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+
+
+
+        if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
         {
             // Set ending tile
             UnitManager.Instance._endTile = this;

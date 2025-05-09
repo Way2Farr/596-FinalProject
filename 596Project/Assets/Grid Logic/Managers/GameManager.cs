@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
 using Unity.VisualScripting;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,11 +35,6 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
 
-        if (State == newState) {
-        Debug.Log($"State is already {newState}. No update needed.");
-        return;
-    }
-
         State = newState;
         Debug.Log(newState.ToString());
 
@@ -54,7 +51,7 @@ public class GameManager : MonoBehaviour
                 
             case GameState.PlayerMove:
             if (UnitManager.Instance.hasMoved) {
-                Debug.Log("You already moved!");
+                MenuManager.Instance.EventMessages("You already moved!");
                 UnitManager.Instance.ClearMovementOverlay();
                 return;
         }
@@ -66,16 +63,20 @@ public class GameManager : MonoBehaviour
             case GameState.PlayerAttack:
                 if (UnitManager.Instance.hasAttacked) {
 
-                    Debug.Log("You already attacked!");
+                    MenuManager.Instance.EventMessages("You already attacked!");
                     UnitManager.Instance.ClearAttackOverlay();
                     return;
-            }
-            else{
-                UnitManager.Instance.ShowAttackOverlay();
-            }    
+                }
+                else{
+                    UnitManager.Instance.ShowAttackOverlay();
+                }    
+                break;
+            case GameState.EnemyChoose:
+                UnitManager.Instance.EnemyChoose();
                 break;
 
             case GameState.EnemyMove:
+                UnitManager.Instance.ShowEnemyMovementOverlay();
                 break;
             case GameState.EnemyAttack:
                 break;
@@ -103,6 +104,8 @@ public class GameManager : MonoBehaviour
                 UpdateGameState(GameState.PlayerMove);
                 break;
             case 2:
+                UpdateGameState(GameState.Flee);
+                SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
                 break;
@@ -133,6 +136,7 @@ public class GameManager : MonoBehaviour
     ChooseOption,
     PlayerMove,
     PlayerAttack,
+    EnemyChoose,
     EnemyMove,
     EnemyAttack,
     Victory,
