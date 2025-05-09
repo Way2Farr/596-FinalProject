@@ -34,6 +34,12 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateGameState(GameState newState)
     {
+
+        if (State == newState) {
+        Debug.Log($"State is already {newState}. No update needed.");
+        return;
+    }
+
         State = newState;
         Debug.Log(newState.ToString());
 
@@ -44,20 +50,36 @@ public class GameManager : MonoBehaviour
                 SpawnPlayerUnits();
                 
                 break;
+
             case GameState.ChooseOption:
                 break;
+                
             case GameState.PlayerMove:
+            if (UnitManager.Instance.hasMoved) {
+                Debug.Log("You already moved!");
+                UnitManager.Instance.ClearMovementOverlay();
+                return;
+        }
+            else{
                 UnitManager.Instance.ShowMovementOverlay();
-                //UnitManager.Instance.ShowEnemyMovementOverlay();
-                //HandlePlayerMove();  
+            }
                 break;
+
             case GameState.PlayerAttack:
-                //UnitManager.Instance.ShowEnemyAttackOverlay();
+                if (UnitManager.Instance.hasAttacked) {
+
+                    Debug.Log("You already attacked!");
+                    UnitManager.Instance.ClearAttackOverlay();
+                    return;
+            }
+            else{
                 UnitManager.Instance.ShowAttackOverlay();
+            }    
                 break;
             case GameState.EnemyChoose:
                 UnitManager.Instance.EnemyChoose();
                 break;
+
             case GameState.EnemyMove:
                 UnitManager.Instance.ShowEnemyMovementOverlay();
                 break;
@@ -89,6 +111,8 @@ public class GameManager : MonoBehaviour
             case 2:
                 UpdateGameState(GameState.Flee);
                 SceneManager.LoadScene("Shop (Nick)");
+                UnitManager.Instance.endedTurn = true;
+                UnitManager.Instance.TurnCheck();
                 break;
             default:
                 break;

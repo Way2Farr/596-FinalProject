@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3142974059691096174}
   m_Layer: 0
   m_Name: enemy_filler
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,10 +103,10 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   Faction: 1
   healthbarCanvas: {fileID: 0}
-  _maxHealth: 10
+  _maxHealth: 50
   _attack: 10
   _defense: 10
   _movementRange: 20
   _attackRange: 20
-  _currentHealth: 0
+  _currentHealth: 10
   _name: 
