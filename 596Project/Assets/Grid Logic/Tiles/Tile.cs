@@ -75,6 +75,11 @@ public class Tile : MonoBehaviour
                 UnitManager.Instance.ClearAttackOverlay();
                 
             }
+
+            else
+            {
+                UnitManager.Instance.ClearAttackOverlay();
+            }
         GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
     }
 
