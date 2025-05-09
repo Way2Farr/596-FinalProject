@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 
 public class TurnManager 
 {
-  private int currentCount;
+  public int currentCount;
 
 
   public TMP_Text turnCount;
