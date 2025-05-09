@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.Linq;
+using TMPro;
 
 public class BaseUnit : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class BaseUnit : MonoBehaviour
     static readonly int IsMoving = Animator.StringToHash("IsMoving");
     static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
     static readonly int IsDamaged = Animator.StringToHash("IsDamaged");
+
     [Header("UI Elements")]
     public Canvas healthbarCanvas;
 
@@ -76,4 +78,6 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsIdle, true);
         _unitAnimator.SetBool(IsMoving, false);
     }
+
+
 }
