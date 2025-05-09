@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Unity.VisualScripting;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
@@ -16,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
+//--------------
+    public TurnManager TurnManager {get; private set;}
 
     private void Awake()
     {
@@ -25,6 +28,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.ChooseOption);
+//------------
+        TurnManager = new TurnManager();
+
     }
     public void UpdateGameState(GameState newState)
     {
@@ -49,7 +55,11 @@ public class GameManager : MonoBehaviour
                 //UnitManager.Instance.ShowEnemyAttackOverlay();
                 UnitManager.Instance.ShowAttackOverlay();
                 break;
+            case GameState.EnemyChoose:
+                UnitManager.Instance.EnemyChoose();
+                break;
             case GameState.EnemyMove:
+                UnitManager.Instance.ShowEnemyMovementOverlay();
                 break;
             case GameState.EnemyAttack:
                 break;
@@ -107,6 +117,7 @@ public class GameManager : MonoBehaviour
     ChooseOption,
     PlayerMove,
     PlayerAttack,
+    EnemyChoose,
     EnemyMove,
     EnemyAttack,
     Victory,

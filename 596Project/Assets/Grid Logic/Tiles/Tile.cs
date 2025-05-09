@@ -127,7 +127,7 @@ public class Tile : MonoBehaviour
     public void SetUnit(BaseUnit unit)
     {
 
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
         {
             // Set original tile
             UnitManager.Instance._startingTile = unit.OccupiedTile;
@@ -147,7 +147,7 @@ public class Tile : MonoBehaviour
 
 
 
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
         {
             // Set ending tile
             UnitManager.Instance._endTile = this;
