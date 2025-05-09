@@ -11,10 +11,16 @@ public class BaseUnit : MonoBehaviour
     public Faction Faction;
     public Animator _unitAnimator;
     public SpriteRenderer _spriteRenderer;
+    public Transform _childTransform;
     static readonly int IsIdle = Animator.StringToHash("IsIdle");
     static readonly int IsMoving = Animator.StringToHash("IsMoving");
     static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
     static readonly int IsDamaged = Animator.StringToHash("IsDamaged");
+
+    [SerializeField]
+    public int _animOffset = 0;
+    public bool _doOffset = false;
+    public float _originalChildX;
     [Header("UI Elements")]
     public Canvas healthbarCanvas;
 
@@ -28,7 +34,9 @@ public class BaseUnit : MonoBehaviour
     public void Awake()
     {
         _unitAnimator = GetComponentInChildren<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _childTransform = GetComponentInChildren<Transform>();
+        _originalChildX = _childTransform.localPosition.x;
     }
     public int getMovementRange()
     {
@@ -69,6 +77,12 @@ public class BaseUnit : MonoBehaviour
     {
         _unitAnimator.SetBool(IsIdle, false);
         _unitAnimator.SetBool(IsMoving, true);
+
+        if(_doOffset)
+        {
+            _childTransform.localPosition = new Vector3(_originalChildX + _animOffset, _childTransform.localPosition.y, _childTransform.localPosition.x);
+        }
+
     }
 
     public void stopMoving ()

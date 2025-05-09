@@ -224,11 +224,22 @@ public class UnitManager : MonoBehaviour
             // TODO: Problem for later; offset isn't programmed correctly :(
             if (Player.transform.position.x - _endTile.transform.position.x < 0)
             {
-                Player._spriteRenderer.flipX = true;
+/*                if (Player._childTransform.position.x != -101)
+                {
+                    Player._childTransform.position = new Vector3(-101, Player._childTransform.position.y, Player._childTransform.position.z);
+                }*/
+                Player._spriteRenderer.flipX = false;
+                Player._doOffset = false;
             }
             else
             {
-                Player._spriteRenderer.flipX = false;
+                /*                if (Player._childTransform.position.x == -101)
+                                {
+                                    Player._childTransform.position = new Vector3(Player._childTransform.position.x + Player._animOffset, Player._childTransform.position.y, Player._childTransform.position.z);
+                                }*/
+
+                //Player._doOffset = true;
+                //Player._spriteRenderer.flipX = true;
             }
             
         }
@@ -270,6 +281,19 @@ public class UnitManager : MonoBehaviour
         {
             Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Enemy.transform.position.z), MoveSpeed);
             movementFlag = true;
+            Enemy.startMoving();
+
+            // FLIP ENEMY
+
+            if (Enemy.transform.position.x - _endTile.transform.position.x < 0)
+            {
+                Enemy._spriteRenderer.flipX = true;
+            }
+            else
+            {
+                Enemy._spriteRenderer.flipX = false;
+            }
+
         }
 
         if (movementFlag)
@@ -287,6 +311,7 @@ public class UnitManager : MonoBehaviour
 
                 if (GameManager.Instance.State == GameManager.GameState.EnemyMove)
                 {
+                    Enemy.stopMoving();
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 }
                 
@@ -369,6 +394,8 @@ public class UnitManager : MonoBehaviour
         
 
     public void EnemyChoose() {
+
+
         // if enemy in range then EnemyAttack
 
         // else EnemyMove

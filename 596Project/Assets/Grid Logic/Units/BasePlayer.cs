@@ -35,4 +35,12 @@ public class BasePlayer : BaseUnit
 
         return _inRangeTiles;
     }
+
+    public override List<Tile> getAttackTiles()
+    {
+        float tempRange = this.getAttackRange() / 10;
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Mathf.Abs(t._position.x - this.OccupiedTile._position.x) <= tempRange && Mathf.Abs(t._position.y - this.OccupiedTile._position.y) <= tempRange && !(t.OccupiedUnit == UnitManager.Instance.Player)).ToList();
+
+        return _inRangeTiles;
+    }
 }
