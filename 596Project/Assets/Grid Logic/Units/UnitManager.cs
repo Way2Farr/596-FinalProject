@@ -319,7 +319,7 @@ public class UnitManager : MonoBehaviour
     if(hasAttacked && hasMoved) { // Complete Turn
         
         TurnReset(); 
-        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
         return;
     }
 

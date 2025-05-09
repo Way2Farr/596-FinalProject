@@ -35,11 +35,6 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
 
-        if (State == newState) {
-        Debug.Log($"State is already {newState}. No update needed.");
-        return;
-    }
-
         State = newState;
         Debug.Log(newState.ToString());
 
