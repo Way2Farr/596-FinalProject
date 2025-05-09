@@ -69,14 +69,27 @@ public class Tile : MonoBehaviour
     
                     }
 
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Attack in range");
+
+                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+
         }
             else if (_inAttackRange)
             {
                 UnitManager.Instance.AttackFlag();
                 UnitManager.Instance.ClearAttackOverlay();
 
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Attack not in range");
+
+                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
 
         }
         

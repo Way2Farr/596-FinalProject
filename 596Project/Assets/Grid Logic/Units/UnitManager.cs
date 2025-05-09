@@ -159,7 +159,14 @@ public class UnitManager : MonoBehaviour
 
     IEnumerator EnemyPause()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.1f);
+
+        foreach (Tile tile in Enemy.getMovementTiles())
+        {
+            tile.RangeActive();
+        }
+
+        yield return new WaitForSeconds(0.9f);
         
         // if state = EnemyMove
         List<Tile> EnemyRange = Enemy.getMovementTiles();
@@ -225,8 +232,9 @@ public class UnitManager : MonoBehaviour
             }
             
         }
-        
-        if (movementFlag)
+
+
+        if (movementFlag && _startMoving)
         {
             //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
@@ -242,7 +250,14 @@ public class UnitManager : MonoBehaviour
                 _endTile = null;
 
                 movementFlag = false;
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Player movement");
+                if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+                
             }
             
         }
@@ -270,7 +285,11 @@ public class UnitManager : MonoBehaviour
                 
                 _startMoving = false;
 
-                //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                if (GameManager.Instance.State == GameManager.GameState.EnemyMove)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+                
 
 
             }
