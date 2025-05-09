@@ -71,10 +71,10 @@ public class GameManager : MonoBehaviour
                     Debug.Log("You already attacked!");
                     UnitManager.Instance.ClearAttackOverlay();
                     return;
-            }
-            else{
-                UnitManager.Instance.ShowAttackOverlay();
-            }    
+                }
+                else{
+                    UnitManager.Instance.ShowAttackOverlay();
+                }    
                 break;
             case GameState.EnemyChoose:
                 UnitManager.Instance.EnemyChoose();

@@ -231,9 +231,9 @@ public class UnitManager : MonoBehaviour
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
                 Player.stopMoving();
-                //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 GameManager.Instance.TurnManager.Tick(); // new
-                GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+                //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
                 MovementFlag();
                 
@@ -248,7 +248,23 @@ public class UnitManager : MonoBehaviour
         bool movementFlag = false;
         if (_startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && _startingTile != null && _endTile != null)
         {
-//--------------------------------------------------------------------
+            Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Enemy.transform.position.z), MoveSpeed);
+            movementFlag = true;
+        }
+
+        if (movementFlag)
+        {
+            //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
+            if (Vector3.Distance(Enemy.transform.position, _endTile.transform.position) <= 9f)
+            {
+                GameManager.Instance.TurnManager.Tick(); // new
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                _startMoving = false;
+            }
+
+        }
+    }
+    //--------------------------------------------------------------------
     public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
 
         int setDamage = Selected._attack - (Enemy._defense / 3);
@@ -316,22 +332,7 @@ public class UnitManager : MonoBehaviour
     }
 
 
-            Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Enemy.transform.position.z), MoveSpeed);
-            movementFlag = true;
-        }
-
-        if (movementFlag)
-        {
-            //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
-            if (Vector3.Distance(Enemy.transform.position, _endTile.transform.position) <= 9f)
-            {
-                GameManager.Instance.TurnManager.Tick(); // new
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-                _startMoving = false;
-            }
-
-        }
-    }
+        
 
     public void EnemyChoose() {
         // if enemy in range then EnemyAttack
