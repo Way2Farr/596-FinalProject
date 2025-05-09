@@ -28,7 +28,9 @@ public class ButtonAddition : MonoBehaviour
     [SerializeField] private Image stageThree;
 
     //variables
-    public int currentHp = 10; //10 set to default for testing
+    public GameObject gameStats;
+    public StatManager statManager=null;
+    public int currentHp = 0; //10 set to default for testing
     public int currentDef = 10;
     public int currentAtk = 10;
     public int currentMp = 10;
@@ -39,11 +41,36 @@ public class ButtonAddition : MonoBehaviour
     void Awake()
     {
         //get values from DontDestroyOnLoadObject
+        gameStats = GameObject.FindGameObjectWithTag("StatManager");
+        statManager = gameStats.GetComponent<StatManager>();
+        /*if(statManager == null)
+        {
+            Debug.Log("statManager not assigned");
+        }
+        else
+        {
+            Debug.Log("statManager is assigned!");
+        }*/
+       
     }
     void Start()
     {
         //hpText.text = "HP: 10";
+        currentHp = statManager._maxHealth;
+        currentDef = statManager._defense;
+        currentAtk = statManager._attack;
+        currentARange = statManager._attackRange;
+        currentMRange = statManager._movementRange;
+        /*if (currentHp == statManager._maxHealth)
+        {
+            Debug.Log("hp set to statManager's _maxHealth field");
+        }*/
         skillPointText.text = "Skill Points: " + skillPoints.ToString();
+        hpText.text = "HP: " + currentHp.ToString();
+        defText.text = "DF: "+ currentDef.ToString();
+        atkText.text = "Atk: "+ currentAtk.ToString();
+        aRangeText.text = "ARnge: " + currentARange.ToString();
+        mMoveText.text = "MRange: " + currentMRange.ToString();
     }
     public void HPAdd()
     {
@@ -107,6 +134,8 @@ public class ButtonAddition : MonoBehaviour
     }
     public void NextLevel()
     {
+        statManager.IncreaseStats(currentHp, currentAtk, currentDef, currentMRange, currentARange);
+
         SceneManager.LoadScene("NextLevel");
     }
 } 
