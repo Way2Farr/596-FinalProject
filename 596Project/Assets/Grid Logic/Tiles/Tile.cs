@@ -68,19 +68,18 @@ public class Tile : MonoBehaviour
                         UnitManager.Instance.HandleAttack(UnitManager.Instance.SelectedHero, enemy);
     
                     }
-            }
+
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
             else if (_inAttackRange)
             {
                 UnitManager.Instance.AttackFlag();
                 UnitManager.Instance.ClearAttackOverlay();
-                
-            }
 
-            else
-            {
-                UnitManager.Instance.ClearAttackOverlay();
-            }
-        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+        }
+        
     }
 
     private void HandlePlayerMove() {
@@ -94,8 +93,11 @@ public class Tile : MonoBehaviour
 
                 UnitManager.Instance._startMoving = true;
                 UnitManager.Instance.ClearMovementOverlay();
+
+
             }
-        }
+    }
+
     public void RangeActive()
     {
         if (GameManager.Instance.State == GameManager.GameState.PlayerMove)

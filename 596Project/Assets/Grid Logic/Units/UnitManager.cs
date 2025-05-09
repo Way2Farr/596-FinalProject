@@ -212,7 +212,7 @@ public class UnitManager : MonoBehaviour
             movementFlag = true;
             Player.startMoving();
 
-            Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
+            //Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
 
             // TODO: Problem for later; offset isn't programmed correctly :(
             if (Player.transform.position.x - _endTile.transform.position.x < 0)
@@ -232,13 +232,17 @@ public class UnitManager : MonoBehaviour
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
                 Player.stopMoving();
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                
                 GameManager.Instance.TurnManager.Tick(); // new
                 //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
                 MovementFlag();
                 
-                
+                _startingTile = null;
+                _endTile = null;
+
+                movementFlag = false;
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
             }
             
         }
@@ -256,11 +260,19 @@ public class UnitManager : MonoBehaviour
         if (movementFlag)
         {
             //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
-            if (Vector3.Distance(Enemy.transform.position, _endTile.transform.position) <= 9f)
+            if (Enemy.transform.position.x == _endTile.transform.position.x && Enemy.transform.position.y == _endTile.transform.position.y)
             {
                 GameManager.Instance.TurnManager.Tick(); // new
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+                _startingTile = null;
+                _endTile = null;
+
+                
                 _startMoving = false;
+
+                //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+
             }
 
         }
