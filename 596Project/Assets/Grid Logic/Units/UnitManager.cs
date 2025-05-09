@@ -306,20 +306,12 @@ public class UnitManager : MonoBehaviour
     }
 
     if(hasAttacked && hasMoved) { // Complete Turn
-        Debug.Log("A full turn has passed!");
+        
         TurnReset(); 
         GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
         return;
     }
 
-    if(!hasAttacked) { 
-        Debug.Log("You can still attack!");
-    }
-    
-    else if (!hasMoved) {
-            Debug.Log("You can still move!");
-        }
-    
     }
     
 

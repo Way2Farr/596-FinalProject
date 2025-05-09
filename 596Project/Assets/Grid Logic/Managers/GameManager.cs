@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
                 
             case GameState.PlayerMove:
             if (UnitManager.Instance.hasMoved) {
-                Debug.Log("You already moved!");
+                MenuManager.Instance.EventMessages("You already moved!");
                 UnitManager.Instance.ClearMovementOverlay();
                 return;
         }
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
             case GameState.PlayerAttack:
                 if (UnitManager.Instance.hasAttacked) {
 
-                    Debug.Log("You already attacked!");
+                    MenuManager.Instance.EventMessages("You already attacked!");
                     UnitManager.Instance.ClearAttackOverlay();
                     return;
                 }
