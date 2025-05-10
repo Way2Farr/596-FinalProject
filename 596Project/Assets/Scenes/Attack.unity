@@ -714,7 +714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ced066fe965dd4e8a31dff376405db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FloatingTextPrefab: {fileID: 770964724198494927, guid: 39891598fa4e6f84a8e9a8f504d7da21, type: 3}
   Player: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
   SelectedHero: {fileID: 0}
   Enemy: {fileID: 3142974059691096174, guid: 40b3336f9b5ae4744aa239866c0e96eb, type: 3}
@@ -2507,12 +2506,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1746478182718470156, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
+      propertyPath: m_Name
+      value: Action Text
+      objectReference: {fileID: 0}
+    - target: {fileID: 1746478182718470156, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2214826886135035688, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_Name
       value: CurrentTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2223825210743101589, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
+      propertyPath: m_Name
+      value: Action
       objectReference: {fileID: 0}
     - target: {fileID: 2223825210743101589, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_IsActive
@@ -2541,6 +2548,10 @@ PrefabInstance:
     - target: {fileID: 5987532340056125256, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7055372215644202491, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
+      propertyPath: m_text
+      value: Action
       objectReference: {fileID: 0}
     - target: {fileID: 7186509158063599128, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

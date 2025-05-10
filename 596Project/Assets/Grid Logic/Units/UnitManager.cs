@@ -12,7 +12,6 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class UnitManager : MonoBehaviour
 {
-    public GameObject FloatingTextPrefab;
     public static UnitManager Instance;
     private List<ScriptableUnit> _units;
 
@@ -123,7 +122,7 @@ public class UnitManager : MonoBehaviour
     {
 
         ClearAttackOverlay();
-        UnitManager.Instance.SetSelectedHero(Player);
+        Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
         foreach (Tile tile in Player.getAttackTiles())
@@ -281,8 +280,6 @@ public class UnitManager : MonoBehaviour
 
                 _startingTile = null;
                 _endTile = null;
-
-                
                 _startMoving = false;
 
                 if (GameManager.Instance.State == GameManager.GameState.EnemyMove)
@@ -290,8 +287,6 @@ public class UnitManager : MonoBehaviour
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 }
                 
-
-
             }
 
         }

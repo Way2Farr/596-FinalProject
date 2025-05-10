@@ -22,7 +22,7 @@ public class BaseEnemy : BaseUnit
             Debug.Log("Error at ShowDmgtxt");
         }
 
-        if(_maxHealth <= 0) {
+        if(_currentHealth <= 0) {
             IsDead();
         } 
     }

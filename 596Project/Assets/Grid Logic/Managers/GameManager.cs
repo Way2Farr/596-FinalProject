@@ -60,15 +60,32 @@ public class GameManager : MonoBehaviour
             }
                 break;
 
-            case GameState.PlayerAttack:
-                if (UnitManager.Instance.hasAttacked) {
 
+
+            case GameState.ChooseAction: 
+
+                if(UnitManager.Instance.Player == null) {
+                    Debug.Log("Error with Player1");
+                }
+                else {
+                    UnitManager.Instance.Player.OpenAbilities(GameState.ChooseAction);
+                }
+             
+            break;
+            case GameState.PlayerAttack:
+
+            if(UnitManager.Instance.Player != null) {
+                UnitManager.Instance.Player.CloseAbilitiesMenu();
+
+            }
+            
+            if (UnitManager.Instance.hasAttacked) {
                     MenuManager.Instance.EventMessages("You already attacked!");
                     UnitManager.Instance.ClearAttackOverlay();
                     return;
-                }
-                else{
-                    UnitManager.Instance.ShowAttackOverlay();
+            }
+            else{    
+                UnitManager.Instance.ShowAttackOverlay();
                 }    
                 break;
             case GameState.EnemyChoose:
@@ -98,7 +115,7 @@ public class GameManager : MonoBehaviour
         switch (setState)
         {
             case 0:
-                UpdateGameState(GameState.PlayerAttack);
+                UpdateGameState(GameState.ChooseAction);
                 break;
             case 1:
                 UpdateGameState(GameState.PlayerMove);
@@ -109,6 +126,17 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
                 break;
+
+            case 3:
+            UpdateGameState(GameState.PlayerAttack);
+            break;
+
+            case 4:
+            UpdateGameState(GameState.Heal);
+            break;
+            case 5:
+            UpdateGameState(GameState.Debuff);
+            break;
             default:
                 break;
 
@@ -123,7 +151,7 @@ public class GameManager : MonoBehaviour
     private void SpawnPlayerUnits()
     {
         
-        GameManager.Instance.UpdateGameState(GameState.ChooseOption);
+    Instance.UpdateGameState(GameState.ChooseOption);
     }
     private void HandlePlayerMove()
     {
@@ -141,6 +169,9 @@ public class GameManager : MonoBehaviour
     EnemyAttack,
     Victory,
     Lose,
-    Flee
+    Flee,
+    ChooseAction,
+    Heal,
+    Debuff
 }
 }

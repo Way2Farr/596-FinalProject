@@ -67,4 +67,37 @@ public class BasePlayer : BaseUnit
 
         return _inRangeTiles;
     }
+
+
+    public TMP_Text abilitiesText;
+    [SerializeField] private GameObject[] _abilities;
+
+    
+    public virtual void OpenAbilities(GameManager.GameState state) {
+
+        Debug.Log("Current GameState is: " + GameManager.Instance.State);
+        if(state == GameManager.GameState.ChooseAction ){
+            foreach(GameObject abilityPanel in _abilities)
+            {
+                abilityPanel.SetActive(true);
+                
+            } 
+        }
+        else
+        {
+            //Debug.Log("Deactivate menu.");
+            foreach (GameObject abilityPanel in _abilities)
+            {
+                abilityPanel.SetActive(false);
+            }
+        }
+    }
+    public void CloseAbilitiesMenu()
+{
+    foreach (GameObject abilityPanel in _abilities)
+    {
+        abilityPanel.SetActive(false);
+    }
+    Debug.Log("Abilities menu closed.");
+}
 }
