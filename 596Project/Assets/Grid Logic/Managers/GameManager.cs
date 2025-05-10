@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
 using TMPro;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,7 +19,11 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
-//--------------
+    // transition stuff
+    [SerializeField] private Image BlackScreen;
+    [SerializeField] private Animator anim;
+
+    //--------------
     public TurnManager TurnManager {get; private set;}
 
     private void Awake()
@@ -105,14 +111,23 @@ public class GameManager : MonoBehaviour
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
-                SceneManager.LoadScene("Shop (Nick)");
-                UnitManager.Instance.endedTurn = true;
-                UnitManager.Instance.TurnCheck();
+                StartCoroutine(Fading("Shop (Nick)"));
                 break;
             default:
                 break;
 
         }
+    }
+
+    IEnumerator Fading(string scene)
+    {
+        anim.SetBool("fade", true);
+        yield return new WaitUntil(() => BlackScreen.color.a == 1);
+        SceneManager.LoadScene(scene);
+
+        // code that was there before
+        UnitManager.Instance.endedTurn = true;
+        UnitManager.Instance.TurnCheck();
     }
 
     public void MoveLogic()
