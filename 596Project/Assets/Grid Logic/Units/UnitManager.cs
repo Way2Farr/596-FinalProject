@@ -30,6 +30,8 @@ public class UnitManager : MonoBehaviour
     public bool hasAttacked = false;
     public bool hasMoved = false;
     public bool endedTurn = false;
+    
+
     private void Awake()
     {
         Instance = this;
@@ -222,14 +224,14 @@ public class UnitManager : MonoBehaviour
             //Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
 
             // TODO: Problem for later; offset isn't programmed correctly :(
-            if (Player.transform.position.x - _endTile.transform.position.x < 0)
+            if (Player.transform.position.x - _endTile.transform.position.x <= 0)
             {
 /*                if (Player._childTransform.position.x != -101)
                 {
                     Player._childTransform.position = new Vector3(-101, Player._childTransform.position.y, Player._childTransform.position.z);
                 }*/
                 Player._spriteRenderer.flipX = false;
-                Player._doOffset = false;
+                //Player._doOffset = false;
             }
             else
             {
@@ -239,7 +241,7 @@ public class UnitManager : MonoBehaviour
                                 }*/
 
                 //Player._doOffset = true;
-                //Player._spriteRenderer.flipX = true;
+                Player._spriteRenderer.flipX = true;
             }
             
         }

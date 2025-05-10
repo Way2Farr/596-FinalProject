@@ -17,7 +17,13 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
-//--------------
+    //--------------
+    [SerializeField]
+
+    AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound;
+
+    //--------------
+
     public TurnManager TurnManager {get; private set;}
 
     private void Awake()
@@ -54,8 +60,10 @@ public class GameManager : MonoBehaviour
                 MenuManager.Instance.EventMessages("You already moved!");
                 UnitManager.Instance.ClearMovementOverlay();
                 return;
-        }
+            }
+
             else{
+                SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, 0.4f);
                 UnitManager.Instance.ShowMovementOverlay();
             }
                 break;
@@ -68,6 +76,7 @@ public class GameManager : MonoBehaviour
                     return;
                 }
                 else{
+                    SoundFXManager.Instance.PlayClip(_menuFightSound, this.transform, 0.4f);
                     UnitManager.Instance.ShowAttackOverlay();
                 }    
                 break;
@@ -105,6 +114,7 @@ public class GameManager : MonoBehaviour
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
                 SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();

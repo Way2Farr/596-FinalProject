@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 5370904849255898395}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -101, y: -89, z: 0}
-  m_LocalScale: {x: 8.7, y: 8.7, z: 8.7}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6.93, y: 6.93, z: 6.93}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2345480521400423767}
@@ -159,7 +159,10 @@ MonoBehaviour:
   Faction: 0
   _unitAnimator: {fileID: 0}
   _spriteRenderer: {fileID: 0}
+  _childTransform: {fileID: 0}
   _animOffset: 216
+  _doOffset: 0
+  _originalChildX: 0
   healthbarCanvas: {fileID: 0}
   _maxHealth: 10
   _attack: 10
