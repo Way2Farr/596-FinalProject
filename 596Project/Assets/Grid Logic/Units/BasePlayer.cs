@@ -2,13 +2,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class BasePlayer : BaseUnit
 {
 
     public GameObject DamageTextPrefab;
+    public GameObject HealTextPrefab;
+
+    [SerializeField]public int healthFlask = 1;
+    [SerializeField]public int healAmount = 5;
 
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
+    private static readonly Vector3 healOffsetPos = new Vector3(0,1,0);
+
+
+    void Start()
+    {
+     _currentHealth = _maxHealth;
+    }
 
     public virtual void OnHurt(int attackDamage) {
 
@@ -38,11 +50,62 @@ public class BasePlayer : BaseUnit
             textC.text = damage.ToString();
         }
         else {
-            Debug.Log("Error with Player.Tmp_Text");
+            Debug.Log("Error with PlayerDMG");
         }
 
         Destroy(damageTextPro, 1.5f);
     } 
+
+    void ShowHealTxt() {
+            
+            Vector3 offsetPos = transform.position + healOffsetPos;
+            GameObject healTextPro = Instantiate(HealTextPrefab, offsetPos, Quaternion.identity, transform);
+            healTextPro.transform.rotation = Quaternion.Euler(-90,0,0);
+            TMP_Text textH = healTextPro.GetComponentInChildren<TMP_Text>();
+            
+            if (textH != null) {
+                textH.text = "" + healAmount;
+            }
+            else {
+                Debug.Log("Error with PlayerHeal");
+            }
+
+            Destroy(healTextPro, 1.5f);
+        } 
+
+    public void PlayerHeal() {
+
+        Debug.Log("has attacked is " + UnitManager.Instance.hasAttacked);
+        if( healthFlask > 0 && !UnitManager.Instance.hasAttacked) {
+            _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
+            healthFlask =- 1;
+            CloseAbilitiesMenu();
+            UnitManager.Instance.hasHealed = true;
+            ShowHealTxt();
+
+            if (UnitManager.Instance.hasMoved){
+            UnitManager.Instance.TurnCheck();
+            }
+            else {
+                return;
+            }
+            
+        }
+        else {
+            if (UnitManager.Instance.hasHealed && healthFlask > 0){
+            MenuManager.Instance.EventMessages("You healed this turn already!");
+            }
+            else if(healthFlask <= 0) {
+                MenuManager.Instance.EventMessages("You're out of health flasks!");
+            return;
+            }
+            CloseAbilitiesMenu();
+            return;
+        }
+    }
+
+
+
 
     void IsDead(){
         Destroy(gameObject);
@@ -68,15 +131,12 @@ public class BasePlayer : BaseUnit
         return _inRangeTiles;
     }
 
-
-    public TMP_Text abilitiesText;
     [SerializeField] private GameObject[] _abilities;
 
     
     public virtual void OpenAbilities(GameManager.GameState state) {
 
-        Debug.Log("Current GameState is: " + GameManager.Instance.State);
-        if(state == GameManager.GameState.ChooseAction ){
+        if(state == GameManager.GameState.ChooseOption ){
             foreach(GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(true);
@@ -100,4 +160,23 @@ public class BasePlayer : BaseUnit
     }
     Debug.Log("Abilities menu closed.");
 }
+
+    public void ButtonSetState(int setState)
+    {
+        switch (setState)
+        {
+            case 3:
+                GameManager.Instance.UpdateGameState(GameManager.GameState.PlayerAttack);
+                break;
+            case 4:
+                GameManager.Instance.UpdateGameState(GameManager.GameState.Heal);
+                break;
+            case 5:
+                GameManager.Instance.UpdateGameState(GameManager.GameState.Debuff);
+                break;
+        }
+    }
+
+
+
 }

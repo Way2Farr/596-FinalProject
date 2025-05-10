@@ -28,6 +28,7 @@ public class UnitManager : MonoBehaviour
     public bool _startMoving;
     public bool hasAttacked = false;
     public bool hasMoved = false;
+    public bool hasHealed = false;
     public bool endedTurn = false;
     private void Awake()
     {
@@ -240,7 +241,6 @@ public class UnitManager : MonoBehaviour
             {
                 Player.stopMoving();
                 
-                GameManager.Instance.TurnManager.Tick(); // new
                 //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
                 MovementFlag();
@@ -324,7 +324,7 @@ public class UnitManager : MonoBehaviour
         return;
     }
 
-    if(hasAttacked && hasMoved) { // Complete Turn
+    if(hasAttacked && hasMoved || hasHealed && hasMoved) { // Complete Turn
         
         TurnReset(); 
         GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
@@ -338,6 +338,7 @@ public class UnitManager : MonoBehaviour
         hasAttacked = false;
         hasMoved = false;
         endedTurn = false;
+        hasHealed = false;
         GameManager.Instance.TurnManager.Tick();
 
     }

@@ -59,24 +59,11 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.ShowMovementOverlay();
             }
                 break;
-
-
-
-            case GameState.ChooseAction: 
-
-                if(UnitManager.Instance.Player == null) {
-                    Debug.Log("Error with Player1");
-                }
-                else {
-                    UnitManager.Instance.Player.OpenAbilities(GameState.ChooseAction);
-                }
-             
-            break;
+            
             case GameState.PlayerAttack:
 
             if(UnitManager.Instance.Player != null) {
                 UnitManager.Instance.Player.CloseAbilitiesMenu();
-
             }
             
             if (UnitManager.Instance.hasAttacked) {
@@ -85,7 +72,8 @@ public class GameManager : MonoBehaviour
                     return;
             }
             else{    
-                UnitManager.Instance.ShowAttackOverlay();
+                StartCoroutine(DelayedShowAttackOverlay());
+                Debug.Log("Attack overlay shown.");
                 }    
                 break;
             case GameState.EnemyChoose:
@@ -115,7 +103,7 @@ public class GameManager : MonoBehaviour
         switch (setState)
         {
             case 0:
-                UpdateGameState(GameState.ChooseAction);
+                UnitManager.Instance.Player.OpenAbilities(GameState.ChooseOption);
                 break;
             case 1:
                 UpdateGameState(GameState.PlayerMove);
@@ -125,24 +113,19 @@ public class GameManager : MonoBehaviour
                 //SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
+                UpdateGameState(GameState.EnemyChoose);
                 break;
-
-            case 3:
-            UpdateGameState(GameState.PlayerAttack);
-            break;
-
-            case 4:
-            UpdateGameState(GameState.Heal);
-            break;
-            case 5:
-            UpdateGameState(GameState.Debuff);
-            break;
             default:
                 break;
 
         }
     }
 
+    private IEnumerator DelayedShowAttackOverlay() {
+        yield return new WaitForEndOfFrame(); // Wait for the current frame to finish
+        UnitManager.Instance.ShowAttackOverlay();
+        Debug.Log("Attack overlay shown after delay.");
+    }
     public void MoveLogic()
     {
 
@@ -170,7 +153,6 @@ public class GameManager : MonoBehaviour
     Victory,
     Lose,
     Flee,
-    ChooseAction,
     Heal,
     Debuff
 }
