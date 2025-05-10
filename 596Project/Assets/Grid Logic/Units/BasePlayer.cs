@@ -1,20 +1,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
 
 public class BasePlayer : BaseUnit
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+
+    public GameObject DamageTextPrefab;
+
+    private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
+
+    public virtual void OnHurt(int attackDamage) {
+
+        int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
+
+        _currentHealth -= dmgTaken;
+
+        if(DamageTextPrefab) {
+            ShowDmgTxt(dmgTaken);
+        }
+        else {
+            Debug.Log("Error at Player.ShowDmgtxt");
+        }
+
+        if(_maxHealth <= 0) {
+            IsDead();
+        } 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void ShowDmgTxt(int damage) {
+        Vector3 offsetPos = transform.position + damageOffsetPos;
+        GameObject damageTextPro = Instantiate(DamageTextPrefab, offsetPos, Quaternion.identity, transform);
+        damageTextPro.transform.rotation = Quaternion.Euler(-90,0,0);
+        TMP_Text textC = damageTextPro.GetComponentInChildren<TMP_Text>();
         
-    }
+        if (textC != null) {
+            textC.text = damage.ToString();
+        }
+        else {
+            Debug.Log("Error with Player.Tmp_Text");
+        }
+
+        Destroy(damageTextPro, 1.5f);
+    } 
+
+    void IsDead(){
+        Destroy(gameObject);
+    }   
 
     // Rook behavior (can use later)
     /*public override List<Tile> getMovementTiles()

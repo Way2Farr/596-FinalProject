@@ -214,6 +214,7 @@ MonoBehaviour:
   OccupiedTile: {fileID: 0}
   Faction: 0
   _unitAnimator: {fileID: 0}
+  _spriteRenderer: {fileID: 0}
   healthbarCanvas: {fileID: 0}
   _maxHealth: 10
   _attack: 10
@@ -222,3 +223,4 @@ MonoBehaviour:
   _attackRange: 30
   _currentHealth: 0
   _name: 
+  DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
