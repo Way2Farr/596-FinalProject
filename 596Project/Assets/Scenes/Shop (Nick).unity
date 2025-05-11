@@ -3092,6 +3092,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 24489171}
+  - {fileID: 87003700}
+  - {fileID: 952659929}
   - {fileID: 675602476}
   - {fileID: 239269305}
   - {fileID: 2132838652}
@@ -3244,6 +3246,8 @@ MonoBehaviour:
   stageOne: {fileID: 81938850}
   stageTwo: {fileID: 991059065}
   stageThree: {fileID: 458877317}
+  gameStats: {fileID: 0}
+  statManager: {fileID: 0}
   currentHp: 10
   currentDef: 10
   currentAtk: 10
@@ -3758,6 +3762,10 @@ PrefabInstance:
     - target: {fileID: 9170460099133545073, guid: f71c2f5eb2ab0da4988e82ac2751fb04, type: 3}
       propertyPath: m_Name
       value: DataCarry
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170460099133545073, guid: f71c2f5eb2ab0da4988e82ac2751fb04, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
