@@ -1,6 +1,8 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
@@ -10,6 +12,7 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class UnitManager : MonoBehaviour
 {
+    public GameObject FloatingTextPrefab;
     public static UnitManager Instance;
     private List<ScriptableUnit> _units;
 
@@ -24,6 +27,9 @@ public class UnitManager : MonoBehaviour
     [SerializeField]
     public Tile _startingTile, _endTile;
     public bool _startMoving;
+    public bool hasAttacked = false;
+    public bool hasMoved = false;
+    public bool endedTurn = false;
     private void Awake()
     {
         Instance = this;
@@ -34,6 +40,9 @@ public class UnitManager : MonoBehaviour
     public void Update()
     {
         MoveTile();
+        EnemyMoveTile();
+        MenuManager.Instance.UpdateCount();
+        MenuManager.Instance.UnitStats();
     }
     public void SpawnHeroes()
     {
@@ -85,7 +94,7 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero (BasePlayer player)
     {
         SelectedHero = player;
-        //MenuManager.Instance.unitStats();
+        
     }
 
     public void ShowMovementOverlay()
@@ -117,7 +126,7 @@ public class UnitManager : MonoBehaviour
         UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in Player.getMovementTiles())
+        foreach (Tile tile in Player.getAttackTiles())
         {
             tile.RangeActive();
         }
@@ -130,6 +139,7 @@ public class UnitManager : MonoBehaviour
         {
             tile.RangeInactive();
         }
+       
     }
 
     public void ShowEnemyMovementOverlay()
@@ -143,12 +153,35 @@ public class UnitManager : MonoBehaviour
         {
             tile.RangeActive();
         }
+
+        StartCoroutine(EnemyPause()); // wait one second before moving
+    }
+
+    IEnumerator EnemyPause()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        foreach (Tile tile in Enemy.getMovementTiles())
+        {
+            tile.RangeActive();
+        }
+
+        yield return new WaitForSeconds(0.9f);
+        
+        // if state = EnemyMove
+        List<Tile> EnemyRange = Enemy.getMovementTiles();
+        Tile enemyTile = EnemyRange[Random.Range(0, EnemyRange.Count)];
+        enemyTile.SetUnit(Enemy);
+        _startMoving = true;
+        ClearEnemyMovementOverlay();
+
+        // if state = EnemyAttack call other function
     }
 
     public void ClearEnemyMovementOverlay()
     {
         List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
-        foreach (Tile tile in GridManager.Instance._tilesList)
+        foreach (Tile tile in GridManager.Instance._tilesList) 
         {
             tile.RangeInactive();
         }
@@ -161,7 +194,7 @@ public class UnitManager : MonoBehaviour
         //UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in Enemy.getMovementTiles())
+        foreach (Tile tile in Enemy.getAttackTiles())
         {
             tile.RangeActive();
         }
@@ -181,11 +214,12 @@ public class UnitManager : MonoBehaviour
         bool movementFlag = false;
         if(_startMoving && GameManager.Instance.State == GameManager.GameState.PlayerMove && _startingTile != null && _endTile != null)
         {
+            
             Player.transform.position = Vector3.MoveTowards(Player.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Player.transform.position.z), MoveSpeed);
             movementFlag = true;
             Player.startMoving();
 
-            Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
+            //Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
 
             // TODO: Problem for later; offset isn't programmed correctly :(
             if (Player.transform.position.x - _endTile.transform.position.x < 0)
@@ -196,22 +230,149 @@ public class UnitManager : MonoBehaviour
             {
                 Player._spriteRenderer.flipX = false;
             }
+            
         }
-        
-        if (movementFlag)
+
+
+        if (movementFlag && _startMoving)
         {
             //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Vector3.Distance(Player.transform.position, _endTile.transform.position) <= 9f)
             {
                 Player.stopMoving();
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                
+                GameManager.Instance.TurnManager.Tick(); // new
+                //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
+                MovementFlag();
+                
+                _startingTile = null;
+                _endTile = null;
+
+                movementFlag = false;
+
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Player movement");
+                if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+                
             }
             
         }
+    }
+
+    public void EnemyMoveTile()
+    {
+        bool movementFlag = false;
+        if (_startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && _startingTile != null && _endTile != null)
+        {
+            Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Enemy.transform.position.z), MoveSpeed);
+            movementFlag = true;
+        }
+
+        if (movementFlag)
+        {
+            //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
+            if (Enemy.transform.position.x == _endTile.transform.position.x && Enemy.transform.position.y == _endTile.transform.position.y)
+            {
+                GameManager.Instance.TurnManager.Tick(); // new
+
+                _startingTile = null;
+                _endTile = null;
+
+                
+                _startMoving = false;
+
+                if (GameManager.Instance.State == GameManager.GameState.EnemyMove)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+                
+
+
+            }
+
+        }
+    }
+    //--------------------------------------------------------------------
+    public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
+
         
+        int setDamage = Selected._attack - (Enemy._defense / 3);
+        setDamage = Mathf.Max(setDamage,0); // If it goes negative set it to zero
+        Enemy._maxHealth -= setDamage;
+
+        
+        if(FloatingTextPrefab) {
+            ShowFloatingText();
+        }
+
+        if (Enemy._maxHealth <= 0) {
+            Destroy(Enemy.gameObject);
+        }
+
+        SetSelectedHero(null);
+        AttackFlag();
+
+    }
+
+    void ShowFloatingText() {
+        Vector3 offsetPosition = transform.position + new Vector3(0, 1f, 0); // Adjust Y offset as needed
+        Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity,transform);
+        Debug.Log("Instantiated!");
+    }
+
+    public void AttackFlag() {
+
+        hasAttacked = true;
+        ClearAttackOverlay();
+        Debug.Log("attacked has been flagged!");
+        TurnCheck();
+    }
+
+    public void MovementFlag() {
+        hasMoved = true;
+        ClearMovementOverlay();
+        Debug.Log("Movement has been flagged!");
+        TurnCheck();
+    }
+
+    public void TurnCheck() {
+
+    if(endedTurn) {
+        Debug.Log("Manually ended turn");
+        TurnReset();
+        return;
+    }
+
+    if(hasAttacked && hasMoved) { // Complete Turn
+        
+        TurnReset(); 
+        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        return;
+    }
+
+    }
+    
+
+    public void TurnReset() {
+        hasAttacked = false;
+        hasMoved = false;
+        endedTurn = false;
+        GameManager.Instance.TurnManager.Tick();
+
     }
 
 
+        
+
+    public void EnemyChoose() {
+        // if enemy in range then EnemyAttack
+
+        // else EnemyMove
+        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+    }
     
 }

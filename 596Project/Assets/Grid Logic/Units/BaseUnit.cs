@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 using System.Linq;
 
 public class BaseUnit : MonoBehaviour
@@ -16,8 +17,10 @@ public class BaseUnit : MonoBehaviour
     static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
     static readonly int IsDamaged = Animator.StringToHash("IsDamaged");
     [Header("UI Elements")]
-    public Canvas healthbarCanvas;
+    //public Canvas healthbarCanvas;
 
+    [SerializeField]
+    private Slider healthbar;
 
     [SerializeField]
     public int _maxHealth, _attack, _defense, _movementRange, _attackRange;
@@ -52,7 +55,7 @@ public class BaseUnit : MonoBehaviour
     public virtual List<Tile> getMovementTiles ()
     {
         float tempRange = this.getMovementRange();
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange).ToList();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && !t.OccupiedUnit).ToList();
 
         return _inRangeTiles;
     }
@@ -60,7 +63,7 @@ public class BaseUnit : MonoBehaviour
     public virtual List<Tile> getAttackTiles()
     {
         float tempRange = this.getMovementRange();
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange).ToList();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && t._position != OccupiedTile._position).ToList();
 
         return _inRangeTiles;
     }

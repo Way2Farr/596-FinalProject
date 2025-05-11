@@ -26,6 +26,8 @@ public class Tile : MonoBehaviour
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit != null;
 
+    //------------------------------------------------------------------------
+
     public virtual void Init(int x, int y)
     {
         //_renderer.color = isOffset ? _baseColor : _offsetColor;
@@ -45,58 +47,73 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-
-        // TODO: Make into separate functions
-        // MOUSE DOWN LOGIC IF PLAYER ATTACK
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
-            if (OccupiedUnit != null)
+            HandlePlayerAttack();
+        }
+        else if (GameManager.Instance.State == GameManager.GameState.PlayerMove) {
+            HandlePlayerMove();
+        }
+    }
+        // TODO: Make into separate functions
+        // MOUSE DOWN LOGIC IF PLAYER ATTACK
+    private void HandlePlayerAttack() {
+
+            if (OccupiedUnit != null && _inAttackRange)
             {
-                if (_inAttackRange)
-                {
                     if (UnitManager.Instance.SelectedHero != null)
                     {
-                        var enemy = (BaseEnemy)OccupiedUnit;
-
-                        Destroy(enemy.gameObject);
-                        UnitManager.Instance.SetSelectedHero(null);
-                        UnitManager.Instance.ClearAttackOverlay();
-                        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                        var enemy = OccupiedUnit as BaseEnemy;
+                        Debug.Log("enemy health was at: " + enemy._maxHealth);
+                        UnitManager.Instance.HandleAttack(UnitManager.Instance.SelectedHero, enemy);
+    
                     }
-                }
-                
 
-            }
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Attack in range");
+
+                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+
+        }
             else if (_inAttackRange)
             {
+                UnitManager.Instance.AttackFlag();
                 UnitManager.Instance.ClearAttackOverlay();
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-            }
+
+                Debug.ClearDeveloperConsole();
+                Debug.Log("Call choose option - Attack not in range");
+
+                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                }
+
         }
+        
+    }
+
+    private void HandlePlayerMove() {
 
         // MOUSE DOWN LOGIC IF PLAYER MOVE
-        else if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
-        {
             if (UnitManager.Instance.SelectedHero != null && _inMovementRange)
             {
-                SetUnit(UnitManager.Instance.SelectedHero);
+                SetUnit(UnitManager.Instance.SelectedHero); 
                 UnitManager.Instance.ShowMovementOverlay();
                 UnitManager.Instance.SetSelectedHero(null);
 
                 UnitManager.Instance._startMoving = true;
                 UnitManager.Instance.ClearMovementOverlay();
-                //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
 
             }
-        }
-        
-
-        
     }
 
     public void RangeActive()
     {
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
         {
             _inMovementRange = true;
             _rangeIndicator.SetActive(true);
@@ -108,10 +125,9 @@ public class Tile : MonoBehaviour
         }
         
     }
-
     public void RangeInactive()
     {
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
         {
             _inMovementRange = false;
             _rangeIndicator.SetActive(false);
@@ -122,12 +138,10 @@ public class Tile : MonoBehaviour
             _attackRangeIndicator.SetActive(false);
         }
     }
-
-
     public void SetUnit(BaseUnit unit)
     {
 
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
         {
             // Set original tile
             UnitManager.Instance._startingTile = unit.OccupiedTile;
@@ -136,10 +150,6 @@ public class Tile : MonoBehaviour
         {
             unit.transform.position = new Vector3(transform.position.x, transform.position.y, -9);
         }
-
-
-        
-
         if (unit.OccupiedTile != null)
         {
             unit.OccupiedTile.OccupiedUnit = null;
@@ -147,7 +157,7 @@ public class Tile : MonoBehaviour
 
 
 
-        if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
         {
             // Set ending tile
             UnitManager.Instance._endTile = this;

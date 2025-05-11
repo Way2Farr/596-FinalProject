@@ -1,11 +1,14 @@
 using System;
 using System.Linq;
 using Unity.VisualScripting;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
 using TMPro;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,6 +19,12 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
+    // transition stuff
+    [SerializeField] private Image BlackScreen;
+    [SerializeField] private Animator anim;
+
+    //--------------
+    public TurnManager TurnManager {get; private set;}
 
     private void Awake()
     {
@@ -25,9 +34,13 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.ChooseOption);
+//------------
+        TurnManager = new TurnManager();
+
     }
     public void UpdateGameState(GameState newState)
     {
+
         State = newState;
         Debug.Log(newState.ToString());
 
@@ -38,18 +51,38 @@ public class GameManager : MonoBehaviour
                 SpawnPlayerUnits();
                 
                 break;
+
             case GameState.ChooseOption:
                 break;
+                
             case GameState.PlayerMove:
+            if (UnitManager.Instance.hasMoved) {
+                MenuManager.Instance.EventMessages("You already moved!");
+                UnitManager.Instance.ClearMovementOverlay();
+                return;
+        }
+            else{
                 UnitManager.Instance.ShowMovementOverlay();
-                //UnitManager.Instance.ShowEnemyMovementOverlay();
-                //HandlePlayerMove();  
+            }
                 break;
+
             case GameState.PlayerAttack:
-                //UnitManager.Instance.ShowEnemyAttackOverlay();
-                UnitManager.Instance.ShowAttackOverlay();
+                if (UnitManager.Instance.hasAttacked) {
+
+                    MenuManager.Instance.EventMessages("You already attacked!");
+                    UnitManager.Instance.ClearAttackOverlay();
+                    return;
+                }
+                else{
+                    UnitManager.Instance.ShowAttackOverlay();
+                }    
                 break;
+            case GameState.EnemyChoose:
+                UnitManager.Instance.EnemyChoose();
+                break;
+
             case GameState.EnemyMove:
+                UnitManager.Instance.ShowEnemyMovementOverlay();
                 break;
             case GameState.EnemyAttack:
                 break;
@@ -78,12 +111,23 @@ public class GameManager : MonoBehaviour
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
-                SceneManager.LoadScene("Shop (Nick)");
+                StartCoroutine(Fading("Shop (Nick)"));
                 break;
             default:
                 break;
 
         }
+    }
+
+    IEnumerator Fading(string scene)
+    {
+        anim.SetBool("fade", true);
+        yield return new WaitUntil(() => BlackScreen.color.a == 1);
+        SceneManager.LoadScene(scene);
+
+        // code that was there before
+        UnitManager.Instance.endedTurn = true;
+        UnitManager.Instance.TurnCheck();
     }
 
     public void MoveLogic()
@@ -107,6 +151,7 @@ public class GameManager : MonoBehaviour
     ChooseOption,
     PlayerMove,
     PlayerAttack,
+    EnemyChoose,
     EnemyMove,
     EnemyAttack,
     Victory,
