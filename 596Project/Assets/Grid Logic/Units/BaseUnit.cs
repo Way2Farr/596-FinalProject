@@ -2,8 +2,8 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class BaseUnit : MonoBehaviour
 {
@@ -12,21 +12,14 @@ public class BaseUnit : MonoBehaviour
     public Faction Faction;
     public Animator _unitAnimator;
     public SpriteRenderer _spriteRenderer;
-    public Transform _childTransform;
     static readonly int IsIdle = Animator.StringToHash("IsIdle");
     static readonly int IsMoving = Animator.StringToHash("IsMoving");
     static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
     static readonly int IsDamaged = Animator.StringToHash("IsDamaged");
 
-    [SerializeField]
-    public int _animOffset = 0;
-    public bool _doOffset = false;
-    public float _originalChildX;
     [Header("UI Elements")]
-    //public Canvas healthbarCanvas;
+    public Canvas healthbarCanvas;
 
-    [SerializeField]
-    private Slider healthbar;
 
     [SerializeField]
     public int _maxHealth, _attack, _defense, _movementRange, _attackRange;
@@ -37,9 +30,7 @@ public class BaseUnit : MonoBehaviour
     public void Awake()
     {
         _unitAnimator = GetComponentInChildren<Animator>();
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        _childTransform = GetComponentInChildren<Transform>();
-        _originalChildX = _childTransform.localPosition.x;
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
     public int getMovementRange()
     {
@@ -80,12 +71,6 @@ public class BaseUnit : MonoBehaviour
     {
         _unitAnimator.SetBool(IsIdle, false);
         _unitAnimator.SetBool(IsMoving, true);
-
-        if(_doOffset)
-        {
-            _childTransform.localPosition = new Vector3(_originalChildX + _animOffset, _childTransform.localPosition.y, _childTransform.localPosition.x);
-        }
-
     }
 
     public void stopMoving ()
@@ -93,4 +78,6 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsIdle, true);
         _unitAnimator.SetBool(IsMoving, false);
     }
+
+
 }
