@@ -27,11 +27,11 @@ public class StatManager : MonoBehaviour
         if (_inBattlePhase && _currentRound == 1)
         {
             
-            _maxHealth = _playerPrefab._maxHealth;
-            _attack = _playerPrefab._attack;
-            _defense = _playerPrefab._defense;
-            _movementRange = _playerPrefab._movementRange;
-            _attackRange = _playerPrefab._attackRange;
+            _maxHealth = UnitManager.Instance.Player._maxHealth;
+            _attack = UnitManager.Instance.Player._attack;
+            _defense = UnitManager.Instance.Player._defense;
+            _movementRange = UnitManager.Instance.Player._movementRange;
+            _attackRange = UnitManager.Instance.Player._attackRange;
 
         }
 

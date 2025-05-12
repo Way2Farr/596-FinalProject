@@ -30,6 +30,8 @@ public class UnitManager : MonoBehaviour
     public bool hasAttacked = false;
     public bool hasMoved = false;
     public bool endedTurn = false;
+    
+
     private void Awake()
     {
         Instance = this;
@@ -222,13 +224,24 @@ public class UnitManager : MonoBehaviour
             //Debug.Log(Player.transform.position.x - _endTile.transform.position.x);
 
             // TODO: Problem for later; offset isn't programmed correctly :(
-            if (Player.transform.position.x - _endTile.transform.position.x < 0)
+            if (Player.transform.position.x - _endTile.transform.position.x <= 0)
             {
-                Player._spriteRenderer.flipX = true;
+/*                if (Player._childTransform.position.x != -101)
+                {
+                    Player._childTransform.position = new Vector3(-101, Player._childTransform.position.y, Player._childTransform.position.z);
+                }*/
+                Player._spriteRenderer.flipX = false;
+                //Player._doOffset = false;
             }
             else
             {
-                Player._spriteRenderer.flipX = false;
+                /*                if (Player._childTransform.position.x == -101)
+                                {
+                                    Player._childTransform.position = new Vector3(Player._childTransform.position.x + Player._animOffset, Player._childTransform.position.y, Player._childTransform.position.z);
+                                }*/
+
+                //Player._doOffset = true;
+                Player._spriteRenderer.flipX = true;
             }
             
         }
@@ -270,6 +283,19 @@ public class UnitManager : MonoBehaviour
         {
             Enemy.transform.position = Vector3.MoveTowards(Enemy.transform.position, new Vector3(_endTile.transform.position.x, _endTile.transform.position.y, Enemy.transform.position.z), MoveSpeed);
             movementFlag = true;
+            Enemy.startMoving();
+
+            // FLIP ENEMY
+
+            if (Enemy.transform.position.x - _endTile.transform.position.x < 0)
+            {
+                Enemy._spriteRenderer.flipX = true;
+            }
+            else
+            {
+                Enemy._spriteRenderer.flipX = false;
+            }
+
         }
 
         if (movementFlag)
@@ -287,6 +313,7 @@ public class UnitManager : MonoBehaviour
 
                 if (GameManager.Instance.State == GameManager.GameState.EnemyMove)
                 {
+                    Enemy.stopMoving();
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 }
                 
@@ -296,6 +323,85 @@ public class UnitManager : MonoBehaviour
 
         }
     }
+    // ---------------- Animation handlers
+
+    public IEnumerator PlayAttackAnimation(BaseUnit attacker)
+    {
+        attacker.startAttacking();
+
+        float attackLength = 2.0f;
+
+
+        // get clip lengths
+        AnimationClip[] clips = attacker._unitAnimator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "PlayerAttack":
+                    attackLength = clip.length;
+                    break;
+                case "LightAttack":
+                    attackLength = clip.length;
+                    break;
+                default:
+                    attackLength = 2.0f;
+                    break;
+            }
+        }
+
+        // wait
+        yield return new WaitForSeconds(attackLength);
+
+        attacker.stopAttacking();
+        // switch states
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+
+        TurnCheck();
+
+    }
+
+    public IEnumerator PlayDamagedAnimation(BaseUnit defender)
+    {
+        defender.startDamaging();
+
+        float attackLength = 0.5f;
+
+
+        // get clip lengths
+        AnimationClip[] clips = defender._unitAnimator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "PlayerHurt":
+                    //attackLength = clip.length;
+                    break;
+                case "LightHit":
+                    //attackLength = clip.length;
+                    break;
+                default:
+                    attackLength = 0.5f;
+                    break;
+            }
+        }
+
+        // wait
+        yield return new WaitForSeconds(attackLength);
+
+        defender.stopDamaging();
+        // switch states
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+        
+        TurnCheck();
+    }
+
     //--------------------------------------------------------------------
     public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
 
@@ -316,6 +422,7 @@ public class UnitManager : MonoBehaviour
         SetSelectedHero(null);
         AttackFlag();
 
+
     }
 
     void ShowFloatingText() {
@@ -329,7 +436,7 @@ public class UnitManager : MonoBehaviour
         hasAttacked = true;
         ClearAttackOverlay();
         Debug.Log("attacked has been flagged!");
-        TurnCheck();
+        //TurnCheck();
     }
 
     public void MovementFlag() {
@@ -347,7 +454,7 @@ public class UnitManager : MonoBehaviour
         return;
     }
 
-    if(hasAttacked && hasMoved) { // Complete Turn
+    if(hasAttacked && hasMoved ) { // Complete Turn
         
         TurnReset(); 
         GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
@@ -369,6 +476,8 @@ public class UnitManager : MonoBehaviour
         
 
     public void EnemyChoose() {
+
+
         // if enemy in range then EnemyAttack
 
         // else EnemyMove

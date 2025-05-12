@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mono.Collections.Generic;
 using TMPro;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,11 +17,13 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
-    // transition stuff
-    [SerializeField] private Image BlackScreen;
-    [SerializeField] private Animator anim;
+    //--------------
+    [SerializeField]
+
+    AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound;
 
     //--------------
+
     public TurnManager TurnManager {get; private set;}
 
     private void Awake()
@@ -60,8 +60,10 @@ public class GameManager : MonoBehaviour
                 MenuManager.Instance.EventMessages("You already moved!");
                 UnitManager.Instance.ClearMovementOverlay();
                 return;
-        }
+            }
+
             else{
+                SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, 0.4f);
                 UnitManager.Instance.ShowMovementOverlay();
             }
                 break;
@@ -74,6 +76,7 @@ public class GameManager : MonoBehaviour
                     return;
                 }
                 else{
+                    SoundFXManager.Instance.PlayClip(_menuFightSound, this.transform, 0.4f);
                     UnitManager.Instance.ShowAttackOverlay();
                 }    
                 break;
@@ -111,23 +114,15 @@ public class GameManager : MonoBehaviour
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
-                StartCoroutine(Fading("Shop (Nick)"));
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
+                SceneManager.LoadScene("Shop (Nick)");
+                UnitManager.Instance.endedTurn = true;
+                UnitManager.Instance.TurnCheck();
                 break;
             default:
                 break;
 
         }
-    }
-
-    IEnumerator Fading(string scene)
-    {
-        anim.SetBool("fade", true);
-        yield return new WaitUntil(() => BlackScreen.color.a == 1);
-        SceneManager.LoadScene(scene);
-
-        // code that was there before
-        UnitManager.Instance.endedTurn = true;
-        UnitManager.Instance.TurnCheck();
     }
 
     public void MoveLogic()

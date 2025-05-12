@@ -72,10 +72,12 @@ public class Tile : MonoBehaviour
                 Debug.ClearDeveloperConsole();
                 Debug.Log("Call choose option - Attack in range");
 
-                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                StartCoroutine(UnitManager.Instance.PlayAttackAnimation(UnitManager.Instance.Player));
+                StartCoroutine(UnitManager.Instance.PlayDamagedAnimation(UnitManager.Instance.Enemy));
+                /*if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
                 {
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-                }
+                }*/
 
         }
             else if (_inAttackRange)
@@ -86,10 +88,12 @@ public class Tile : MonoBehaviour
                 Debug.ClearDeveloperConsole();
                 Debug.Log("Call choose option - Attack not in range");
 
-                if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+                /*if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
                 {
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-                }
+                }*/
+
+                StartCoroutine(UnitManager.Instance.PlayAttackAnimation(UnitManager.Instance.Player));
 
         }
         
