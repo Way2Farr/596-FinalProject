@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 using System.Linq;
 
 public class BaseUnit : MonoBehaviour
@@ -22,8 +23,10 @@ public class BaseUnit : MonoBehaviour
     public bool _doOffset = false;
     public float _originalChildX;
     [Header("UI Elements")]
-    public Canvas healthbarCanvas;
+    //public Canvas healthbarCanvas;
 
+    [SerializeField]
+    private Slider healthbar;
 
     [SerializeField]
     public int _maxHealth, _attack, _defense, _movementRange, _attackRange;
