@@ -16,6 +16,7 @@ public class DataCarry : MonoBehaviour
 
         if (statManager != null)
         {
+            Debug.Log("Stat manager found.");
             DontDestroyOnLoad(statManager);
         }
         
