@@ -47,7 +47,6 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Tile clicked: " + gameObject.name);
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             HandlePlayerAttack();

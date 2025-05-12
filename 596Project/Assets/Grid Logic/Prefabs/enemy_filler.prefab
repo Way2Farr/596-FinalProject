@@ -169,4 +169,3 @@ MonoBehaviour:
   _attackRange: 20
   _currentHealth: 10
   _name: 
-  DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
