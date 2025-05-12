@@ -163,11 +163,11 @@ MonoBehaviour:
   _animOffset: 216
   _doOffset: 0
   _originalChildX: 0
-  healthbarCanvas: {fileID: 0}
+  healthbar: {fileID: 0}
   _maxHealth: 10
   _attack: 10
   _defense: 10
   _movementRange: 30
   _attackRange: 20
   _currentHealth: 0
-  _name: 
+  _name: The Queen

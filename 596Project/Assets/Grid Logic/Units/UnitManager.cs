@@ -323,6 +323,85 @@ public class UnitManager : MonoBehaviour
 
         }
     }
+    // ---------------- Animation handlers
+
+    public IEnumerator PlayAttackAnimation(BaseUnit attacker)
+    {
+        attacker.startAttacking();
+
+        float attackLength = 2.0f;
+
+
+        // get clip lengths
+        AnimationClip[] clips = attacker._unitAnimator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "PlayerAttack":
+                    attackLength = clip.length;
+                    break;
+                case "LightAttack":
+                    attackLength = clip.length;
+                    break;
+                default:
+                    attackLength = 2.0f;
+                    break;
+            }
+        }
+
+        // wait
+        yield return new WaitForSeconds(attackLength);
+
+        attacker.stopAttacking();
+        // switch states
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+
+        TurnCheck();
+
+    }
+
+    public IEnumerator PlayDamagedAnimation(BaseUnit defender)
+    {
+        defender.startDamaging();
+
+        float attackLength = 0.5f;
+
+
+        // get clip lengths
+        AnimationClip[] clips = defender._unitAnimator.runtimeAnimatorController.animationClips;
+        foreach (AnimationClip clip in clips)
+        {
+            switch (clip.name)
+            {
+                case "PlayerHurt":
+                    //attackLength = clip.length;
+                    break;
+                case "LightHit":
+                    //attackLength = clip.length;
+                    break;
+                default:
+                    attackLength = 0.5f;
+                    break;
+            }
+        }
+
+        // wait
+        yield return new WaitForSeconds(attackLength);
+
+        defender.stopDamaging();
+        // switch states
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+        
+        TurnCheck();
+    }
+
     //--------------------------------------------------------------------
     public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
 
@@ -343,6 +422,7 @@ public class UnitManager : MonoBehaviour
         SetSelectedHero(null);
         AttackFlag();
 
+
     }
 
     void ShowFloatingText() {
@@ -356,7 +436,7 @@ public class UnitManager : MonoBehaviour
         hasAttacked = true;
         ClearAttackOverlay();
         Debug.Log("attacked has been flagged!");
-        TurnCheck();
+        //TurnCheck();
     }
 
     public void MovementFlag() {
@@ -374,7 +454,7 @@ public class UnitManager : MonoBehaviour
         return;
     }
 
-    if(hasAttacked && hasMoved) { // Complete Turn
+    if(hasAttacked && hasMoved ) { // Complete Turn
         
         TurnReset(); 
         GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);

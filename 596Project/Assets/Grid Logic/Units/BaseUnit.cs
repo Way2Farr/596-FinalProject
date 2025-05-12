@@ -93,4 +93,31 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsIdle, true);
         _unitAnimator.SetBool(IsMoving, false);
     }
+
+    public void startAttacking()
+    {
+        _unitAnimator.SetBool(IsIdle, false);
+        _unitAnimator.SetBool(IsAttacking, true);
+
+    }
+
+    public void stopAttacking()
+    {
+        _unitAnimator.SetBool(IsIdle, true);
+        _unitAnimator.SetBool(IsAttacking, false);
+    }
+
+    public void startDamaging()
+    {
+        _unitAnimator.SetBool(IsIdle, false);
+        _unitAnimator.SetBool(IsDamaged, true);
+
+    }
+
+    public void stopDamaging()
+    {
+        _unitAnimator.SetBool(IsIdle, true);
+        _unitAnimator.SetBool(IsDamaged, false);
+    }
+
 }
