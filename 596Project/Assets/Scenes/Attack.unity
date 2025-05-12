@@ -388,7 +388,7 @@ MonoBehaviour:
   _defense: 0
   _movementRange: 0
   _attackRange: 0
-  _currentHealth: 0
+  _currentHealth: 1
   _inBattlePhase: 0
   _inShopPhase: 0
   _playerPrefab: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
@@ -401,11 +401,11 @@ Transform:
   m_GameObject: {fileID: 183800953}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1131.2294, y: -579.6133, z: -219.53316}
+  m_LocalPosition: {x: -100.1593, y: 19.758911, z: -11.040649}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 221402102}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &221402101
 GameObject:
@@ -436,7 +436,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 183800955}
   - {fileID: 1715893016}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2892,3 +2891,4 @@ SceneRoots:
   - {fileID: 1933347545}
   - {fileID: 221402102}
   - {fileID: 502490735}
+  - {fileID: 183800955}
