@@ -73,7 +73,7 @@ public class CameraManager : MonoBehaviour
             _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
             _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
         } else if (enemyTurn) {
-            Vector3 movePosition = new Vector3(UnitManager.Instance.Enemy.transform.position.x, UnitManager.Instance.Enemy.transform.position.y + (_camYOffset * 0.9f * moveAdjust), _camZOffset);
+            Vector3 movePosition = new Vector3(UnitManager.Instance.Enemy.transform.position.x, UnitManager.Instance.Enemy.transform.position.y + (_camYOffset * 0.8f * moveAdjust), _camZOffset);
             _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
             _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
         } else if (menu) {
