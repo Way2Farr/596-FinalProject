@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-using System.Collections;
 
 public class BaseEnemy : BaseUnit
 {
@@ -11,8 +11,6 @@ public class BaseEnemy : BaseUnit
     public GameObject BaneIcon;
 
     public bool _defeated = false;
-    public GameObject StunIcon;
-
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
 
     public virtual void OnHurt(int attackDamage) {
@@ -53,37 +51,11 @@ public class BaseEnemy : BaseUnit
             if(enemyBaneDuration == 0) {
                 _defense = originalDefense;
                 BaneIcon.SetActive(false);
-                UnitManager.Instance.Player.BaneIcon.SetActive(false);
             }
         }
     }
 
 
-//_________________________
-
-    int enemyStunDuration;
-    int fakevar;
-    public bool isStunned = false;
-    public virtual void InflictStun(int duration) {
-
-        if (enemyStunDuration <= duration) {
-            enemyStunDuration = duration;
-            StunIcon.SetActive(true);
-            isStunned = true;
-        }
-    }
-
-    public void StunDuration() {
-        if(enemyStunDuration > 0) {
-            enemyStunDuration--;
-
-            if(enemyStunDuration == 0) {
-                isStunned = false;
-                StunIcon.SetActive(false);
-                UnitManager.Instance.Player.StunIcon.SetActive(false);
-            }
-        }
-    }
     void ShowDmgTxt(int damage) {
         Vector3 offsetPos = transform.position + damageOffsetPos;
         GameObject damageTextPro = Instantiate(DamageTextPrefab, offsetPos, Quaternion.identity, transform);
@@ -115,6 +87,21 @@ public class BaseEnemy : BaseUnit
         GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
     }
 
+    // ENEMY ATTACK BEHAVIOR
+    public override List<Tile> getAttackTiles()
+    {
+        float tempRange = this.getAttackRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && t._position != OccupiedTile._position).ToList();
 
+        return _inRangeTiles;
+    }
 
+    public bool PlayerInAttackRange()
+    {
+        List<Tile> occupiedTiles = getAttackTiles().Where(t => t._position == UnitManager.Instance.Player.OccupiedTile._position).ToList();
+
+        bool playerInRange = (occupiedTiles.Count > 0);
+        Debug.Log(playerInRange);
+        return playerInRange;
+    }
 }
