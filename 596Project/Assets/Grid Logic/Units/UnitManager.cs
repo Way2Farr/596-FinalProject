@@ -412,7 +412,7 @@ public class UnitManager : MonoBehaviour
 
         if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
         {
-            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
         }
 
         
@@ -492,6 +492,7 @@ public class UnitManager : MonoBehaviour
         // if enemy in range then EnemyAttack
         if (Enemy.PlayerInAttackRange())
         {
+            ShowEnemyAttackOverlay();
             GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyAttack);
         }
         // else EnemyMove
@@ -507,15 +508,13 @@ public class UnitManager : MonoBehaviour
     public void HandleEnemyAttack()
     {
         Debug.Log("Enemy attack!");
-        ShowEnemyAttackOverlay();
-        PlayAttackAnimation(Enemy);
+        
+        StartCoroutine(PlayAttackAnimation(Enemy));
         
         if(Enemy.PlayerInAttackRange())
         {
-            PlayDamagedAnimation(Player);
+            StartCoroutine(PlayDamagedAnimation(Player));
             Player.OnHurt(Enemy._attack);
         }
-
-        //ClearEnemyAttackOverlay();
     }
 }
