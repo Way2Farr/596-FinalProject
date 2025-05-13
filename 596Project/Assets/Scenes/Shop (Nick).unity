@@ -412,7 +412,7 @@ MonoBehaviour:
   _sliderOne: {fileID: 87003701}
   _sliderTwo: {fileID: 952659930}
   _slider: {fileID: 87003701}
-  _rateOfIncrease: 3
+  _rateOfIncrease: 1.15
   nextButton: {fileID: 2132838653}
 --- !u!4 &53093879
 Transform:
