@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
+    public bool MovedMessage = false;
+
     //--------------
     [SerializeField]
 
@@ -81,8 +83,7 @@ public class GameManager : MonoBehaviour
             SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, clipVolume);
 
             if (UnitManager.Instance.hasMoved) {
-                MenuManager.Instance.EventMessages("You already moved!");
-                UnitManager.Instance.ClearMovementOverlay();
+                    StartCoroutine(MovedAlready());
                 return;
             }
 
@@ -186,6 +187,15 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator HandleStunned() {
         yield return new WaitForSeconds(1.0f);
+        UpdateGameState(GameState.ChooseOption);
+    }
+
+    private IEnumerator MovedAlready() {
+        MovedMessage = true;
+        MenuManager.Instance.EventMessages("You already moved!");
+        UnitManager.Instance.ClearMovementOverlay();
+        yield return new WaitForSeconds(1.0f);
+        MovedMessage = false;
         UpdateGameState(GameState.ChooseOption);
     }
 
