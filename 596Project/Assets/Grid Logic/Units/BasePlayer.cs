@@ -234,7 +234,14 @@ public class BasePlayer : BaseUnit
             case 8:
                 CloseAbilitiesMenu();
                 CloseMagicMenu();
+                if(!UnitManager.Instance.hasPerformedAction){
+                GameManager.Instance.UpdateGameState(GameManager.GameState.Stun);
                 Stun();
+                }
+                else {
+                MenuManager.Instance.EventMessages("You already performed an action!");
+                return;
+                }
             break;
         }
     }
@@ -313,6 +320,7 @@ public class BasePlayer : BaseUnit
 
         if(manaPoint > 0) {
                 ShowBaneOverlay();
+                
         }
         else {
             MenuManager.Instance.EventMessages("Not enough mana!");
@@ -361,12 +369,13 @@ public class BasePlayer : BaseUnit
 
     public void HandleBane(BaseEnemy enemy) {
             if(enemy != null && _inBaneRange) {
-            enemy.InflictBane(2);
+            enemy.InflictBane(3);
             ClearBaneOverlay();
             manaPoint--;
             ManaPoints.text = "MP: " + manaPoint;
             UnitManager.Instance.hasPerformedAction = true;
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            BaneIcon.SetActive(true);
 
             }
             else {
@@ -379,10 +388,87 @@ public class BasePlayer : BaseUnit
 
 
  //___________________________________________________________________________________\\
+// Stun BUFF
 
-    void Stun(){
+    public int _stunRange;
+    public GameObject StunIcon;
 
+    void Stun() {
+
+        CloseAbilitiesMenu();
+
+        if( UnitManager.Instance.hasPerformedAction) {
+            MenuManager.Instance.EventMessages("You already performed an action!");
+            return;
+        }
+
+        if(manaPoint > 0) {
+                ShowStunOverlay();
+    
+        }
+        else {
+            MenuManager.Instance.EventMessages("Not enough mana!");
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+  
+        
     }
+    public virtual List<Tile> GetStunTiles()
+    {
+        float tempRange = this.GetStunRange();
+      List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values
+        .Where(t => Vector2.Distance(this.transform.position, t.transform.position)
+         <= tempRange && t._position != OccupiedTile._position).ToList();
+
+        return _inRangeTiles;
+    }
+
+    public int GetStunRange() 
+    { 
+        return _stunRange;
+    }
+
+    public void ShowStunOverlay()
+    {
+
+        ClearStunOverlay();
+        UnitManager.Instance.SetSelectedHero(UnitManager.Instance.Player);
+        foreach (Tile tile in GetStunTiles())
+        {
+            tile.RangeActive();
+        }
+        _inStunRange = true;
+    }
+
+    public void ClearStunOverlay()
+    {
+        foreach (Tile tile in GridManager.Instance._tilesList)
+        {
+            tile.RangeInactive();
+        }
+       
+    }
+
+    public bool _inStunRange;
+
+    public void HandleStun(BaseEnemy enemy) {
+            if(enemy != null && _inStunRange) {
+            enemy.InflictStun(3);
+            ClearStunOverlay();
+            manaPoint--;
+            ManaPoints.text = "MP: " + manaPoint;
+            UnitManager.Instance.hasPerformedAction = true;
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            StunIcon.SetActive(true);
+
+            }
+            else {
+                ClearStunOverlay();
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                
+            }
+
+        }
 
 
     
