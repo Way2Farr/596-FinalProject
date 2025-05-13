@@ -12,9 +12,12 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class UnitManager : MonoBehaviour
 {
-    public GameObject FloatingTextPrefab;
+
     public static UnitManager Instance;
     private List<ScriptableUnit> _units;
+
+    [SerializeField]
+    public BaseUnit[] _setUnits;
 
     public BasePlayer Player;
     public BasePlayer SelectedHero;
@@ -27,8 +30,10 @@ public class UnitManager : MonoBehaviour
     [SerializeField]
     public Tile _startingTile, _endTile;
     public bool _startMoving;
-    public bool hasAttacked = false;
+    public bool hasPerformedAction = false;
     public bool hasMoved = false;
+    public bool hasHealed = false;
+    public bool hasMagic = false;
     public bool endedTurn = false;
     
 
@@ -53,6 +58,8 @@ public class UnitManager : MonoBehaviour
         // Set to spawn one random player for now
         var heroCount = 1;
 
+        
+
         for (int i = 0; i < heroCount; i++)
         {
             var randomPrefab = GetRandomUnit<BasePlayer>(Faction.Hero);
@@ -71,9 +78,42 @@ public class UnitManager : MonoBehaviour
     {
     
         // Set to spawn one random enemy for now
-        var enemyCount = 1;
+        //var enemyCount = 1;
 
-        for (int i = 0; i < enemyCount; i++)
+        if (StatManager.Instance == null || StatManager.Instance._currentRound == 1)
+        {
+            var randomPrefab = GetSpecificUnit<BaseEnemy>(Faction.Enemy, RoundNumber.Round1);
+            var spawnedEnemy = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
+
+            spawnedEnemy.OccupiedTile = randomSpawnTile;
+            randomSpawnTile.SetUnit(spawnedEnemy);
+
+            Enemy = spawnedEnemy;
+        }
+        else if (StatManager.Instance._currentRound == 2)
+        {
+            var randomPrefab = GetSpecificUnit<BaseEnemy>(Faction.Enemy, RoundNumber.Round2);
+            var spawnedEnemy = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
+
+            spawnedEnemy.OccupiedTile = randomSpawnTile;
+            randomSpawnTile.SetUnit(spawnedEnemy);
+
+            Enemy = spawnedEnemy;
+        }
+        else if (StatManager.Instance._currentRound == 3)
+        {
+            var randomPrefab = GetSpecificUnit<BaseEnemy>(Faction.Enemy, RoundNumber.Round3);
+            var spawnedEnemy = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
+
+            spawnedEnemy.OccupiedTile = randomSpawnTile;
+            randomSpawnTile.SetUnit(spawnedEnemy);
+
+            Enemy = spawnedEnemy;
+        }
+        /*for (int i = 0; i < enemyCount; i++)
         {
             var randomPrefab = GetRandomUnit<BaseEnemy>(Faction.Enemy);
             var spawnedEnemy = Instantiate(randomPrefab);
@@ -83,12 +123,17 @@ public class UnitManager : MonoBehaviour
             randomSpawnTile.SetUnit(spawnedEnemy);
 
             Enemy = spawnedEnemy;
-        }
+        }*/
     }
 
     private T GetRandomUnit<T>(Faction Faction) where T : BaseUnit 
     {
         return (T)_units.Where(u => u.Faction == Faction).OrderBy(o => Random.value).First().UnitPrefab;
+    }
+
+    private T GetSpecificUnit<T>(Faction Faction, RoundNumber RoundNumber) where T : BaseUnit
+    {
+        return (T)_units.Where(u => u.RoundNumber == RoundNumber).First().UnitPrefab;
     }
 
 
@@ -125,7 +170,7 @@ public class UnitManager : MonoBehaviour
     {
 
         ClearAttackOverlay();
-        UnitManager.Instance.SetSelectedHero(Player);
+        Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
         foreach (Tile tile in Player.getAttackTiles())
@@ -193,6 +238,7 @@ public class UnitManager : MonoBehaviour
     {
 
         ClearEnemyAttackOverlay();
+        Debug.Log("Display enemy attack overlay");
         //UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
@@ -254,7 +300,6 @@ public class UnitManager : MonoBehaviour
             {
                 Player.stopMoving();
                 
-                GameManager.Instance.TurnManager.Tick(); // new
                 //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
                 MovementFlag();
@@ -278,6 +323,8 @@ public class UnitManager : MonoBehaviour
 
     public void EnemyMoveTile()
     {
+
+
         bool movementFlag = false;
         if (_startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && _startingTile != null && _endTile != null)
         {
@@ -303,7 +350,6 @@ public class UnitManager : MonoBehaviour
             //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Enemy.transform.position.x == _endTile.transform.position.x && Enemy.transform.position.y == _endTile.transform.position.y)
             {
-                GameManager.Instance.TurnManager.Tick(); // new
 
                 _startingTile = null;
                 _endTile = null;
@@ -325,10 +371,13 @@ public class UnitManager : MonoBehaviour
     }
     // ---------------- Animation handlers
 
+    //*
+
     public IEnumerator PlayAttackAnimation(BaseUnit attacker)
     {
         attacker.startAttacking();
-
+        Instance.Player.SpawnSwingParticles();
+        Instance.Player.swingParticlesInstance.Play();
         float attackLength = 2.0f;
 
 
@@ -352,15 +401,21 @@ public class UnitManager : MonoBehaviour
 
         // wait
         yield return new WaitForSeconds(attackLength);
-
+        Instance.Player.swingParticlesInstance.Stop();
         attacker.stopAttacking();
         // switch states
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
 
-        TurnCheck();
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            ClearEnemyAttackOverlay();
+        }
+        
 
     }
 
@@ -397,43 +452,31 @@ public class UnitManager : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
+
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+
         
-        TurnCheck();
     }
 
+    
     //--------------------------------------------------------------------
     public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
 
         
-        int setDamage = Selected._attack - (Enemy._defense / 3);
-        setDamage = Mathf.Max(setDamage,0); // If it goes negative set it to zero
-        Enemy._maxHealth -= setDamage;
-
-        
-        if(FloatingTextPrefab) {
-            ShowFloatingText();
-        }
-
-        if (Enemy._maxHealth <= 0) {
-            Destroy(Enemy.gameObject);
-        }
+        Enemy.OnHurt(Selected._attack);
 
         SetSelectedHero(null);
         AttackFlag();
-
-
-    }
-
-    void ShowFloatingText() {
-        Vector3 offsetPosition = transform.position + new Vector3(0, 1f, 0); // Adjust Y offset as needed
-        Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity,transform);
-        Debug.Log("Instantiated!");
     }
 
     public void AttackFlag() {
 
-        hasAttacked = true;
+        hasPerformedAction = true;
         ClearAttackOverlay();
         Debug.Log("attacked has been flagged!");
         //TurnCheck();
@@ -454,10 +497,13 @@ public class UnitManager : MonoBehaviour
         return;
     }
 
-    if(hasAttacked && hasMoved ) { // Complete Turn
+    if(hasPerformedAction && hasMoved) { // Complete Turn
         
         TurnReset(); 
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        if (!Enemy._defeated)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        }
         return;
     }
 
@@ -465,23 +511,61 @@ public class UnitManager : MonoBehaviour
     
 
     public void TurnReset() {
-        hasAttacked = false;
+        hasPerformedAction = false;
         hasMoved = false;
         endedTurn = false;
+        Instance.Player.CloseAbilitiesMenu();
+        Instance.Player.CloseMagicMenu();
+        CheckMagic();
         GameManager.Instance.TurnManager.Tick();
+
+        if (!Enemy._defeated)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        }
+        
 
     }
 
 
-        
+    public void CheckMagic() {
+        Player.WindedDuration();
+        Enemy.BaneDuration();
+        Enemy.StunDuration();
+    }
 
     public void EnemyChoose() {
 
-
         // if enemy in range then EnemyAttack
+        if (Enemy.PlayerInAttackRange())
+        {
+            Debug.Log(Enemy.getAttackTiles().Count);
+            
 
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyAttack);
+        }
         // else EnemyMove
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        else
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        }
+        
     }
-    
+
+    //----------------ENEMY LOGIC------------------------
+
+    public IEnumerator HandleEnemyAttack(float delay)
+    {
+        ShowEnemyAttackOverlay();
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Enemy attack!");
+        
+        StartCoroutine(PlayAttackAnimation(Enemy));
+        
+        if(Enemy.PlayerInAttackRange())
+        {
+            StartCoroutine(PlayDamagedAnimation(Player));
+            Player.OnHurt(Enemy._attack);
+        }
+    }
 }

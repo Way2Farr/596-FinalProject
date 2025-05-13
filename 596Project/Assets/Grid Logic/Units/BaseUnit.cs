@@ -7,7 +7,8 @@ using System.Linq;
 
 public class BaseUnit : MonoBehaviour
 {
-    
+
+    public int _roundNumber = 1;
     public Tile OccupiedTile;
     public Faction Faction;
     public Animator _unitAnimator;
@@ -40,6 +41,7 @@ public class BaseUnit : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _childTransform = GetComponentInChildren<Transform>();
         _originalChildX = _childTransform.localPosition.x;
+        _currentHealth = _maxHealth;
     }
     public int getMovementRange()
     {
@@ -70,7 +72,7 @@ public class BaseUnit : MonoBehaviour
 
     public virtual List<Tile> getAttackTiles()
     {
-        float tempRange = this.getMovementRange();
+        float tempRange = this.getAttackRange();
         List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && t._position != OccupiedTile._position).ToList();
 
         return _inRangeTiles;

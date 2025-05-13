@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
     public Canvas unitCanvas;
     //___________________________________________________________________________________\\
 
-    
+
     public static MenuManager Instance;
     [SerializeField] private GameObject[] _menu;
 
@@ -36,6 +36,7 @@ public class MenuManager : MonoBehaviour
     {
         Instance = this;
         GameManager.OnStateChange += GameManagerOnOnStateChange;
+        UnitManager.Instance.Player.ManaPoints.text = "MP: 3" ; 
        
     }
     private void OnDestroy()
@@ -82,12 +83,12 @@ public class MenuManager : MonoBehaviour
         return;
     }
 
-    unitHEALTH.text = $"Health: {selectedHero._maxHealth}";
+    unitHEALTH.text = $"Health: {selectedHero._currentHealth}";
     unitATK.text = $"ATK: {selectedHero._attack}";
     unitDEF.text = $"DEF: {selectedHero._defense}";
     unitRAN.text = $"RAN: {selectedHero._movementRange}";
     unitSPD.text = $"SPD: {selectedHero._movementRange}";
-    unitName.text = selectedHero.name;
+    unitName.text = "The Queen";
     unitCanvas.enabled = true;
     }
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
@@ -30,6 +31,9 @@ public class ButtonAddition : MonoBehaviour
     [Header("Slider")]
     [SerializeField] private Slider _slider;
     [SerializeField] private string scene;
+    [SerializeField] private Image blackscreen;
+    [SerializeField] private Animator anim;
+    private bool transitioning = false;
 
     //variables
     public GameObject gameStats;
@@ -78,12 +82,43 @@ public class ButtonAddition : MonoBehaviour
     }
     void Update()
     {
-        if (_slider.value == 1f)//change to Blackscreen fade
+        if ((_slider.value == 1f) && !transitioning)//change to Blackscreen fade
         {
             Debug.Log("SceneLoad");
-            SceneManager.LoadScene(scene);
+            transitioning = true;
+            StartCoroutine(Fade());
         }
     }
+
+    IEnumerator Fade()
+    {
+        anim.SetBool("fade", true);
+
+
+        int currentRound = 1;
+
+        if (StatManager.Instance != null)
+        {
+            currentRound = statManager._currentRound;
+        }
+            
+        yield return new WaitUntil(() => blackscreen.color.a == 1);
+
+        if (currentRound == 2)
+        {
+            SceneManager.LoadScene("Round 2");
+        }
+            
+        else if (currentRound == 3)
+        {
+            SceneManager.LoadScene("Round 3");
+        }
+        else
+        {
+            SceneManager.LoadScene("Title Screen");
+        }
+    }
+
     public void HPAdd()
     {
         if (skillPoints > 0)
