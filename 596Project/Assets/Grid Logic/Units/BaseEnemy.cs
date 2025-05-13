@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -86,4 +87,21 @@ public class BaseEnemy : BaseUnit
         GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
     }
 
+    // ENEMY ATTACK BEHAVIOR
+    public override List<Tile> getAttackTiles()
+    {
+        float tempRange = this.getAttackRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && t._position != OccupiedTile._position).ToList();
+
+        return _inRangeTiles;
+    }
+
+    public bool PlayerInAttackRange()
+    {
+        List<Tile> occupiedTiles = getAttackTiles().Where(t => t._position == UnitManager.Instance.Player.OccupiedTile._position).ToList();
+
+        bool playerInRange = (occupiedTiles.Count > 0);
+        Debug.Log(playerInRange);
+        return playerInRange;
+    }
 }

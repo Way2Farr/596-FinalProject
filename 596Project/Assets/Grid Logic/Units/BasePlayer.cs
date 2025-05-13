@@ -38,7 +38,7 @@ public class BasePlayer : BaseUnit
             Debug.Log("Error at Player.ShowDmgtxt");
         }
 
-        if(_maxHealth <= 0) {
+        if(_currentHealth <= 0) {
             IsDead();
         } 
     }
@@ -109,6 +109,7 @@ public class BasePlayer : BaseUnit
     }
 
     void IsDead(){
+        GameManager.Instance.UpdateGameState(GameManager.GameState.Lose);
         //Destroy(gameObject);
     }   
 
