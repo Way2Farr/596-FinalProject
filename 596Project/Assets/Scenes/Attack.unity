@@ -1048,7 +1048,7 @@ MonoBehaviour:
   Player: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
   SelectedHero: {fileID: 0}
   Enemy: {fileID: 3142974059691096174, guid: d17609a1904544f46ab946e9254c83bd, type: 3}
-  MoveSpeed: 0.075
+  MoveSpeed: 0.98
   _startingTile: {fileID: 0}
   _endTile: {fileID: 0}
   _startMoving: 0
