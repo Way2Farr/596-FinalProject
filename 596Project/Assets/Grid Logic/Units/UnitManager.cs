@@ -471,6 +471,8 @@ public class UnitManager : MonoBehaviour
         hasPerformedAction = false;
         hasMoved = false;
         endedTurn = false;
+        Instance.Player.CloseAbilitiesMenu();
+        Instance.Player.CloseMagicMenu();
         CheckMagic();
         GameManager.Instance.TurnManager.Tick();
 
