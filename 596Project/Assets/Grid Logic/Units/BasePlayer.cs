@@ -79,7 +79,6 @@ public class BasePlayer : BaseUnit
             }
 
             Destroy(healTextPro, 1.5f);
-            healthParticlesInstance.Stop();
         } 
 
     public void PlayerHeal() {
