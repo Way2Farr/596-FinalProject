@@ -1,8 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class VictoryScreen : MonoBehaviour
 {
+
+    // transition
+    [SerializeField] private Image blackscreen;
+    [SerializeField] private Animator anim;
 
     public static VictoryScreen Instance;
 
@@ -48,6 +55,13 @@ public class VictoryScreen : MonoBehaviour
 
     public void LoadShopScene()
     {
+        StartCoroutine(Fade());
+    }
+
+    IEnumerator Fade()
+    {
+        anim.SetBool("fade", true);
+        yield return new WaitUntil(() => blackscreen.color.a == 1);
         SceneManager.LoadScene("Shop (Nick)");
     }
 }
