@@ -18,11 +18,14 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float zoomIn = 20f;
     [SerializeField]
-    private float moveAdjust = 0.5f;
+    private float moveAdjust = 1.5f;
     [SerializeField]
     private float lerpSpeed;
-
+    private bool victory = false;
+    private bool menu = false;
     private bool playerMoving = false;
+    private bool enemyTurn = false;
+
     //private bool enemyMoving = false;
 
     private void Awake() {
