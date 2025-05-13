@@ -279,6 +279,8 @@ public class UnitManager : MonoBehaviour
 
     public void EnemyMoveTile()
     {
+
+
         bool movementFlag = false;
         if (_startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && _startingTile != null && _endTile != null)
         {
@@ -470,10 +472,10 @@ public class UnitManager : MonoBehaviour
     public void CheckMagic() {
         Player.WindedDuration();
         Enemy.BaneDuration();
+        Enemy.StunDuration();
     }
 
     public void EnemyChoose() {
-
 
         // if enemy in range then EnemyAttack
 

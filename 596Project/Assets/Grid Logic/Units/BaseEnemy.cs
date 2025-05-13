@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class BaseEnemy : BaseUnit
 {
@@ -10,6 +11,8 @@ public class BaseEnemy : BaseUnit
     public GameObject BaneIcon;
 
     public bool _defeated = false;
+    public GameObject StunIcon;
+
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
 
     public virtual void OnHurt(int attackDamage) {
@@ -50,11 +53,37 @@ public class BaseEnemy : BaseUnit
             if(enemyBaneDuration == 0) {
                 _defense = originalDefense;
                 BaneIcon.SetActive(false);
+                UnitManager.Instance.Player.BaneIcon.SetActive(false);
             }
         }
     }
 
 
+//_________________________
+
+    int enemyStunDuration;
+
+    public bool isStunned = false;
+    public virtual void InflictStun(int duration) {
+
+        if (enemyStunDuration <= duration) {
+            enemyStunDuration = duration;
+            StunIcon.SetActive(true);
+            isStunned = true;
+        }
+    }
+
+    public void StunDuration() {
+        if(enemyStunDuration > 0) {
+            enemyStunDuration--;
+
+            if(enemyStunDuration == 0) {
+                isStunned = false;
+                StunIcon.SetActive(false);
+                UnitManager.Instance.Player.StunIcon.SetActive(false);
+            }
+        }
+    }
     void ShowDmgTxt(int damage) {
         Vector3 offsetPos = transform.position + damageOffsetPos;
         GameObject damageTextPro = Instantiate(DamageTextPrefab, offsetPos, Quaternion.identity, transform);
@@ -85,5 +114,7 @@ public class BaseEnemy : BaseUnit
         yield return new WaitForSeconds(delayTime);
         GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
     }
+
+
 
 }
