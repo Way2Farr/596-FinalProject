@@ -41,7 +41,20 @@ public class GameManager : MonoBehaviour
 //------------
         TurnManager = new TurnManager();
 
+        if (StatManager.Instance != null)
+        {
+            if (StatManager.Instance._currentRound != 1)
+            {
+                UnitManager.Instance.Player._attack = StatManager.Instance._attack;
+                UnitManager.Instance.Player._maxHealth = StatManager.Instance._maxHealth;
+                UnitManager.Instance.Player._defense = StatManager.Instance._defense;
+                UnitManager.Instance.Player._attackRange = StatManager.Instance._attackRange;
+                UnitManager.Instance.Player._movementRange = StatManager.Instance._movementRange;
+                UnitManager.Instance.Player._attackRange = StatManager.Instance._attackRange;
+            }
+        }
     }
+
     public void UpdateGameState(GameState newState)
     {
 
