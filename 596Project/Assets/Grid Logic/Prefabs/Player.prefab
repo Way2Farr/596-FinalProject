@@ -174,7 +174,6 @@ MonoBehaviour:
   _attackRange: 447
   _manaPoint: 3
   _currentHealth: 50
-  _originalMana: 3
   _name: The Queen
   _attackFX: {fileID: 8300000, guid: a46e3c06c5292f34088d63940a479256, type: 3}
   _moveFX: {fileID: 8300000, guid: 82d03f9d6cbe4f1419f3a282d688ea43, type: 3}
@@ -193,7 +192,6 @@ MonoBehaviour:
   - {fileID: 2183715919119110067}
   - {fileID: 1195265969951882325}
   - {fileID: 6773397430238764789}
-  manaPoint: 3
   WindedIcon: {fileID: 2657443489412358330}
   ManaPoints: {fileID: 946055132939054136}
   _baneRange: 20
@@ -261,7 +259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862909812082286108, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
       propertyPath: m_text
-      value: 'MP: 3'
+      value: 'MP: '
       objectReference: {fileID: 0}
     - target: {fileID: 8516248056085324451, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
       propertyPath: m_SortingOrder

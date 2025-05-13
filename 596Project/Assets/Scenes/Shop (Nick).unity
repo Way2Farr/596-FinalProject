@@ -3425,7 +3425,7 @@ MonoBehaviour:
   currentHp: 10
   currentDef: 10
   currentAtk: 10
-  currentMp: 10
+  currentMp: 30
   currentARange: 10
   currentMRange: 10
   skillPoints: 6

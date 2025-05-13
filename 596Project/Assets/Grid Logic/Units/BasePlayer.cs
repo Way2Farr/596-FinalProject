@@ -20,9 +20,12 @@ public class BasePlayer : BaseUnit
     void Start()
     {
      _currentHealth = _maxHealth;
-     ManaPoints.text = "MP: " + StatManager.Instance._manaPoint; 
+     ManaPoints.text = "MP: " + UnitManager.Instance.Player._manaPoint; 
     }
 
+    void Update() {
+        _manaPoint = StatManager.Instance._manaPoint;
+    }
     //___________________________________________________________________________________\\
     // DAMAGE FUNCTION
     public virtual void OnHurt(int attackDamage) {
