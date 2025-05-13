@@ -822,6 +822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
+  MovedMessage: 0
   _playerMoveSound: {fileID: 8300000, guid: 90e38e146917d2d4390eccdf0529d7fd, type: 3}
   _menuMoveSound: {fileID: 8300000, guid: bf9b221977a639d4a9fb109ff3f9729c, type: 3}
   _menuFightSound: {fileID: 8300000, guid: bf9b221977a639d4a9fb109ff3f9729c, type: 3}
@@ -1047,7 +1048,7 @@ MonoBehaviour:
   Player: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
   SelectedHero: {fileID: 0}
   Enemy: {fileID: 3142974059691096174, guid: d17609a1904544f46ab946e9254c83bd, type: 3}
-  MoveSpeed: 0.16
+  MoveSpeed: 0.075
   _startingTile: {fileID: 0}
   _endTile: {fileID: 0}
   _startMoving: 0
