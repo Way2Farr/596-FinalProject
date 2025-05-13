@@ -36,6 +36,7 @@ public class MenuManager : MonoBehaviour
     {
         Instance = this;
         GameManager.OnStateChange += GameManagerOnOnStateChange;
+        UnitManager.Instance.Player.ManaPoints.text = "MP: 3" ; 
        
     }
     private void OnDestroy()

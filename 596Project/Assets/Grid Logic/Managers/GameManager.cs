@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
             }
                 break;
 
+            case GameState.PlayerAttack:
             if(UnitManager.Instance.Player != null) {
                 UnitManager.Instance.Player.CloseAbilitiesMenu();
             }
@@ -82,6 +83,7 @@ public class GameManager : MonoBehaviour
                     UnitManager.Instance.ShowAttackOverlay();
                 }    
                 break;
+
             case GameState.EnemyChoose:
                 UnitManager.Instance.EnemyChoose();
                 break;
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour
         switch (setState)
         {
             case 0:
+
                 if(!UnitManager.Instance.hasPerformedAction) {
                 UnitManager.Instance.Player.OpenAbilities(GameState.ChooseOption);
                 }
@@ -124,6 +127,13 @@ public class GameManager : MonoBehaviour
             case 2:
                 UpdateGameState(GameState.Flee);
                 SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
+                //SceneManager.LoadScene("Shop (Nick)");
+                UnitManager.Instance.endedTurn = true;
+                UnitManager.Instance.TurnCheck();
+                break;
+
+            case 99:
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
                 SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
@@ -134,19 +144,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void MoveLogic()
-    {
-
-    }
-
     private void SpawnPlayerUnits()
     {
         
         GameManager.Instance.UpdateGameState(GameState.ChooseOption);
-    }
-    private void HandlePlayerMove()
-    {
-        throw new NotImplementedException();
     }
 
     public enum GameState

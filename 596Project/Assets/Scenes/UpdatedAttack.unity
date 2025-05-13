@@ -632,6 +632,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
+  _playerMoveSound: {fileID: 8300000, guid: 90e38e146917d2d4390eccdf0529d7fd, type: 3}
+  _menuMoveSound: {fileID: 8300000, guid: dd1f7a1235c28d843b46b473bb2e1200, type: 3}
+  _menuFightSound: {fileID: 8300000, guid: dbc33dfd8fb9edc4ebc98eb6822e25e6, type: 3}
+  _menuEndSound: {fileID: 8300000, guid: 8bfc2a125186fd64b8b26b4c3f7527ef, type: 3}
 --- !u!4 &395727188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1795449594348612936, guid: 47dc9cbac36ff7842b34a9a04d584d9f, type: 3}
@@ -714,16 +718,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ced066fe965dd4e8a31dff376405db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
+  Player: {fileID: 8500416343475107365, guid: df393270398ecaa408eccc889d479b94, type: 3}
   SelectedHero: {fileID: 0}
-  Enemy: {fileID: 3142974059691096174, guid: 40b3336f9b5ae4744aa239866c0e96eb, type: 3}
+  Enemy: {fileID: 3142974059691096174, guid: befa187952cdbfb438bcaa36c48e61f6, type: 3}
   MoveSpeed: 0.1
   _startingTile: {fileID: 0}
   _endTile: {fileID: 0}
   _startMoving: 0
-  hasAttacked: 0
+  hasPerformedAction: 0
   hasMoved: 0
   hasHealed: 0
+  hasMagic: 0
   endedTurn: 0
 --- !u!1 &525257530
 GameObject:
@@ -2535,8 +2540,16 @@ PrefabInstance:
       value: 'Current Turn: 0'
       objectReference: {fileID: 0}
     - target: {fileID: 3092902867639037188, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
+      propertyPath: m_Name
+      value: EndTurn
+      objectReference: {fileID: 0}
+    - target: {fileID: 3092902867639037188, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209208088093468808, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
+      propertyPath: m_Name
+      value: End Turn Text
       objectReference: {fileID: 0}
     - target: {fileID: 4209208088093468808, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_IsActive

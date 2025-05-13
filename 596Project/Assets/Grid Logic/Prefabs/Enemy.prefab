@@ -370,7 +370,11 @@ MonoBehaviour:
   Faction: 1
   _unitAnimator: {fileID: 0}
   _spriteRenderer: {fileID: 0}
-  healthbarCanvas: {fileID: 0}
+  _childTransform: {fileID: 0}
+  _animOffset: 0
+  _doOffset: 0
+  _originalChildX: 0
+  healthbar: {fileID: 0}
   _maxHealth: 50
   _attack: 10
   _defense: 10
@@ -380,4 +384,3 @@ MonoBehaviour:
   _name: 
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
   BaneIcon: {fileID: 3494569104423193815}
-  baneDuration: 0

@@ -193,7 +193,11 @@ MonoBehaviour:
   Faction: 1
   _unitAnimator: {fileID: 0}
   _spriteRenderer: {fileID: 0}
-  healthbarCanvas: {fileID: 0}
+  _childTransform: {fileID: 0}
+  _animOffset: 0
+  _doOffset: 0
+  _originalChildX: 0
+  healthbar: {fileID: 0}
   _maxHealth: 50
   _attack: 10
   _defense: 10

@@ -140,12 +140,14 @@ public class BasePlayer : BaseUnit
 
     
     public virtual void OpenAbilities(GameManager.GameState state) {
-
+        Debug.Log("WHAT STATE AM I" + GameManager.Instance.State);
+        Debug.Log("Abilities array length: " + _abilities.Length);
         if(state == GameManager.GameState.ChooseOption ){
+
             foreach(GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(true);
-                
+                Debug.Log("Opening Ability Panel!");
             } 
         }
         else

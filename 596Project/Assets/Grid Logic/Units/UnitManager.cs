@@ -12,7 +12,7 @@ using static UnityEngine.UI.CanvasScaler;
 
 public class UnitManager : MonoBehaviour
 {
-    public GameObject FloatingTextPrefab;
+
     public static UnitManager Instance;
     private List<ScriptableUnit> _units;
 
@@ -127,7 +127,7 @@ public class UnitManager : MonoBehaviour
     {
 
         ClearAttackOverlay();
-        UnitManager.Instance.SetSelectedHero(Player);
+        Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
         foreach (Tile tile in Player.getAttackTiles())
@@ -256,7 +256,6 @@ public class UnitManager : MonoBehaviour
             {
                 Player.stopMoving();
                 
-                GameManager.Instance.TurnManager.Tick(); // new
                 //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
                 _startMoving = false;
                 MovementFlag();
@@ -305,7 +304,6 @@ public class UnitManager : MonoBehaviour
             //Debug.Log(Vector3.Distance(Player.transform.position, _endTile.transform.position));
             if (Enemy.transform.position.x == _endTile.transform.position.x && Enemy.transform.position.y == _endTile.transform.position.y)
             {
-                GameManager.Instance.TurnManager.Tick(); // new
 
                 _startingTile = null;
                 _endTile = null;
@@ -326,6 +324,8 @@ public class UnitManager : MonoBehaviour
         }
     }
     // ---------------- Animation handlers
+
+    //*
 
     public IEnumerator PlayAttackAnimation(BaseUnit attacker)
     {
@@ -404,33 +404,15 @@ public class UnitManager : MonoBehaviour
         TurnCheck();
     }
 
+    
     //--------------------------------------------------------------------
     public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
 
         
-        int setDamage = Selected._attack - (Enemy._defense / 3);
-        setDamage = Mathf.Max(setDamage,0); // If it goes negative set it to zero
-        Enemy._maxHealth -= setDamage;
-
-        
-        if(FloatingTextPrefab) {
-            ShowFloatingText();
-        }
-
-        if (Enemy._maxHealth <= 0) {
-            Destroy(Enemy.gameObject);
-        }
+        Enemy.OnHurt(Selected._attack);
 
         SetSelectedHero(null);
         AttackFlag();
-
-
-    }
-
-    void ShowFloatingText() {
-        Vector3 offsetPosition = transform.position + new Vector3(0, 1f, 0); // Adjust Y offset as needed
-        Instantiate(FloatingTextPrefab, transform.position, Quaternion.identity,transform);
-        Debug.Log("Instantiated!");
     }
 
     public void AttackFlag() {
@@ -472,6 +454,7 @@ public class UnitManager : MonoBehaviour
         endedTurn = false;
         CheckMagic();
         GameManager.Instance.TurnManager.Tick();
+        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
 
     }
 
