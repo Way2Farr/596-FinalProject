@@ -56,6 +56,25 @@ public class BaseEnemy : BaseUnit
     }
 
 
+//_________________________
+
+    int enemyStunDuration;
+    int fakevar;
+    int fakevar2;
+    public bool isStunned = false;
+    public virtual void InflictStun(int duration) {
+
+        if (enemyStunDuration <= duration) {
+            enemyStunDuration = duration;
+            StunIcon.SetActive(true);
+            isStunned = true;
+        }
+    }
+
+    public void StunDuration() {
+        if(enemyStunDuration > 0) {
+            enemyStunDuration--;
+
     void ShowDmgTxt(int damage) {
         Vector3 offsetPos = transform.position + damageOffsetPos;
         GameObject damageTextPro = Instantiate(DamageTextPrefab, offsetPos, Quaternion.identity, transform);
