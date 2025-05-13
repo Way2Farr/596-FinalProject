@@ -95,11 +95,11 @@ public class VictoryScreen : MonoBehaviour
         }
         
     }
-
+        
     IEnumerator TitleFade()
     {
         anim.SetBool("fade", true);
         yield return new WaitUntil(() => blackscreen.color.a == 1);
-        SceneManager.LoadScene("Shop (Nick)");
+        SceneManager.LoadScene("Title Screen");
     }
 }

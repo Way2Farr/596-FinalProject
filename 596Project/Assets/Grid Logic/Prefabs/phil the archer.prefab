@@ -194,7 +194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6560191903133151019}
-  - component: {fileID: 3142974059691096174}
+  - component: {fileID: 1649581632051525853}
   m_Layer: 0
   m_Name: phil the archer
   m_TagString: Enemy
@@ -219,7 +219,7 @@ Transform:
   - {fileID: 102015058405339851}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
---- !u!114 &3142974059691096174
+--- !u!114 &1649581632051525853
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -228,12 +228,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7798639546016059439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 216341f9c2cbac041b15e33798f35597, type: 3}
+  m_Script: {fileID: 11500000, guid: 749231e816d6565488d7204c87b5c9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _roundNumber: 1
   OccupiedTile: {fileID: 0}
-  Faction: 1
+  Faction: 0
   _unitAnimator: {fileID: 0}
   _spriteRenderer: {fileID: 0}
   _childTransform: {fileID: 0}
