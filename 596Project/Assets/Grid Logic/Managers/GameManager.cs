@@ -90,7 +90,6 @@ public class GameManager : MonoBehaviour
 
             case GameState.EnemyChoose:
                 if(UnitManager.Instance.Enemy.isStunned) {
-                    //
                     Debug.Log("Enemy is stunned!");
                     StartCoroutine(HandleStunned());
                   }
