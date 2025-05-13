@@ -2922,6 +2922,10 @@ PrefabInstance:
       propertyPath: _cam
       value: 
       objectReference: {fileID: 612221373}
+    - target: {fileID: 4081500798242508903, guid: f67ae38858582764eae0ba2c300166f2, type: 3}
+      propertyPath: zoomOut
+      value: 65
+      objectReference: {fileID: 0}
     - target: {fileID: 4441866558770284812, guid: f67ae38858582764eae0ba2c300166f2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.62489
@@ -3130,6 +3134,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2083132559}
     m_Modifications:
+    - target: {fileID: 9170460099133545073, guid: f71c2f5eb2ab0da4988e82ac2751fb04, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 1795449594348612936, guid: 47dc9cbac36ff7842b34a9a04d584d9f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1042.77
@@ -3173,10 +3181,6 @@ PrefabInstance:
     - target: {fileID: 5606493334640250392, guid: 47dc9cbac36ff7842b34a9a04d584d9f, type: 3}
       propertyPath: m_Name
       value: Tree (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 9170460099133545073, guid: f71c2f5eb2ab0da4988e82ac2751fb04, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
