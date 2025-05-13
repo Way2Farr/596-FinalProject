@@ -1,10 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using TMPro;
+using Unity.VisualScripting;
 
 public class BasePlayer : BaseUnit
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public GameObject DamageTextPrefab;
+    public GameObject HealTextPrefab;
+
+    [SerializeField]public int healthFlask = 1;
+    [SerializeField]public int healAmount = 5;
+
+    private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
+    private static readonly Vector3 healOffsetPos = new Vector3(0,1,0);
+
+
     void Start()
     {
      _currentHealth = _maxHealth;
@@ -149,10 +161,7 @@ public class BasePlayer : BaseUnit
 {
     foreach (GameObject abilityPanel in _abilities)
     {
-        float tempRange = this.getAttackRange() / 10;
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Mathf.Abs(t._position.x - this.OccupiedTile._position.x) <= tempRange && Mathf.Abs(t._position.y - this.OccupiedTile._position.y) <= tempRange && !(t.OccupiedUnit == UnitManager.Instance.Player)).ToList();
-
-        return _inRangeTiles;
+        abilityPanel.SetActive(false);
     }
     Debug.Log("Abilities menu closed.");
 }

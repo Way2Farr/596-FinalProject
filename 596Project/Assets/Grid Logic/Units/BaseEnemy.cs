@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class BaseEnemy : BaseUnit
@@ -57,16 +59,18 @@ public class BaseEnemy : BaseUnit
         damageTextPro.transform.rotation = Quaternion.Euler(-90,0,0);
         TMP_Text textC = damageTextPro.GetComponentInChildren<TMP_Text>();
         
+        if (textC != null) {
+            textC.text = damage.ToString();
+        }
+        else {
+            Debug.Log("Error with Tmp_Text");
+        }
+
+        Destroy(damageTextPro, 1.5f);
+    } 
+
+    void IsDead(){
+        Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    /*public override List<Tile> getMovementTiles()
-    {
-        return base.getMovementTiles();
-    }*/
 }
