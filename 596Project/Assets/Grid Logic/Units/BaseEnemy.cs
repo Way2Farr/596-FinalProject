@@ -62,7 +62,7 @@ public class BaseEnemy : BaseUnit
 //_________________________
 
     int enemyStunDuration;
-
+    int fakevar;
     public bool isStunned = false;
     public virtual void InflictStun(int duration) {
 
