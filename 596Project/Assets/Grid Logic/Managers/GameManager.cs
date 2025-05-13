@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
 
     public static event Action<GameState> OnStateChange;
 
-    public bool movedMessage = false;
-
     //--------------
     [SerializeField]
 
@@ -59,7 +57,8 @@ public class GameManager : MonoBehaviour
                 
             case GameState.PlayerMove:
             if (UnitManager.Instance.hasMoved) {
-                StartCoroutine(AlreadyMoved());
+                MenuManager.Instance.EventMessages("You already moved!");
+                UnitManager.Instance.ClearMovementOverlay();
                 return;
             }
 
@@ -155,15 +154,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator HandleStunned() {
         yield return new WaitForSeconds(1.0f);
         UpdateGameState(GameState.ChooseOption);
-    }
-
-    private IEnumerator AlreadyMoved() {
-        movedMessage = true;
-        MenuManager.Instance.EventMessages("You already moved!");
-        UnitManager.Instance.ClearMovementOverlay();
-        yield return new WaitForSeconds(1f);
-        UpdateGameState(GameState.ChooseOption);
-        movedMessage = false;
     }
 
     private void SpawnPlayerUnits()
