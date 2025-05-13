@@ -13,6 +13,7 @@ public class BaseUnit : MonoBehaviour
     public Animator _unitAnimator;
     public SpriteRenderer _spriteRenderer;
     public Transform _childTransform;
+    public Slider healthbar;
     static readonly int IsIdle = Animator.StringToHash("IsIdle");
     static readonly int IsMoving = Animator.StringToHash("IsMoving");
     static readonly int IsAttacking = Animator.StringToHash("IsAttacking");
@@ -23,10 +24,6 @@ public class BaseUnit : MonoBehaviour
     public bool _doOffset = false;
     public float _originalChildX;
     [Header("UI Elements")]
-    //public Canvas healthbarCanvas;
-
-    [SerializeField]
-    private Slider healthbar;
 
     [SerializeField]
     public int _maxHealth, _attack, _defense, _movementRange, _attackRange;
@@ -40,6 +37,7 @@ public class BaseUnit : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _childTransform = GetComponentInChildren<Transform>();
         _originalChildX = _childTransform.localPosition.x;
+        healthbar = GetComponentInChildren<Slider>();
     }
     public int getMovementRange()
     {
@@ -120,4 +118,7 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsDamaged, false);
     }
 
+    void Update() {
+        healthbar.value = (float)_currentHealth / _maxHealth;
+    }
 }
