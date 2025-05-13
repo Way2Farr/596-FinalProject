@@ -88,7 +88,7 @@ public class MenuManager : MonoBehaviour
     unitDEF.text = $"DEF: {selectedHero._defense}";
     unitRAN.text = $"RAN: {selectedHero._movementRange}";
     unitSPD.text = $"SPD: {selectedHero._movementRange}";
-    unitName.text = selectedHero.name;
+    unitName.text = "The Queen";
     unitCanvas.enabled = true;
     }
 

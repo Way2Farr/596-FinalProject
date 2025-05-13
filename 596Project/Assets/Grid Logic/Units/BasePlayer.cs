@@ -41,7 +41,7 @@ public class BasePlayer : BaseUnit
             Debug.Log("Error at Player.ShowDmgtxt");
         }
 
-        if(_maxHealth <= 0) {
+        if(_currentHealth <= 0) {
             IsDead();
         } 
     }
@@ -115,6 +115,8 @@ public class BasePlayer : BaseUnit
 
     void IsDead(){
         //Destroy(gameObject);
+        GameManager.Instance.UpdateGameState(GameManager.GameState.Lose);
+        VictoryScreen.Instance.StartLossScreen();
     }   
 
     // Rook behavior (can use later)
