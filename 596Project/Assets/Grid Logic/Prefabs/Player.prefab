@@ -259,7 +259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862909812082286108, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
       propertyPath: m_text
-      value: 'MP: '
+      value: 'MP: 0'
       objectReference: {fileID: 0}
     - target: {fileID: 8516248056085324451, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
       propertyPath: m_SortingOrder
