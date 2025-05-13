@@ -83,7 +83,7 @@ public class MenuManager : MonoBehaviour
         return;
     }
 
-    unitHEALTH.text = $"Health: {selectedHero._maxHealth}";
+    unitHEALTH.text = $"Health: {selectedHero._currentHealth}";
     unitATK.text = $"ATK: {selectedHero._attack}";
     unitDEF.text = $"DEF: {selectedHero._defense}";
     unitRAN.text = $"RAN: {selectedHero._movementRange}";

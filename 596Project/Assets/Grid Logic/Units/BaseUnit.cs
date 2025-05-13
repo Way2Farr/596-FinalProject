@@ -40,6 +40,7 @@ public class BaseUnit : MonoBehaviour
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         _childTransform = GetComponentInChildren<Transform>();
         _originalChildX = _childTransform.localPosition.x;
+        _currentHealth = _maxHealth;
     }
     public int getMovementRange()
     {

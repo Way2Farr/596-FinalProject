@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System.Collections;
+
 
 public class BaseEnemy : BaseUnit
 {
