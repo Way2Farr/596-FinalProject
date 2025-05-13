@@ -48,4 +48,7 @@ MonoBehaviour:
   _camYOffset: -33
   _camZOffset: -39
   _camRotationOffset: -52.5
+  zoomOut: 55
+  zoomIn: 30
+  moveAdjust: 1.25
   lerpSpeed: 2

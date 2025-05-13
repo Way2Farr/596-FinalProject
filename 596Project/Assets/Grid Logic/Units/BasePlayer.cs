@@ -7,6 +7,7 @@ using Unity.VisualScripting;
 public class BasePlayer : BaseUnit
 {
 
+    public bool MenuShow = false;
     public GameObject DamageTextPrefab;
     public GameObject HealTextPrefab;
 
@@ -148,6 +149,7 @@ public class BasePlayer : BaseUnit
             foreach(GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(true);
+                MenuShow = true;
                 Debug.Log("Opening Ability Panel!");
             } 
         }
@@ -157,6 +159,7 @@ public class BasePlayer : BaseUnit
             foreach (GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(false);
+                MenuShow = false;
             }
         }
     }
@@ -165,6 +168,7 @@ public class BasePlayer : BaseUnit
     foreach (GameObject abilityPanel in _abilities)
     {
         abilityPanel.SetActive(false);
+        MenuShow = false;
     }
     Debug.Log("Abilities menu closed.");
 }
@@ -179,7 +183,7 @@ public class BasePlayer : BaseUnit
             foreach(GameObject magicPanel in _magic)
             {
                 magicPanel.SetActive(true);
-                
+                MenuShow = true;
             } 
         }
         else {
@@ -193,6 +197,7 @@ public class BasePlayer : BaseUnit
     foreach (GameObject magicPanel in _magic)
     {
         magicPanel.SetActive(false);
+        MenuShow = false;
     }
     Debug.Log("Magic menu closed.");
 }
