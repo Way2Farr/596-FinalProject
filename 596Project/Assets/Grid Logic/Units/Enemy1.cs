@@ -23,7 +23,7 @@ public class Enemy1 : BaseEnemy
 
         return _inRangeTiles;
     }
-    
+
     public override List<Tile> getAttackTiles()
     {
         float tempRange = this.getAttackRange();

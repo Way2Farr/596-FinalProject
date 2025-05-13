@@ -119,10 +119,13 @@ public class BaseEnemy : BaseUnit
     }
 
 
+    // --------- HANDLE ENEMY BEHAVIOR --------------
+
+    
 
     public bool PlayerInAttackRange()
     {
-        return true;
+        //return true;
 
         List<Tile> _playerTiles = this.getAttackTiles().Where(t => t._position == UnitManager.Instance.Player.OccupiedTile._position).ToList();
 

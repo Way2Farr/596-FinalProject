@@ -195,6 +195,7 @@ public class UnitManager : MonoBehaviour
     {
 
         ClearEnemyAttackOverlay();
+        Debug.Log("Display enemy attack overlay");
         //UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
@@ -492,7 +493,9 @@ public class UnitManager : MonoBehaviour
         // if enemy in range then EnemyAttack
         if (Enemy.PlayerInAttackRange())
         {
-            ShowEnemyAttackOverlay();
+            Debug.Log(Enemy.getAttackTiles().Count);
+            
+
             GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyAttack);
         }
         // else EnemyMove
@@ -507,6 +510,7 @@ public class UnitManager : MonoBehaviour
 
     public IEnumerator HandleEnemyAttack(float delay)
     {
+        ShowEnemyAttackOverlay();
         yield return new WaitForSeconds(delay);
         Debug.Log("Enemy attack!");
         
