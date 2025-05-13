@@ -35,6 +35,9 @@ public class BaseUnit : MonoBehaviour
 
     [SerializeField]
     private string _name;
+
+    [SerializeField]
+    public AudioClip _attackFX, _moveFX, _damageFX;
     public void Awake()
     {
         _unitAnimator = GetComponentInChildren<Animator>();
@@ -83,6 +86,12 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsIdle, false);
         _unitAnimator.SetBool(IsMoving, true);
 
+
+        if(GameObject.FindGameObjectsWithTag("Sound").Length <= 2)
+        {
+            SoundFXManager.Instance.PlayClip(_moveFX, this.transform, 0.1f);
+        }
+        
         if(_doOffset)
         {
             _childTransform.localPosition = new Vector3(_originalChildX + _animOffset, _childTransform.localPosition.y, _childTransform.localPosition.x);

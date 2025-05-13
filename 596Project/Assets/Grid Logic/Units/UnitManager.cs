@@ -399,6 +399,7 @@ public class UnitManager : MonoBehaviour
             }
         }
 
+        StartCoroutine(DelaySoundFX(attacker, attackLength - attackLength * 5.0f/6.0f));
         // wait
         yield return new WaitForSeconds(attackLength);
         Instance.Player.swingParticlesInstance.Stop();
@@ -419,6 +420,12 @@ public class UnitManager : MonoBehaviour
 
     }
 
+    public IEnumerator DelaySoundFX (BaseUnit unit, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        SoundFXManager.Instance.PlayClip(unit._attackFX, this.transform, 0.1f);
+    }
     public IEnumerator PlayDamagedAnimation(BaseUnit defender)
     {
         defender.startDamaging();
@@ -466,6 +473,7 @@ public class UnitManager : MonoBehaviour
     
     //--------------------------------------------------------------------
     public void HandleAttack(BasePlayer Selected, BaseEnemy Enemy) {
+
 
         
         Enemy.OnHurt(Selected._attack);

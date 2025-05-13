@@ -248,6 +248,9 @@ MonoBehaviour:
   _attackRange: 20
   _currentHealth: 50
   _name: 
+  _attackFX: {fileID: 8300000, guid: 00d4aba60eff93047ae7938ab70dde38, type: 3}
+  _moveFX: {fileID: 8300000, guid: 4c9b69a7451ee2c45a744f7a60c9d20f, type: 3}
+  _damageFX: {fileID: 0}
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
   BaneIcon: {fileID: 4991782244009639410}
   _defeated: 0
