@@ -45,6 +45,7 @@ public class StatManager : MonoBehaviour
     // Update is called once per frame
     public void IncreaseStats (int health, int attack, int defense, int movementRange, int attackRange)
     {
+        _currentRound++;
         _maxHealth = health;
         _attack = attack;
         _defense = defense;

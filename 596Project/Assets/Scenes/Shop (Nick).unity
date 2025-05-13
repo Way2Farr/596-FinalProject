@@ -131,6 +131,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlackScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 3398208067014972465, guid: 5d1dd6d35c5f094479c9ca9455b8b659, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4513484786659873534, guid: 5d1dd6d35c5f094479c9ca9455b8b659, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -360,6 +364,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 48693801}
   m_CullTransparentMesh: 1
+--- !u!1 &53093877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 53093879}
+  - component: {fileID: 53093878}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &53093878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53093877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e6175f15cce9ca4c86660ae34bd6383, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sliderOne: {fileID: 87003701}
+  _sliderTwo: {fileID: 952659930}
+  _slider: {fileID: 87003701}
+  _rateOfIncrease: 3
+  nextButton: {fileID: 2132838653}
+--- !u!4 &53093879
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53093877}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &81938848
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +573,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2843,7 +2896,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.489
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2972,7 +3025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.058307886, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3091,7 +3144,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 24489171}
+  - {fileID: 87003700}
+  - {fileID: 952659929}
   - {fileID: 675602476}
   - {fileID: 239269305}
   - {fileID: 2132838652}
@@ -3104,6 +3158,7 @@ RectTransform:
   - {fileID: 568861296}
   - {fileID: 1634429974}
   - {fileID: 48693802}
+  - {fileID: 24489171}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3244,6 +3299,10 @@ MonoBehaviour:
   stageOne: {fileID: 81938850}
   stageTwo: {fileID: 991059065}
   stageThree: {fileID: 458877317}
+  _slider: {fileID: 87003701}
+  scene: NextLevel
+  gameStats: {fileID: 0}
+  statManager: {fileID: 0}
   currentHp: 10
   currentDef: 10
   currentAtk: 10
@@ -3260,7 +3319,7 @@ Transform:
   m_GameObject: {fileID: 1131761928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 905.4241, y: 439.67267, z: -6.0828915}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3758,6 +3817,10 @@ PrefabInstance:
     - target: {fileID: 9170460099133545073, guid: f71c2f5eb2ab0da4988e82ac2751fb04, type: 3}
       propertyPath: m_Name
       value: DataCarry
+      objectReference: {fileID: 0}
+    - target: {fileID: 9170460099133545073, guid: f71c2f5eb2ab0da4988e82ac2751fb04, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5351,3 +5414,4 @@ SceneRoots:
   - {fileID: 1333857068}
   - {fileID: 1131761930}
   - {fileID: 1331507038}
+  - {fileID: 53093879}
