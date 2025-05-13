@@ -414,6 +414,8 @@ MonoBehaviour:
   _slider: {fileID: 87003701}
   _rateOfIncrease: 1.15
   nextButton: {fileID: 2132838653}
+  gameStats: {fileID: 0}
+  statManager: {fileID: 0}
 --- !u!4 &53093879
 Transform:
   m_ObjectHideFlags: 0
@@ -539,7 +541,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -264.0468, y: 319.12}
+  m_AnchoredPosition: {x: -258, y: 319.12}
   m_SizeDelta: {x: 405.6329, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &87003701
@@ -3416,6 +3418,7 @@ MonoBehaviour:
   stageOne: {fileID: 81938850}
   stageTwo: {fileID: 991059065}
   stageThree: {fileID: 458877317}
+  _sliderTwo: {fileID: 952659930}
   _slider: {fileID: 87003701}
   scene: NextLevel
   blackscreen: {fileID: 24489173}
