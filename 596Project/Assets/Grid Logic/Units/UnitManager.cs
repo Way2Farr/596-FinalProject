@@ -21,7 +21,7 @@ public class UnitManager : MonoBehaviour
     public BaseEnemy Enemy;
 
     [SerializeField]
-    public float MoveSpeed = 0.07f;
+    public float MoveSpeed = 0.6f;
 
     // Set tile 
     [SerializeField]
@@ -333,7 +333,8 @@ public class UnitManager : MonoBehaviour
     public IEnumerator PlayAttackAnimation(BaseUnit attacker)
     {
         attacker.startAttacking();
-
+        Instance.Player.SpawnSwingParticles();
+        Instance.Player.swingParticlesInstance.Play();
         float attackLength = 2.0f;
 
 
@@ -357,7 +358,7 @@ public class UnitManager : MonoBehaviour
 
         // wait
         yield return new WaitForSeconds(attackLength);
-
+        Instance.Player.swingParticlesInstance.Stop();
         attacker.stopAttacking();
         // switch states
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
@@ -470,6 +471,8 @@ public class UnitManager : MonoBehaviour
         hasPerformedAction = false;
         hasMoved = false;
         endedTurn = false;
+        Instance.Player.CloseAbilitiesMenu();
+        Instance.Player.CloseMagicMenu();
         CheckMagic();
         GameManager.Instance.TurnManager.Tick();
 

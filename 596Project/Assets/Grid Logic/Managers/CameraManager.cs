@@ -21,11 +21,11 @@ public class CameraManager : MonoBehaviour
     private float moveAdjust = 1.5f;
     [SerializeField]
     private float lerpSpeed;
-
     private bool victory = false;
     private bool menu = false;
     private bool playerMoving = false;
     private bool enemyTurn = false;
+
     //private bool enemyMoving = false;
 
     private void Awake() {
@@ -56,37 +56,32 @@ public class CameraManager : MonoBehaviour
             playerMoving = true;
         } else playerMoving = false;
 
-        if (GameManager.Instance.State == GameManager.GameState.EnemyChoose || GameManager.Instance.State == GameManager.GameState.EnemyMove) {
-            enemyTurn = true;
-        } else enemyTurn = false;
-
-        if ((UnitManager.Instance.Player.MenuShow && GameManager.Instance.State == GameManager.GameState.ChooseOption) || GameManager.Instance.movedMessage == true) {
-            menu = true;
-        } else menu = false;
-
-        if (GameManager.Instance.State == GameManager.GameState.Victory) {
-            victory = true;
-        } else victory = false;
+        /*if (UnitManager.Instance._startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && UnitManager.Instance._startingTile != null && UnitManager.Instance._endTile != null) {
+            enemyMoving = true;
+        } else enemyMoving = false;*/
 
         if (playerMoving) {
             Vector3 movePosition = new Vector3(UnitManager.Instance.Player.transform.position.x, UnitManager.Instance.Player.transform.position.y + (_camYOffset * moveAdjust), _camZOffset);
-            _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
-            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
-        } else if (enemyTurn) {
-            Vector3 movePosition = new Vector3(UnitManager.Instance.Enemy.transform.position.x, UnitManager.Instance.Enemy.transform.position.y + (_camYOffset * 0.8f * moveAdjust), _camZOffset);
-            _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
-            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
-        } else if (menu) {
-            Vector3 movePosition = new Vector3(UnitManager.Instance.Player.transform.position.x * moveAdjust, UnitManager.Instance.Player.transform.position.y + (_camYOffset * moveAdjust), _camZOffset);
-            _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
-            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
-        } else if (victory) {
-            Vector3 movePosition = new Vector3(UnitManager.Instance.Player.transform.position.x * moveAdjust, UnitManager.Instance.Player.transform.position.y + (_camYOffset * moveAdjust), _camZOffset);
             _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
             _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
         } else { 
             setCenter(); 
         }
 
+        /*if (enemyMoving) {
+            Vector3 movePosition = new Vector3(UnitManager.Instance.Enemy.transform.position.x, UnitManager.Instance.Enemy.transform.position.y + (_camYOffset * moveAdjust), _camZOffset);
+            _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
+            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoom, Time.deltaTime * lerpSpeed);
+        } else { 
+            setCenter(); 
+        }*/
+
+        if (GameManager.Instance.State == GameManager.GameState.EnemyChoose || GameManager.Instance.State == GameManager.GameState.EnemyMove) {
+            Vector3 movePosition = new Vector3(UnitManager.Instance.Enemy.transform.position.x, UnitManager.Instance.Enemy.transform.position.y + (_camYOffset * -moveAdjust), _camZOffset);
+            _cam.transform.position = Vector3.Lerp(_cam.transform.position, movePosition, Time.deltaTime * lerpSpeed);
+            _cam.fieldOfView = Mathf.Lerp(_cam.fieldOfView, zoomIn, Time.deltaTime * lerpSpeed);
+        } else { 
+            setCenter(); 
+        }
     }
 }

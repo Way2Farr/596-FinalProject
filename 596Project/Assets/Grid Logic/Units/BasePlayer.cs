@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 public class BasePlayer : BaseUnit
 {
 
-    public bool MenuShow = false;
     public GameObject DamageTextPrefab;
     public GameObject HealTextPrefab;
 
@@ -31,6 +30,9 @@ public class BasePlayer : BaseUnit
         int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
 
         _currentHealth -= dmgTaken;
+        SpawnHitParticles();
+        hitParticlesInstance.Play();
+
 
         if(DamageTextPrefab) {
             ShowDmgTxt(dmgTaken);
@@ -58,6 +60,7 @@ public class BasePlayer : BaseUnit
         }
 
         Destroy(damageTextPro, 1.5f);
+        hitParticlesInstance.Stop();
     } 
  //___________________________________________________________________________________\\
  // HEAL FUNCTION
@@ -80,11 +83,12 @@ public class BasePlayer : BaseUnit
 
     public void PlayerHeal() {
 
-        Debug.Log("has attacked is " + UnitManager.Instance.hasPerformedAction);
         if( healthFlask > 0 && !UnitManager.Instance.hasPerformedAction) {
             _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
             healthFlask =- 1;
             CloseAbilitiesMenu();
+            SpawnHealParticles();
+            healthParticlesInstance.Play();
             UnitManager.Instance.hasPerformedAction = true;
             ShowHealTxt();
 
@@ -150,7 +154,6 @@ public class BasePlayer : BaseUnit
             foreach(GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(true);
-                MenuShow = true;
                 Debug.Log("Opening Ability Panel!");
             } 
         }
@@ -160,7 +163,6 @@ public class BasePlayer : BaseUnit
             foreach (GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(false);
-                MenuShow = false;
             }
         }
     }
@@ -169,7 +171,6 @@ public class BasePlayer : BaseUnit
     foreach (GameObject abilityPanel in _abilities)
     {
         abilityPanel.SetActive(false);
-        MenuShow = false;
     }
     Debug.Log("Abilities menu closed.");
 }
@@ -184,7 +185,7 @@ public class BasePlayer : BaseUnit
             foreach(GameObject magicPanel in _magic)
             {
                 magicPanel.SetActive(true);
-                MenuShow = true;
+                
             } 
         }
         else {
@@ -198,7 +199,6 @@ public class BasePlayer : BaseUnit
     foreach (GameObject magicPanel in _magic)
     {
         magicPanel.SetActive(false);
-        MenuShow = false;
     }
     Debug.Log("Magic menu closed.");
 }
@@ -287,6 +287,7 @@ public class BasePlayer : BaseUnit
             UnitManager.Instance.hasPerformedAction = true;
             WindedIcon.SetActive(true);
             ManaPoints.text = "MP: " + manaPoint; 
+            SpawnWindedParticles();
 
             }
         }
@@ -303,6 +304,7 @@ public class BasePlayer : BaseUnit
             if(speedDuration == 0) {
                 _movementRange = originalSpeed;
                 WindedIcon.SetActive(false);
+                windedParticlesInstance.Stop();
                 MenuManager.Instance.EventMessages("Winded has ended!");
                 GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 
@@ -376,7 +378,7 @@ public class BasePlayer : BaseUnit
     public void HandleBane(BaseEnemy enemy) {
             if(enemy != null && _inBaneRange) {
             enemy.InflictBane(3);
-            ClearBaneOverlay();
+            ClearBaneOverlay();;
             manaPoint--;
             ManaPoints.text = "MP: " + manaPoint;
             UnitManager.Instance.hasPerformedAction = true;
@@ -476,6 +478,51 @@ public class BasePlayer : BaseUnit
 
         }
 
+//______________________________________Winded
+// Winded Particle Systems
 
-    
+[SerializeField] private ParticleSystem WindedParticles;
+private ParticleSystem windedParticlesInstance;
+
+private void SpawnWindedParticles() {
+    windedParticlesInstance = Instantiate(WindedParticles, transform.position, Quaternion.identity, transform);
+    windedParticlesInstance.transform.rotation = Quaternion.Euler(-20,0,0);
+    windedParticlesInstance.Play();
+}
+
+//______________________________________ Hit
+
+[SerializeField] private ParticleSystem HitParticles;
+private ParticleSystem hitParticlesInstance;
+private void SpawnHitParticles() {
+    hitParticlesInstance = Instantiate(HitParticles, transform.position, Quaternion.identity, transform);
+    hitParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    hitParticlesInstance.Play();
+}
+
+
+//______________________________________Health
+
+
+[SerializeField] private ParticleSystem HealthParticles;
+private ParticleSystem healthParticlesInstance;
+
+private void SpawnHealParticles() {
+    Debug.Log("Spawned Heal!");
+    healthParticlesInstance = Instantiate(HealthParticles, transform.position, Quaternion.identity, transform);
+    healthParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    healthParticlesInstance.Play();
+}
+
+
+//______________________________________ Swing
+
+[SerializeField] private ParticleSystem SwingParticles;
+public  ParticleSystem swingParticlesInstance;
+public void SpawnSwingParticles() {
+    swingParticlesInstance = Instantiate(SwingParticles, transform.position, Quaternion.identity, transform);
+    swingParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    swingParticlesInstance.Play();
+}
+
 }
