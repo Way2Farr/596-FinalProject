@@ -35,7 +35,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (isFillingToHalf && _slider.value < 0.5f) 
         {
