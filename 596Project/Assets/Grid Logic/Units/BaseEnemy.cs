@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 
@@ -65,7 +66,8 @@ public class BaseEnemy : BaseUnit
 //_________________________
 
     int enemyStunDuration;
-
+    int fakevar;
+    int fakevar2;
     public bool isStunned = false;
     public virtual void InflictStun(int duration) {
 
@@ -107,6 +109,7 @@ public class BaseEnemy : BaseUnit
 
     void IsDead(){
         this._spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+        this.healthbar.gameObject.SetActive(false);
         _defeated = true;
 
 

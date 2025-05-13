@@ -718,7 +718,7 @@ MonoBehaviour:
   Player: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
   SelectedHero: {fileID: 0}
   Enemy: {fileID: 3142974059691096174, guid: d17609a1904544f46ab946e9254c83bd, type: 3}
-  MoveSpeed: 0.1
+  MoveSpeed: 0.07
   _startingTile: {fileID: 0}
   _endTile: {fileID: 0}
   _startMoving: 0
@@ -999,7 +999,7 @@ MonoBehaviour:
   enemySpawnPosition: {x: 6, y: 6}
   GridScale: 10
   _camYOffset: -33
-  _camZOffset: -39
+  _camZOffset: -45
   _camRotationOffset: -52.5
   _tilesList: []
 --- !u!4 &766687744

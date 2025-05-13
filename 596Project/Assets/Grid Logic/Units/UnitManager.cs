@@ -21,7 +21,7 @@ public class UnitManager : MonoBehaviour
     public BaseEnemy Enemy;
 
     [SerializeField]
-    public float MoveSpeed = 0.6f;
+    public float MoveSpeed = 0.07f;
 
     // Set tile 
     [SerializeField]
