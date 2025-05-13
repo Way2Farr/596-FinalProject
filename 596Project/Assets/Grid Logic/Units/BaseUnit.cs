@@ -7,7 +7,8 @@ using System.Linq;
 
 public class BaseUnit : MonoBehaviour
 {
-    
+
+    public int _roundNumber = 1;
     public Tile OccupiedTile;
     public Faction Faction;
     public Animator _unitAnimator;

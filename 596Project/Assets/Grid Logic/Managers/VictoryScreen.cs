@@ -75,7 +75,19 @@ public class VictoryScreen : MonoBehaviour
         StartCoroutine(Fade());
     }
 
+    public void LoadTitleScene()
+    {
+        StartCoroutine(TitleFade());
+    }
+
     IEnumerator Fade()
+    {
+        anim.SetBool("fade", true);
+        yield return new WaitUntil(() => blackscreen.color.a == 1);
+        SceneManager.LoadScene("Shop (Nick)");
+    }
+
+    IEnumerator TitleFade()
     {
         anim.SetBool("fade", true);
         yield return new WaitUntil(() => blackscreen.color.a == 1);

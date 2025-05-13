@@ -16,6 +16,9 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
     private List<ScriptableUnit> _units;
 
+    [SerializeField]
+    public BaseUnit[] _setUnits;
+
     public BasePlayer Player;
     public BasePlayer SelectedHero;
     public BaseEnemy Enemy;
@@ -55,6 +58,8 @@ public class UnitManager : MonoBehaviour
         // Set to spawn one random player for now
         var heroCount = 1;
 
+        
+
         for (int i = 0; i < heroCount; i++)
         {
             var randomPrefab = GetRandomUnit<BasePlayer>(Faction.Hero);
@@ -73,9 +78,42 @@ public class UnitManager : MonoBehaviour
     {
     
         // Set to spawn one random enemy for now
-        var enemyCount = 1;
+        //var enemyCount = 1;
 
-        for (int i = 0; i < enemyCount; i++)
+        if (StatManager.Instance == null || StatManager.Instance._currentRound == 1)
+        {
+            var randomPrefab = GetSpecificUnit<BaseEnemy>(Faction.Enemy, RoundNumber.Round1);
+            var spawnedEnemy = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
+
+            spawnedEnemy.OccupiedTile = randomSpawnTile;
+            randomSpawnTile.SetUnit(spawnedEnemy);
+
+            Enemy = spawnedEnemy;
+        }
+        else if (StatManager.Instance._currentRound == 2)
+        {
+            var randomPrefab = GetSpecificUnit<BaseEnemy>(Faction.Enemy, RoundNumber.Round2);
+            var spawnedEnemy = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
+
+            spawnedEnemy.OccupiedTile = randomSpawnTile;
+            randomSpawnTile.SetUnit(spawnedEnemy);
+
+            Enemy = spawnedEnemy;
+        }
+        else if (StatManager.Instance._currentRound == 3)
+        {
+            var randomPrefab = GetSpecificUnit<BaseEnemy>(Faction.Enemy, RoundNumber.Round3);
+            var spawnedEnemy = Instantiate(randomPrefab);
+            var randomSpawnTile = GridManager.Instance.GetEnemySpawnTile();
+
+            spawnedEnemy.OccupiedTile = randomSpawnTile;
+            randomSpawnTile.SetUnit(spawnedEnemy);
+
+            Enemy = spawnedEnemy;
+        }
+        /*for (int i = 0; i < enemyCount; i++)
         {
             var randomPrefab = GetRandomUnit<BaseEnemy>(Faction.Enemy);
             var spawnedEnemy = Instantiate(randomPrefab);
@@ -85,12 +123,17 @@ public class UnitManager : MonoBehaviour
             randomSpawnTile.SetUnit(spawnedEnemy);
 
             Enemy = spawnedEnemy;
-        }
+        }*/
     }
 
     private T GetRandomUnit<T>(Faction Faction) where T : BaseUnit 
     {
         return (T)_units.Where(u => u.Faction == Faction).OrderBy(o => Random.value).First().UnitPrefab;
+    }
+
+    private T GetSpecificUnit<T>(Faction Faction, RoundNumber RoundNumber) where T : BaseUnit
+    {
+        return (T)_units.Where(u => u.RoundNumber == RoundNumber).OrderBy(o => Random.value).First().UnitPrefab;
     }
 
 

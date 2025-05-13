@@ -13,7 +13,7 @@ public class BaseEnemy : BaseUnit
 
     public bool _defeated = false;
     public GameObject StunIcon;
-
+    
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
 
     public virtual void OnHurt(int attackDamage) {
