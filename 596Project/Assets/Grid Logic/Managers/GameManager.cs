@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.Player.CloseAbilitiesMenu();
             }
             
-            if (UnitManager.Instance.hasAttacked) {
+            if (UnitManager.Instance.hasPerformedAction) {
                     MenuManager.Instance.EventMessages("You already attacked!");
                     UnitManager.Instance.ClearAttackOverlay();
                     return;
@@ -103,7 +103,14 @@ public class GameManager : MonoBehaviour
         switch (setState)
         {
             case 0:
+                if(!UnitManager.Instance.hasPerformedAction) {
                 UnitManager.Instance.Player.OpenAbilities(GameState.ChooseOption);
+                }
+                else {
+                    MenuManager.Instance.EventMessages("You performed an action already!");
+                    return;
+                }
+
                 break;
             case 1:
                 UpdateGameState(GameState.PlayerMove);
@@ -154,6 +161,6 @@ public class GameManager : MonoBehaviour
     Lose,
     Flee,
     Heal,
-    Debuff
+    Bane
 }
 }

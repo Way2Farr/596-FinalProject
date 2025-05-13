@@ -26,9 +26,10 @@ public class UnitManager : MonoBehaviour
     [SerializeField]
     public Tile _startingTile, _endTile;
     public bool _startMoving;
-    public bool hasAttacked = false;
+    public bool hasPerformedAction = false;
     public bool hasMoved = false;
     public bool hasHealed = false;
+    public bool hasMagic = false;
     public bool endedTurn = false;
     private void Awake()
     {
@@ -303,7 +304,7 @@ public class UnitManager : MonoBehaviour
 
     public void AttackFlag() {
 
-        hasAttacked = true;
+        hasPerformedAction = true;
         ClearAttackOverlay();
         Debug.Log("attacked has been flagged!");
         TurnCheck();
@@ -324,7 +325,7 @@ public class UnitManager : MonoBehaviour
         return;
     }
 
-    if(hasAttacked && hasMoved || hasHealed && hasMoved) { // Complete Turn
+    if(hasPerformedAction && hasMoved) { // Complete Turn
         
         TurnReset(); 
         GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
@@ -335,16 +336,19 @@ public class UnitManager : MonoBehaviour
     
 
     public void TurnReset() {
-        hasAttacked = false;
+        hasPerformedAction = false;
         hasMoved = false;
         endedTurn = false;
-        hasHealed = false;
+        CheckMagic();
         GameManager.Instance.TurnManager.Tick();
 
     }
 
 
-        
+    public void CheckMagic() {
+        Player.WindedDuration();
+        Enemy.BaneDuration();
+    }
 
     public void EnemyChoose() {
         // if enemy in range then EnemyAttack

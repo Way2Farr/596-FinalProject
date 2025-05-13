@@ -20,8 +20,11 @@ public class BasePlayer : BaseUnit
     void Start()
     {
      _currentHealth = _maxHealth;
+     ManaPoints.text = "MP: " + manaPoint; 
     }
 
+    //___________________________________________________________________________________\\
+    // DAMAGE FUNCTION
     public virtual void OnHurt(int attackDamage) {
 
         int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
@@ -55,7 +58,8 @@ public class BasePlayer : BaseUnit
 
         Destroy(damageTextPro, 1.5f);
     } 
-
+ //___________________________________________________________________________________\\
+ // HEAL FUNCTION
     void ShowHealTxt() {
             
             Vector3 offsetPos = transform.position + healOffsetPos;
@@ -75,12 +79,12 @@ public class BasePlayer : BaseUnit
 
     public void PlayerHeal() {
 
-        Debug.Log("has attacked is " + UnitManager.Instance.hasAttacked);
-        if( healthFlask > 0 && !UnitManager.Instance.hasAttacked) {
+        Debug.Log("has attacked is " + UnitManager.Instance.hasPerformedAction);
+        if( healthFlask > 0 && !UnitManager.Instance.hasPerformedAction) {
             _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
             healthFlask =- 1;
             CloseAbilitiesMenu();
-            UnitManager.Instance.hasHealed = true;
+            UnitManager.Instance.hasPerformedAction = true;
             ShowHealTxt();
 
             if (UnitManager.Instance.hasMoved){
@@ -92,7 +96,7 @@ public class BasePlayer : BaseUnit
             
         }
         else {
-            if (UnitManager.Instance.hasHealed && healthFlask > 0){
+            if (UnitManager.Instance.hasPerformedAction && healthFlask > 0){
             MenuManager.Instance.EventMessages("You healed this turn already!");
             }
             else if(healthFlask <= 0) {
@@ -103,9 +107,6 @@ public class BasePlayer : BaseUnit
             return;
         }
     }
-
-
-
 
     void IsDead(){
         Destroy(gameObject);
@@ -131,7 +132,11 @@ public class BasePlayer : BaseUnit
         return _inRangeTiles;
     }
 
+ //___________________________________________________________________________________\\
+// PLAYER UI METHODS
     [SerializeField] private GameObject[] _abilities;
+    [SerializeField] private GameObject[] _magic;
+
 
     
     public virtual void OpenAbilities(GameManager.GameState state) {
@@ -161,22 +166,221 @@ public class BasePlayer : BaseUnit
     Debug.Log("Abilities menu closed.");
 }
 
+
+    public virtual void OpenMagic() {
+
+            if(!UnitManager.Instance.hasPerformedAction){
+
+            CloseAbilitiesMenu();
+
+            foreach(GameObject magicPanel in _magic)
+            {
+                magicPanel.SetActive(true);
+                
+            } 
+        }
+        else {
+            MenuManager.Instance.EventMessages("You already performed an action!");
+                return;  
+        }
+    }
+
+    public void CloseMagicMenu()
+{
+    foreach (GameObject magicPanel in _magic)
+    {
+        magicPanel.SetActive(false);
+    }
+    Debug.Log("Magic menu closed.");
+}
+
+
+
     public void ButtonSetState(int setState)
     {
         switch (setState)
         {
             case 3:
+                CloseAbilitiesMenu();
                 GameManager.Instance.UpdateGameState(GameManager.GameState.PlayerAttack);
                 break;
-            case 4:
-                GameManager.Instance.UpdateGameState(GameManager.GameState.Heal);
-                break;
-            case 5:
-                GameManager.Instance.UpdateGameState(GameManager.GameState.Debuff);
-                break;
+            case 6:
+                CloseAbilitiesMenu();
+                CloseMagicMenu();
+                if(!UnitManager.Instance.hasPerformedAction)
+                Winded();
+                else {
+                MenuManager.Instance.EventMessages("You already performed an action!");
+                return;  
+                }
+            break;
+
+            case 7:
+                CloseAbilitiesMenu();
+                CloseMagicMenu();
+                if(!UnitManager.Instance.hasPerformedAction){
+                GameManager.Instance.UpdateGameState(GameManager.GameState.Bane);
+                Bane();
+                }
+                else {
+                MenuManager.Instance.EventMessages("You already performed an action!");
+                return;
+                }
+            break;
+
+            case 8:
+                CloseAbilitiesMenu();
+                CloseMagicMenu();
+                Stun();
+            break;
         }
     }
 
+ //___________________________________________________________________________________\\
+// WINDED BUFF
+    int manaPoint = 3;
+    int speedBuff = 20;
+
+    int speedDuration;    
+    int originalSpeed;
+
+    public GameObject WindedIcon;
+
+    public TMP_Text ManaPoints;
+    void Winded() {
+        
+        CloseAbilitiesMenu();
+
+        if(speedDuration > 0) {
+            MenuManager.Instance.EventMessages("Winded is still active!");
+            return;
+        }
+
+        if( UnitManager.Instance.hasPerformedAction) {
+            MenuManager.Instance.EventMessages("You already performed an action!");
+            return;
+        }
+
+        if(manaPoint > 0 ){
+            if(speedDuration <= 0) {
+            speedDuration = 2;
+            originalSpeed = _movementRange;
+            _movementRange += speedBuff;
+            manaPoint--;
+
+            UnitManager.Instance.hasPerformedAction = true;
+            WindedIcon.SetActive(true);
+            ManaPoints.text = "MP: " + manaPoint; 
+
+            }
+        }
+        else {
+            MenuManager.Instance.EventMessages("You don't have enough mana!");
+        
+        }
+        GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+    }
+
+    public void WindedDuration() {
+        if(speedDuration > 0) {
+            speedDuration--;
+            if(speedDuration == 0) {
+                _movementRange = originalSpeed;
+                WindedIcon.SetActive(false);
+                MenuManager.Instance.EventMessages("Winded has ended!");
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                
+            }
+        }
+    }
+
+ //___________________________________________________________________________________\\
+
+    public int _baneRange;
+    public GameObject BaneIcon;
+
+    void Bane() {
+
+        CloseAbilitiesMenu();
+
+        if( UnitManager.Instance.hasPerformedAction) {
+            MenuManager.Instance.EventMessages("You already performed an action!");
+            return;
+        }
+
+        if(manaPoint > 0) {
+                ShowBaneOverlay();
+        }
+        else {
+            MenuManager.Instance.EventMessages("Not enough mana!");
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+  
+        
+    }
+    public virtual List<Tile> GetBaneTiles()
+    {
+        float tempRange = this.GetBaneRange();
+      List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values
+        .Where(t => Vector2.Distance(this.transform.position, t.transform.position)
+         <= tempRange && t._position != OccupiedTile._position).ToList();
+
+        return _inRangeTiles;
+    }
+
+    public int GetBaneRange() 
+    { 
+        return _baneRange;
+    }
+
+    public void ShowBaneOverlay()
+    {
+
+        ClearBaneOverlay();
+        UnitManager.Instance.SetSelectedHero(UnitManager.Instance.Player);
+        foreach (Tile tile in GetBaneTiles())
+        {
+            tile.RangeActive();
+        }
+        _inBaneRange = true;
+    }
+
+    public void ClearBaneOverlay()
+    {
+        foreach (Tile tile in GridManager.Instance._tilesList)
+        {
+            tile.RangeInactive();
+        }
+       
+    }
+
+    public bool _inBaneRange;
+
+    public void HandleBane(BaseEnemy enemy) {
+            if(enemy != null && _inBaneRange) {
+            enemy.InflictBane(2);
+            ClearBaneOverlay();
+            manaPoint--;
+            ManaPoints.text = "MP: " + manaPoint;
+            UnitManager.Instance.hasPerformedAction = true;
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+
+            }
+            else {
+                ClearBaneOverlay();
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+                
+            }
+
+        }
 
 
+ //___________________________________________________________________________________\\
+
+    void Stun(){
+
+    }
+
+
+    
 }

@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
     public Canvas unitCanvas;
     //___________________________________________________________________________________\\
 
-    
+
     public static MenuManager Instance;
     [SerializeField] private GameObject[] _menu;
 

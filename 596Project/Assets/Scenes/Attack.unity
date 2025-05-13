@@ -723,6 +723,7 @@ MonoBehaviour:
   _startMoving: 0
   hasAttacked: 0
   hasMoved: 0
+  hasHealed: 0
   endedTurn: 0
 --- !u!1 &525257530
 GameObject:
@@ -2513,6 +2514,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1888648394068394254, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -200
+      objectReference: {fileID: 0}
     - target: {fileID: 2214826886135035688, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_Name
       value: CurrentTurn
@@ -2571,7 +2576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362508042943482542, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 540
+      value: 823
       objectReference: {fileID: 0}
     - target: {fileID: 8362508042943482542, guid: bbe108540170d9740a67b761bf5a939f, type: 3}
       propertyPath: m_LocalPosition.z
