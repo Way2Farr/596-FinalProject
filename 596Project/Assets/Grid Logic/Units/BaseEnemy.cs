@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 
 public class BaseEnemy : BaseUnit
@@ -142,5 +143,21 @@ private void SpawnStunParticles() {
     stunParticlesInstance.Play();
     stunParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
 }
+    // --------- HANDLE ENEMY BEHAVIOR --------------
+
+    
+
+    public bool PlayerInAttackRange()
+    {
+        //return true;
+
+        List<Tile> _playerTiles = this.getAttackTiles().Where(t => t._position == UnitManager.Instance.Player.OccupiedTile._position).ToList();
+
+        bool playerInRange = _playerTiles.Count > 0;
+
+        return playerInRange;
+    }
+
+
 
 }

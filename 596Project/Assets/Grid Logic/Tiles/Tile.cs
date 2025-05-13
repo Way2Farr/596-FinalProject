@@ -126,7 +126,7 @@ public class Tile : MonoBehaviour
             _inMovementRange = true;
             _rangeIndicator.SetActive(true);
         }
-        else if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        else if (GameManager.Instance.State == GameManager.GameState.PlayerAttack || GameManager.Instance.State == GameManager.GameState.EnemyAttack)
         {
 
             _inAttackRange = true;

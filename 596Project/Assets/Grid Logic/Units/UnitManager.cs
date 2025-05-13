@@ -195,6 +195,7 @@ public class UnitManager : MonoBehaviour
     {
 
         ClearEnemyAttackOverlay();
+        Debug.Log("Display enemy attack overlay");
         //UnitManager.Instance.SetSelectedHero(Player);
         //float tempRange = (float)Player.getAttackRange();
         //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
@@ -363,9 +364,15 @@ public class UnitManager : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
 
-        TurnCheck();
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            ClearEnemyAttackOverlay();
+        }
+        
 
     }
 
@@ -402,9 +409,15 @@ public class UnitManager : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
+
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            //GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+
         
-        TurnCheck();
     }
 
     
@@ -479,9 +492,35 @@ public class UnitManager : MonoBehaviour
     public void EnemyChoose() {
 
         // if enemy in range then EnemyAttack
+        if (Enemy.PlayerInAttackRange())
+        {
+            Debug.Log(Enemy.getAttackTiles().Count);
+            
 
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyAttack);
+        }
         // else EnemyMove
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        else
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        }
+        
     }
-    
+
+    //----------------ENEMY LOGIC------------------------
+
+    public IEnumerator HandleEnemyAttack(float delay)
+    {
+        ShowEnemyAttackOverlay();
+        yield return new WaitForSeconds(delay);
+        Debug.Log("Enemy attack!");
+        
+        StartCoroutine(PlayAttackAnimation(Enemy));
+        
+        if(Enemy.PlayerInAttackRange())
+        {
+            StartCoroutine(PlayDamagedAnimation(Player));
+            Player.OnHurt(Enemy._attack);
+        }
+    }
 }
