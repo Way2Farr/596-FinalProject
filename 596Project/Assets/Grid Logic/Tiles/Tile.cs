@@ -135,11 +135,11 @@ public class Tile : MonoBehaviour
         else if (GameManager.Instance.State == GameManager.GameState.Bane){
 
             UnitManager.Instance.Player._inBaneRange = true;
-             _attackRangeIndicator.SetActive(true); 
+            _attackRangeIndicator.SetActive(true);
         }
         else if (GameManager.Instance.State == GameManager.GameState.Stun){
             UnitManager.Instance.Player._inStunRange = true;
-             _attackRangeIndicator.SetActive(true); 
+            _attackRangeIndicator.SetActive(true);
         }
         
     }
@@ -192,7 +192,7 @@ public class Tile : MonoBehaviour
 
     public void HandlePlayerBane() {
         
-        if (OccupiedUnit != null && UnitManager.Instance.Player._inBaneRange)
+        if (OccupiedUnit != null && UnitManager.Instance.Player.GetBaneTiles().Contains(this))
     {
         var enemy = OccupiedUnit as BaseEnemy;
 
@@ -212,7 +212,7 @@ public class Tile : MonoBehaviour
     }
     public void HandlePlayerStun() {
         
-        if (OccupiedUnit != null && UnitManager.Instance.Player._inStunRange)
+        if (OccupiedUnit != null && UnitManager.Instance.Player.GetBaneTiles().Contains(this))
     {
         var enemy = OccupiedUnit as BaseEnemy;
 
