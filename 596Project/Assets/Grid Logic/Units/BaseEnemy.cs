@@ -12,6 +12,8 @@ public class BaseEnemy : BaseUnit
     public GameObject BaneIcon;
 
     public bool _defeated = false;
+    public GameObject StunIcon;
+
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
 
     public virtual void OnHurt(int attackDamage) {
@@ -144,12 +146,4 @@ private void SpawnStunParticles() {
     stunParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
 }
 
-    public bool PlayerInAttackRange()
-    {
-        List<Tile> occupiedTiles = getAttackTiles().Where(t => t._position == UnitManager.Instance.Player.OccupiedTile._position).ToList();
-
-        bool playerInRange = (occupiedTiles.Count > 0);
-        Debug.Log(playerInRange);
-        return playerInRange;
-    }
 }

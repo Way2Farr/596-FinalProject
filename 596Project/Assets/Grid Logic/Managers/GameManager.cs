@@ -24,9 +24,6 @@ public class GameManager : MonoBehaviour
 
     AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound;
 
-    [SerializeField]
-
-    public float clipVolume = 0.1f;
     //--------------
 
     public TurnManager TurnManager {get; private set;}
@@ -67,8 +64,9 @@ public class GameManager : MonoBehaviour
             }
 
             else{
-                SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, clipVolume);
+                SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, 0.4f);
                 UnitManager.Instance.ShowMovementOverlay();
+                UnitManager.Instance.Player.CloseAbilitiesMenu();
             }
                 break;
 
@@ -83,12 +81,17 @@ public class GameManager : MonoBehaviour
                     return;
                 }
                 else{
-                    SoundFXManager.Instance.PlayClip(_menuFightSound, this.transform, clipVolume);
+                    SoundFXManager.Instance.PlayClip(_menuFightSound, this.transform, 0.4f);
                     UnitManager.Instance.ShowAttackOverlay();
                 }    
                 break;
 
             case GameState.EnemyChoose:
+                if(UnitManager.Instance.Enemy.isStunned) {
+                    Debug.Log("Enemy is stunned!");
+                    StartCoroutine(HandleStunned());
+                  }
+                  else
                 UnitManager.Instance.EnemyChoose();
                 break;
 
@@ -96,13 +99,11 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.ShowEnemyMovementOverlay();
                 break;
             case GameState.EnemyAttack:
-                UnitManager.Instance.HandleEnemyAttack();
                 break;
             case GameState.Victory:
                 VictoryScreen.Instance.StartVictoryScreen();
                 break;
             case GameState.Lose:
-                VictoryScreen.Instance.StartLossScreen();
                 break;
             case GameState.Flee:
                 break;
@@ -118,8 +119,8 @@ public class GameManager : MonoBehaviour
         switch (setState)
         {
             case 0:
-                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, clipVolume);
-                if (!UnitManager.Instance.hasPerformedAction) {
+
+                if(!UnitManager.Instance.hasPerformedAction) {
                 UnitManager.Instance.Player.OpenAbilities(GameState.ChooseOption);
                 }
                 else {
@@ -129,19 +130,18 @@ public class GameManager : MonoBehaviour
 
                 break;
             case 1:
-                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, clipVolume);
                 UpdateGameState(GameState.PlayerMove);
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
-                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, clipVolume);
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
                 //SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
                 break;
 
             case 99:
-                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, clipVolume);
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
                 SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
@@ -185,6 +185,7 @@ public class GameManager : MonoBehaviour
     Lose,
     Flee,
     Heal,
-    Bane
+    Bane,
+    Stun
 }
 }

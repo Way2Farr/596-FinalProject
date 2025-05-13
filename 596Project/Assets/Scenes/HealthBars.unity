@@ -795,8 +795,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   State: 0
-  BlackScreen: {fileID: 1068643662}
-  anim: {fileID: 1068643661}
+  _playerMoveSound: {fileID: 8300000, guid: 90e38e146917d2d4390eccdf0529d7fd, type: 3}
+  _menuMoveSound: {fileID: 8300000, guid: dd1f7a1235c28d843b46b473bb2e1200, type: 3}
+  _menuFightSound: {fileID: 8300000, guid: dbc33dfd8fb9edc4ebc98eb6822e25e6, type: 3}
+  _menuEndSound: {fileID: 8300000, guid: 8bfc2a125186fd64b8b26b4c3f7527ef, type: 3}
 --- !u!4 &395727188 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1795449594348612936, guid: 47dc9cbac36ff7842b34a9a04d584d9f, type: 3}
@@ -879,7 +881,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ced066fe965dd4e8a31dff376405db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FloatingTextPrefab: {fileID: 770964724198494927, guid: 39891598fa4e6f84a8e9a8f504d7da21, type: 3}
   Player: {fileID: 8500416343475107365, guid: 52f8a4a00a20c7c48b62fdc877d1668c, type: 3}
   SelectedHero: {fileID: 0}
   Enemy: {fileID: 3142974059691096174, guid: 40b3336f9b5ae4744aa239866c0e96eb, type: 3}
@@ -887,8 +888,10 @@ MonoBehaviour:
   _startingTile: {fileID: 0}
   _endTile: {fileID: 0}
   _startMoving: 0
-  hasAttacked: 0
+  hasPerformedAction: 0
   hasMoved: 0
+  hasHealed: 0
+  hasMagic: 0
   endedTurn: 0
 --- !u!1 &525257530
 GameObject:
@@ -1750,22 +1753,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d1dd6d35c5f094479c9ca9455b8b659, type: 3}
---- !u!95 &1068643661 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 486808024677205877, guid: 5d1dd6d35c5f094479c9ca9455b8b659, type: 3}
-  m_PrefabInstance: {fileID: 1068643660}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1068643662 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7609002462776905347, guid: 5d1dd6d35c5f094479c9ca9455b8b659, type: 3}
-  m_PrefabInstance: {fileID: 1068643660}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1068643663 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4513484786659873534, guid: 5d1dd6d35c5f094479c9ca9455b8b659, type: 3}
