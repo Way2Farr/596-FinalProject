@@ -54,6 +54,8 @@ public class Tile : MonoBehaviour
         else if (GameManager.Instance.State == GameManager.GameState.PlayerMove) {
             HandlePlayerMove();
         }
+        else if (GameManager.Instance.State == GameManager.GameState.Bane)
+            HandlePlayerBane();
     }
         // TODO: Make into separate functions
         // MOUSE DOWN LOGIC IF PLAYER ATTACK
@@ -126,6 +128,7 @@ public class Tile : MonoBehaviour
         {
             _inAttackRange = true;
             _attackRangeIndicator.SetActive(true);
+            UnitManager.Instance.Player._inBaneRange = true;
         }
         
     }
@@ -140,6 +143,7 @@ public class Tile : MonoBehaviour
         {
             _inAttackRange = false;
             _attackRangeIndicator.SetActive(false);
+            UnitManager.Instance.Player._inBaneRange = false;
         }
     }
     public void SetUnit(BaseUnit unit)
@@ -169,6 +173,29 @@ public class Tile : MonoBehaviour
         
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
+    }
+
+
+    public void HandlePlayerBane() {
+        
+        if (OccupiedUnit != null && UnitManager.Instance.Player._inBaneRange)
+    {
+        var enemy = OccupiedUnit as BaseEnemy;
+
+        if (enemy != null){
+            UnitManager.Instance.Player.HandleBane(enemy);
+        }
+        else {
+            UnitManager.Instance.Player.ClearBaneOverlay();
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+    }
+    else
+    {
+            Debug.Log("No valid enemy to apply Bane.");
+            UnitManager.Instance.Player.ClearBaneOverlay();
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
     }
 }
 
