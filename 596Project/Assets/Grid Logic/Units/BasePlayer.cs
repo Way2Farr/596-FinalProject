@@ -16,6 +16,7 @@ public class BasePlayer : BaseUnit
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
     private static readonly Vector3 healOffsetPos = new Vector3(0,1,0);
 
+    public bool MenuShow = false;
 
     void Start()
     {
@@ -159,6 +160,7 @@ public class BasePlayer : BaseUnit
             foreach(GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(true);
+                MenuShow = true;
                 Debug.Log("Opening Ability Panel!");
             } 
         }
@@ -168,6 +170,7 @@ public class BasePlayer : BaseUnit
             foreach (GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(false);
+                MenuShow = false;
             }
         }
     }
@@ -176,6 +179,7 @@ public class BasePlayer : BaseUnit
     foreach (GameObject abilityPanel in _abilities)
     {
         abilityPanel.SetActive(false);
+        MenuShow = false;
     }
     Debug.Log("Abilities menu closed.");
 }
@@ -190,7 +194,8 @@ public class BasePlayer : BaseUnit
             foreach(GameObject magicPanel in _magic)
             {
                 magicPanel.SetActive(true);
-                
+                MenuShow = true;
+
             } 
         }
         else {
@@ -204,6 +209,7 @@ public class BasePlayer : BaseUnit
     foreach (GameObject magicPanel in _magic)
     {
         magicPanel.SetActive(false);
+        MenuShow = false;
     }
     Debug.Log("Magic menu closed.");
 }
