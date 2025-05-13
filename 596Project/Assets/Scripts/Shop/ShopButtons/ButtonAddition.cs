@@ -29,6 +29,7 @@ public class ButtonAddition : MonoBehaviour
     [SerializeField] private Image stageThree;
 
     [Header("Slider")]
+    [SerializeField] private Slider _sliderTwo;
     [SerializeField] private Slider _slider;
     [SerializeField] private string scene;
     [SerializeField] private Image blackscreen;
@@ -51,18 +52,18 @@ public class ButtonAddition : MonoBehaviour
         //get values from DontDestroyOnLoadObject
         gameStats = GameObject.FindGameObjectWithTag("StatManager");
         statManager = gameStats.GetComponent<StatManager>();
-        /*if(statManager == null)
+        if(statManager._currentRound != 1)
         {
-            Debug.Log("statManager not assigned");
+            _slider = _sliderTwo;
         }
-        else
-        {
-            Debug.Log("statManager is assigned!");
-        }*/
        
     }
     void Start()
     {
+        if(statManager._currentRound != 1)
+        {
+            stageTwo.color = Color.green;
+        }
         //hpText.text = "HP: 10";
         currentHp = statManager._maxHealth;
         currentDef = statManager._defense;
