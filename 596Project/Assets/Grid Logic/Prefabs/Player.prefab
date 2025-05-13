@@ -173,6 +173,17 @@ MonoBehaviour:
   _attackRange: 20
   _currentHealth: 0
   _name: The Queen
+  DamageTextPrefab: {fileID: 0}
+  HealTextPrefab: {fileID: 0}
+  healthFlask: 1
+  healAmount: 5
+  _abilities: []
+  _magic: []
+  WindedIcon: {fileID: 0}
+  ManaPoints: {fileID: 0}
+  _baneRange: 0
+  BaneIcon: {fileID: 0}
+  _inBaneRange: 0
 --- !u!1001 &5916854962887946788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -246,7 +257,7 @@ PrefabInstance:
     - target: {fileID: 694044440699357710, guid: 146756525d2c7034dbda3fff96c74cfd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 11500000, guid: 4dc6670fd196a1b49afc1c43c6b169ba, type: 3}
+      objectReference: {fileID: 5925298638579888923}
     - target: {fileID: 694044440699357710, guid: 146756525d2c7034dbda3fff96c74cfd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: 
