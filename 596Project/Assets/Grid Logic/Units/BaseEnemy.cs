@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using Unity.VisualScripting;
 
 
 public class BaseEnemy : BaseUnit
@@ -108,6 +109,7 @@ public class BaseEnemy : BaseUnit
 
     void IsDead(){
         this._spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+        this._healthbar.gameObject.SetActive(false);
         _defeated = true;
 
 

@@ -44,10 +44,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ced066fe965dd4e8a31dff376405db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _setUnits: []
   Player: {fileID: 0}
   SelectedHero: {fileID: 0}
   Enemy: {fileID: 0}
-  MoveSpeed: 0.6
+  MoveSpeed: 0.075
   _startingTile: {fileID: 0}
   _endTile: {fileID: 0}
   _startMoving: 0
+  hasPerformedAction: 0
+  hasMoved: 0
+  hasHealed: 0
+  hasMagic: 0
+  endedTurn: 0
