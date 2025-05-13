@@ -412,9 +412,11 @@ public class UnitManager : MonoBehaviour
     }
 
 
-    public void CheckMagic() {
+    public void CheckMagic()
+    {
         Player.WindedDuration();
         Enemy.BaneDuration();
+        Enemy.StunDuration();
     }
 
 

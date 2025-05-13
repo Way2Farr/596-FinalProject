@@ -51,14 +51,17 @@ public class Tile : MonoBehaviour
         {
             HandlePlayerAttack();
         }
-        else if (GameManager.Instance.State == GameManager.GameState.PlayerMove) {
+        else if (GameManager.Instance.State == GameManager.GameState.PlayerMove)
+        {
             HandlePlayerMove();
         }
         else if (GameManager.Instance.State == GameManager.GameState.Bane)
             HandlePlayerBane();
+        else if (GameManager.Instance.State == GameManager.GameState.Stun)
+            HandlePlayerStun();
     }
-        // TODO: Make into separate functions
-        // MOUSE DOWN LOGIC IF PLAYER ATTACK
+    // TODO: Make into separate functions
+    // MOUSE DOWN LOGIC IF PLAYER ATTACK
     private void HandlePlayerAttack() {
 
             if (OccupiedUnit != null && _inAttackRange)
@@ -124,29 +127,43 @@ public class Tile : MonoBehaviour
             _inMovementRange = true;
             _rangeIndicator.SetActive(true);
         }
-        else
+        else if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
+
             _inAttackRange = true;
             _attackRangeIndicator.SetActive(true);
+        }
+        else if (GameManager.Instance.State == GameManager.GameState.Bane)
+        {
+
             UnitManager.Instance.Player._inBaneRange = true;
+            _attackRangeIndicator.SetActive(true);
         }
-        
+        else if (GameManager.Instance.State == GameManager.GameState.Stun)
+        {
+            UnitManager.Instance.Player._inStunRange = true;
+            _attackRangeIndicator.SetActive(true);
+        }
     }
+
     public void RangeInactive()
-    {
+     {
         if (GameManager.Instance.State == GameManager.GameState.PlayerMove || GameManager.Instance.State == GameManager.GameState.EnemyMove)
-        {
-            _inMovementRange = false;
-            _rangeIndicator.SetActive(false);
-        }
+            {
+                _inMovementRange = false;
+                _rangeIndicator.SetActive(false);
+            }
         else
-        {
-            _inAttackRange = false;
-            _attackRangeIndicator.SetActive(false);
-            UnitManager.Instance.Player._inBaneRange = false;
-        }
+            {
+             _inAttackRange = false;
+             _attackRangeIndicator.SetActive(false);
+
+
+             UnitManager.Instance.Player._inBaneRange = false;
+             UnitManager.Instance.Player._inStunRange = false;
+         }
     }
-    public void SetUnit(BaseUnit unit)
+        public void SetUnit(BaseUnit unit)
     {
 
         if ((GameManager.Instance.State == GameManager.GameState.PlayerMove) || (GameManager.Instance.State == GameManager.GameState.EnemyMove))
@@ -197,6 +214,31 @@ public class Tile : MonoBehaviour
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
         }
     }
+
+    public void HandlePlayerStun()
+    {
+
+        if (OccupiedUnit != null && UnitManager.Instance.Player._inStunRange)
+        {
+            var enemy = OccupiedUnit as BaseEnemy;
+
+            if (enemy != null)
+            {
+                UnitManager.Instance.Player.HandleStun(enemy);
+            }
+            else
+            {
+                UnitManager.Instance.Player.ClearStunOverlay();
+                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            }
+        }
+        else if (UnitManager.Instance.Player._inStunRange)
+        {
+            UnitManager.Instance.Player.ClearBaneOverlay();
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+    }
+
 }
 
 

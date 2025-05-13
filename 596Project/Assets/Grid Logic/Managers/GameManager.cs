@@ -88,6 +88,14 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.EnemyChoose:
+                if (UnitManager.Instance.Enemy.isStunned)
+                {
+                    Debug.Log("Enemy is stunned!");
+                    StartCoroutine(HandleStunned());
+                }
+                else
+                    UnitManager.Instance.EnemyChoose();
+                break;
                 UnitManager.Instance.EnemyChoose();
                 break;
 
@@ -151,6 +159,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator HandleStunned()
+    {
+        yield return new WaitForSeconds(1.0f);
+        UpdateGameState(GameState.ChooseOption);
+    }
+
     private void SpawnPlayerUnits()
     {
         
@@ -170,6 +184,7 @@ public class GameManager : MonoBehaviour
     Lose,
     Flee,
     Heal,
-    Bane
+    Bane,
+    Stun
 }
 }
