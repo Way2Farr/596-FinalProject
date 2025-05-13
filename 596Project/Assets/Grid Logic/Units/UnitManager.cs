@@ -505,8 +505,9 @@ public class UnitManager : MonoBehaviour
 
     //----------------ENEMY LOGIC------------------------
 
-    public void HandleEnemyAttack()
+    public IEnumerator HandleEnemyAttack(float delay)
     {
+        yield return new WaitForSeconds(delay);
         Debug.Log("Enemy attack!");
         
         StartCoroutine(PlayAttackAnimation(Enemy));

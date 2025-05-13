@@ -23,4 +23,12 @@ public class Enemy1 : BaseEnemy
 
         return _inRangeTiles;
     }
+    
+    public override List<Tile> getAttackTiles()
+    {
+        float tempRange = this.getAttackRange();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(this.transform.position, t.transform.position) <= tempRange && t._position != OccupiedTile._position).ToList();
+
+        return _inRangeTiles;
+    }
 }
