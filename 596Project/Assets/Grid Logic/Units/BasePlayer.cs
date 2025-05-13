@@ -30,6 +30,9 @@ public class BasePlayer : BaseUnit
         int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
 
         _currentHealth -= dmgTaken;
+        SpawnHitParticles();
+        hitParticlesInstance.Play();
+
 
         if(DamageTextPrefab) {
             ShowDmgTxt(dmgTaken);
@@ -57,6 +60,7 @@ public class BasePlayer : BaseUnit
         }
 
         Destroy(damageTextPro, 1.5f);
+        hitParticlesInstance.Stop();
     } 
  //___________________________________________________________________________________\\
  // HEAL FUNCTION
@@ -75,6 +79,7 @@ public class BasePlayer : BaseUnit
             }
 
             Destroy(healTextPro, 1.5f);
+            healthParticlesInstance.Stop();
         } 
 
     public void PlayerHeal() {
@@ -84,6 +89,8 @@ public class BasePlayer : BaseUnit
             _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
             healthFlask =- 1;
             CloseAbilitiesMenu();
+            SpawnHealParticles();
+            healthParticlesInstance.Play();
             UnitManager.Instance.hasPerformedAction = true;
             ShowHealTxt();
 
@@ -280,6 +287,7 @@ public class BasePlayer : BaseUnit
             UnitManager.Instance.hasPerformedAction = true;
             WindedIcon.SetActive(true);
             ManaPoints.text = "MP: " + manaPoint; 
+            SpawnWindedParticles();
 
             }
         }
@@ -296,6 +304,7 @@ public class BasePlayer : BaseUnit
             if(speedDuration == 0) {
                 _movementRange = originalSpeed;
                 WindedIcon.SetActive(false);
+                windedParticlesInstance.Stop();
                 MenuManager.Instance.EventMessages("Winded has ended!");
                 GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 
@@ -369,7 +378,7 @@ public class BasePlayer : BaseUnit
     public void HandleBane(BaseEnemy enemy) {
             if(enemy != null && _inBaneRange) {
             enemy.InflictBane(3);
-            ClearBaneOverlay();
+            ClearBaneOverlay();;
             manaPoint--;
             ManaPoints.text = "MP: " + manaPoint;
             UnitManager.Instance.hasPerformedAction = true;
@@ -469,6 +478,38 @@ public class BasePlayer : BaseUnit
 
         }
 
+//______________________________________Winded
+// Winded Particle Systems
 
-    
+[SerializeField] private ParticleSystem WindedParticles;
+private ParticleSystem windedParticlesInstance;
+
+private void SpawnWindedParticles() {
+    windedParticlesInstance = Instantiate(WindedParticles, transform.position, Quaternion.identity, transform);
+    windedParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    windedParticlesInstance.Play();
+}
+
+//______________________________________ Hit
+
+[SerializeField] private ParticleSystem HitParticles;
+private ParticleSystem hitParticlesInstance;
+private void SpawnHitParticles() {
+    hitParticlesInstance = Instantiate(HitParticles, transform.position, Quaternion.identity, transform);
+    hitParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    hitParticlesInstance.Play();
+}
+
+
+//______________________________________Health
+
+
+[SerializeField] private ParticleSystem HealthParticles;
+private ParticleSystem healthParticlesInstance;
+
+private void SpawnHealParticles() {
+    healthParticlesInstance = Instantiate(HealthParticles, transform.position, Quaternion.identity, transform);
+    healthParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    healthParticlesInstance.Play();
+}
 }

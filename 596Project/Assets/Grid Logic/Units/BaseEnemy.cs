@@ -42,8 +42,10 @@ public class BaseEnemy : BaseUnit
         if (enemyBaneDuration <= duration) {
             enemyBaneDuration = 2;
             BaneIcon.SetActive(true);
+            SpawnBaneParticles();
             originalDefense = _defense;
             _defense = 0;
+            
         }
     }
 
@@ -53,6 +55,7 @@ public class BaseEnemy : BaseUnit
             if(enemyBaneDuration == 0) {
                 _defense = originalDefense;
                 BaneIcon.SetActive(false);
+                 baneParticlesInstance.Stop();
                 UnitManager.Instance.Player.BaneIcon.SetActive(false);
             }
         }
@@ -69,6 +72,7 @@ public class BaseEnemy : BaseUnit
         if (enemyStunDuration <= duration) {
             enemyStunDuration = duration;
             StunIcon.SetActive(true);
+            SpawnStunParticles();
             isStunned = true;
         }
     }
@@ -80,6 +84,7 @@ public class BaseEnemy : BaseUnit
             if(enemyStunDuration == 0) {
                 isStunned = false;
                 StunIcon.SetActive(false);
+                stunParticlesInstance.Stop();
                 UnitManager.Instance.Player.StunIcon.SetActive(false);
             }
         }
@@ -115,6 +120,27 @@ public class BaseEnemy : BaseUnit
         GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
     }
 
+// Bane Particle Systems
 
+[SerializeField] private ParticleSystem BaneParticles;
+private ParticleSystem baneParticlesInstance;
+
+private void SpawnBaneParticles() {
+    baneParticlesInstance = Instantiate(BaneParticles, transform.position, Quaternion.identity, transform);
+    baneParticlesInstance.Play();
+    baneParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+}
+
+//______________________________________Stun
+// Stun Particle Systems
+
+[SerializeField] private ParticleSystem StunParticles;
+private ParticleSystem stunParticlesInstance;
+
+private void SpawnStunParticles() {
+    stunParticlesInstance = Instantiate(StunParticles, transform.position, Quaternion.identity, transform);
+    stunParticlesInstance.Play();
+    stunParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+}
 
 }

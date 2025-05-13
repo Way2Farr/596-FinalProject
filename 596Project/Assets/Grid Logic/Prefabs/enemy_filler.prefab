@@ -249,7 +249,11 @@ MonoBehaviour:
   _name: 
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
   BaneIcon: {fileID: 4991782244009639410}
+  _defeated: 0
   StunIcon: {fileID: 1663634788022963312}
+  isStunned: 0
+  BaneParticles: {fileID: 2176258052314786309, guid: 44c99346fd99b964da45c446ce767201, type: 3}
+  StunParticles: {fileID: 1904438122669478446, guid: d4fb1ba2e061f654dabab77858293618, type: 3}
 --- !u!1001 &682930335655290929
 PrefabInstance:
   m_ObjectHideFlags: 0

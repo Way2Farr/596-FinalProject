@@ -195,6 +195,9 @@ MonoBehaviour:
   _stunRange: 20
   StunIcon: {fileID: 8620718689268940316}
   _inStunRange: 0
+  WindedParticles: {fileID: 1069283824335500348, guid: d8bef63ec6f9036419c8ee3423c0920b, type: 3}
+  HitParticles: {fileID: 2288757979178403551, guid: b063dff296a182b40bc3930856be31ee, type: 3}
+  HealthParticles: {fileID: 8879666129579583400, guid: 8e66bf22c046d2e4198d198d6101de27, type: 3}
 --- !u!1001 &5916854962887946788
 PrefabInstance:
   m_ObjectHideFlags: 0
