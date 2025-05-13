@@ -170,7 +170,7 @@ MonoBehaviour:
   _maxHealth: 50
   _attack: 218
   _defense: 10
-  _movementRange: 30
+  _movementRange: 273
   _attackRange: 447
   _currentHealth: 50
   _name: The Queen
