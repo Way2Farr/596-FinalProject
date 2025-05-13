@@ -576,6 +576,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ButtonSetState
       objectReference: {fileID: 0}
+    - target: {fileID: 1704054655650913309, guid: bc2acbcd486063c40a877571625d9735, type: 3}
+      propertyPath: m_Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 8d90851e26e5f6c42bcf8dfc069d8052, type: 3}
     - target: {fileID: 2901858896943458646, guid: bc2acbcd486063c40a877571625d9735, type: 3}
       propertyPath: m_Name
       value: gameCanvas
@@ -1167,6 +1171,8 @@ MonoBehaviour:
   _menuFightSound: {fileID: 8300000, guid: bf9b221977a639d4a9fb109ff3f9729c, type: 3}
   _menuEndSound: {fileID: 8300000, guid: bf9b221977a639d4a9fb109ff3f9729c, type: 3}
   _victorySound: {fileID: 8300000, guid: 33f128dda788e2f4fa54023ddb059878, type: 3}
+  _defeatSound: {fileID: 8300000, guid: 6711b72e50251a84391ba23e4f9e10cd, type: 3}
+  clipVolume: 0.1
 --- !u!1 &352842241
 GameObject:
   m_ObjectHideFlags: 0
