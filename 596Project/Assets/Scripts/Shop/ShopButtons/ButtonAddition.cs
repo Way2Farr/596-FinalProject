@@ -27,6 +27,10 @@ public class ButtonAddition : MonoBehaviour
     [SerializeField] private Image stageTwo;
     [SerializeField] private Image stageThree;
 
+    [Header("Slider")]
+    [SerializeField] private Slider _slider;
+    [SerializeField] private string scene;
+
     //variables
     public GameObject gameStats;
     public StatManager statManager=null;
@@ -71,6 +75,14 @@ public class ButtonAddition : MonoBehaviour
         atkText.text = "Atk: "+ currentAtk.ToString();
         aRangeText.text = "ARnge: " + currentARange.ToString();
         mMoveText.text = "MRange: " + currentMRange.ToString();
+    }
+    void Update()
+    {
+        if (_slider.value == 1f)//change to Blackscreen fade
+        {
+            Debug.Log("SceneLoad");
+            SceneManager.LoadScene(scene);
+        }
     }
     public void HPAdd()
     {
@@ -135,7 +147,6 @@ public class ButtonAddition : MonoBehaviour
     public void NextLevel()
     {
         statManager.IncreaseStats(currentHp, currentAtk, currentDef, currentMRange, currentARange);
-
-        SceneManager.LoadScene("NextLevel");
     }
+    
 } 
