@@ -1,15 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 
 public class VictoryScreen : MonoBehaviour
 {
-
-    // transition
-    [SerializeField] private Image blackscreen;
-    [SerializeField] private Animator anim;
 
     public static VictoryScreen Instance;
 
@@ -17,6 +10,8 @@ public class VictoryScreen : MonoBehaviour
     public GameObject _gameCanvas;
 
     [SerializeField] private GameObject[] _menu;
+
+    [SerializeField] private GameObject[] _lossMenu;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -53,15 +48,19 @@ public class VictoryScreen : MonoBehaviour
         }
     }
 
-    public void LoadShopScene()
+    public void StartLossScreen()
     {
-        StartCoroutine(Fade());
+
+        // reappear all objects
+        foreach (GameObject panel in _lossMenu)
+        {
+            panel.SetActive(true);
+
+        }
     }
 
-    IEnumerator Fade()
+    public void LoadShopScene()
     {
-        anim.SetBool("fade", true);
-        yield return new WaitUntil(() => blackscreen.color.a == 1);
         SceneManager.LoadScene("Shop (Nick)");
     }
 }

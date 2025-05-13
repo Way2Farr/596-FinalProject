@@ -167,12 +167,12 @@ MonoBehaviour:
   _doOffset: 0
   _originalChildX: 0
   healthbar: {fileID: 0}
-  _maxHealth: 10
+  _maxHealth: 30
   _attack: 218
   _defense: 10
-  _movementRange: 30
+  _movementRange: 192
   _attackRange: 435
-  _currentHealth: 0
+  _currentHealth: 30
   _name: The Queen
   MenuShow: 0
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
@@ -433,11 +433,6 @@ GameObject:
 --- !u!4 &6414996316441395943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 800023438211985603, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
-  m_PrefabInstance: {fileID: 5916854962887946788}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8620718689268940316 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2719635157677198392, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
   m_PrefabInstance: {fileID: 5916854962887946788}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6056245337039393171

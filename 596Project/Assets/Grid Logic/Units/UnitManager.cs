@@ -146,72 +146,7 @@ public class UnitManager : MonoBehaviour
        
     }
 
-    public void ShowEnemyMovementOverlay()
-    {
-
-        ClearEnemyMovementOverlay();
-        //UnitManager.Instance.SetSelectedHero(Player);
-        //float tempRange = (float)Player.getMovementRange();
-        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in Enemy.getMovementTiles())
-        {
-            tile.RangeActive();
-        }
-
-        StartCoroutine(EnemyPause()); // wait one second before moving
-    }
-
-    IEnumerator EnemyPause()
-    {
-        yield return new WaitForSeconds(0.1f);
-
-        foreach (Tile tile in Enemy.getMovementTiles())
-        {
-            tile.RangeActive();
-        }
-
-        yield return new WaitForSeconds(0.9f);
-        
-        // if state = EnemyMove
-        List<Tile> EnemyRange = Enemy.getMovementTiles();
-        Tile enemyTile = EnemyRange[Random.Range(0, EnemyRange.Count)];
-        enemyTile.SetUnit(Enemy);
-        _startMoving = true;
-        ClearEnemyMovementOverlay();
-
-        // if state = EnemyAttack call other function
-    }
-
-    public void ClearEnemyMovementOverlay()
-    {
-        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
-        foreach (Tile tile in GridManager.Instance._tilesList) 
-        {
-            tile.RangeInactive();
-        }
-    }
-
-    public void ShowEnemyAttackOverlay()
-    {
-
-        ClearEnemyAttackOverlay();
-        //UnitManager.Instance.SetSelectedHero(Player);
-        //float tempRange = (float)Player.getAttackRange();
-        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
-        foreach (Tile tile in Enemy.getAttackTiles())
-        {
-            tile.RangeActive();
-        }
-    }
-
-    public void ClearEnemyAttackOverlay()
-    {
-        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
-        foreach (Tile tile in GridManager.Instance._tilesList)
-        {
-            tile.RangeInactive();
-        }
-    }
+    
 
     public void MoveTile()
     {
@@ -279,8 +214,6 @@ public class UnitManager : MonoBehaviour
 
     public void EnemyMoveTile()
     {
-
-
         bool movementFlag = false;
         if (_startMoving && GameManager.Instance.State == GameManager.GameState.EnemyMove && _startingTile != null && _endTile != null)
         {
@@ -363,9 +296,16 @@ public class UnitManager : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
 
-        TurnCheck();
+        else if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            ClearEnemyAttackOverlay();
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+
+        
 
     }
 
@@ -417,6 +357,9 @@ public class UnitManager : MonoBehaviour
         SetSelectedHero(null);
         AttackFlag();
     }
+
+    
+
 
     public void AttackFlag() {
 
@@ -473,15 +416,107 @@ public class UnitManager : MonoBehaviour
     public void CheckMagic() {
         Player.WindedDuration();
         Enemy.BaneDuration();
-        Enemy.StunDuration();
     }
 
+
+    //----------- ENEMY TURN LOGIC ------------------------------
+    public void ShowEnemyMovementOverlay()
+    {
+
+        ClearEnemyMovementOverlay();
+        //UnitManager.Instance.SetSelectedHero(Player);
+        //float tempRange = (float)Player.getMovementRange();
+        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
+        foreach (Tile tile in Enemy.getMovementTiles())
+        {
+            tile.RangeActive();
+        }
+
+        StartCoroutine(EnemyPause()); // wait one second before moving
+    }
+
+    IEnumerator EnemyPause()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        foreach (Tile tile in Enemy.getMovementTiles())
+        {
+            tile.RangeActive();
+        }
+
+        yield return new WaitForSeconds(0.9f);
+
+        // if state = EnemyMove
+        List<Tile> EnemyRange = Enemy.getMovementTiles();
+        Tile enemyTile = EnemyRange[Random.Range(0, EnemyRange.Count)];
+        enemyTile.SetUnit(Enemy);
+        _startMoving = true;
+        ClearEnemyMovementOverlay();
+
+        // if state = EnemyAttack call other function
+    }
+
+    public void ClearEnemyMovementOverlay()
+    {
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
+        foreach (Tile tile in GridManager.Instance._tilesList)
+        {
+            tile.RangeInactive();
+        }
+    }
+
+    public void ShowEnemyAttackOverlay()
+    {
+
+        ClearEnemyAttackOverlay();
+        //UnitManager.Instance.SetSelectedHero(Player);
+        //float tempRange = (float)Player.getAttackRange();
+        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.Where(t => Vector2.Distance(Player.transform.position, t.transform.position) <= tempRange).ToList();
+        foreach (Tile tile in Enemy.getAttackTiles())
+        {
+            tile.RangeActive();
+        }
+    }
+
+    public void ClearEnemyAttackOverlay()
+    {
+        //List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values.ToList();
+        foreach (Tile tile in GridManager.Instance._tilesList)
+        {
+            tile.RangeInactive();
+        }
+    }
+    public void HandleEnemyAttack()
+    {
+        if (true)
+        {
+            ShowEnemyAttackOverlay();
+
+            if (Enemy.PlayerInAttackRange())
+            {
+                Player.OnHurt(Enemy._attack);
+                StartCoroutine(PlayDamagedAnimation(Player));
+            }
+
+            StartCoroutine(PlayAttackAnimation(Enemy));
+            
+            
+        }
+    }
     public void EnemyChoose() {
 
-        // if enemy in range then EnemyAttack
 
+        // if enemy in range then EnemyAttack
+        if (Enemy.PlayerInAttackRange())
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyAttack);
+        }
+        else
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        }
         // else EnemyMove
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        //GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
     }
     
 }
