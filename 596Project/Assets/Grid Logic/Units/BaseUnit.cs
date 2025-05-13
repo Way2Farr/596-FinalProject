@@ -30,7 +30,7 @@ public class BaseUnit : MonoBehaviour
     private Slider healthbar;
 
     [SerializeField]
-    public int _maxHealth, _attack, _defense, _movementRange, _attackRange;
+    public int _maxHealth, _attack, _defense, _movementRange, _attackRange, _manaPoint;
     public int _currentHealth;
 
     [SerializeField]
@@ -45,6 +45,7 @@ public class BaseUnit : MonoBehaviour
         _childTransform = GetComponentInChildren<Transform>();
         _originalChildX = _childTransform.localPosition.x;
         _currentHealth = _maxHealth;
+
     }
     public int getMovementRange()
     {

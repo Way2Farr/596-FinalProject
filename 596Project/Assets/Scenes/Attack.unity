@@ -290,6 +290,7 @@ MonoBehaviour:
   _defense: 0
   _movementRange: 0
   _attackRange: 0
+  _manaPoint: 0
   _currentHealth: 1
   _inBattlePhase: 0
   _inShopPhase: 0

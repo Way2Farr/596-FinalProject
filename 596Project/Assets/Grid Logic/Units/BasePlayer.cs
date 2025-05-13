@@ -20,7 +20,7 @@ public class BasePlayer : BaseUnit
     void Start()
     {
      _currentHealth = _maxHealth;
-     ManaPoints.text = "MP: " + manaPoint; 
+     ManaPoints.text = "MP: " + StatManager.Instance._manaPoint; 
     }
 
     //___________________________________________________________________________________\\
@@ -254,7 +254,6 @@ public class BasePlayer : BaseUnit
 
  //___________________________________________________________________________________\\
 // WINDED BUFF
-    int manaPoint = 3;
     int speedBuff = 20;
 
     int speedDuration;    
@@ -277,16 +276,16 @@ public class BasePlayer : BaseUnit
             return;
         }
 
-        if(manaPoint > 0 ){
+        if(_manaPoint > 0 ){
             if(speedDuration <= 0) {
             speedDuration = 2;
             originalSpeed = _movementRange;
             _movementRange += speedBuff;
-            manaPoint--;
+            _manaPoint--;
 
             UnitManager.Instance.hasPerformedAction = true;
             WindedIcon.SetActive(true);
-            ManaPoints.text = "MP: " + manaPoint; 
+            ManaPoints.text = "MP: " + _manaPoint; 
             SpawnWindedParticles();
 
             }
@@ -326,7 +325,7 @@ public class BasePlayer : BaseUnit
             return;
         }
 
-        if(manaPoint > 0) {
+        if(_manaPoint > 0) {
                 ShowBaneOverlay();
                 
         }
@@ -379,8 +378,8 @@ public class BasePlayer : BaseUnit
             if(enemy != null && _inBaneRange) {
             enemy.InflictBane(3);
             ClearBaneOverlay();;
-            manaPoint--;
-            ManaPoints.text = "MP: " + manaPoint;
+            _manaPoint--;
+            ManaPoints.text = "MP: " + _manaPoint;
             UnitManager.Instance.hasPerformedAction = true;
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
             BaneIcon.SetActive(true);
@@ -410,7 +409,7 @@ public class BasePlayer : BaseUnit
             return;
         }
 
-        if(manaPoint > 0) {
+        if(_manaPoint > 0) {
                 ShowStunOverlay();
     
         }
@@ -463,8 +462,8 @@ public class BasePlayer : BaseUnit
             if(enemy != null && _inStunRange) {
             enemy.InflictStun(3);
             ClearStunOverlay();
-            manaPoint--;
-            ManaPoints.text = "MP: " + manaPoint;
+            _manaPoint--;
+            ManaPoints.text = "MP: " + _manaPoint;
             UnitManager.Instance.hasPerformedAction = true;
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
             StunIcon.SetActive(true);

@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.Player._attackRange = StatManager.Instance._attackRange;
                 UnitManager.Instance.Player._movementRange = StatManager.Instance._movementRange;
                 UnitManager.Instance.Player._attackRange = StatManager.Instance._attackRange;
+                UnitManager.Instance.Player._manaPoint = StatManager.Instance._manaPoint;
+
             }
         }
     }

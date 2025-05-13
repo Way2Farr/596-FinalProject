@@ -41,7 +41,7 @@ public class ButtonAddition : MonoBehaviour
     public int currentHp = 0; //10 set to default for testing
     public int currentDef = 10;
     public int currentAtk = 10;
-    public int currentMp = 10;
+    public int currentMp = 3;
     public int currentARange = 10;
     public int currentMRange = 10;
     public int skillPoints = 6;
@@ -155,8 +155,9 @@ public class ButtonAddition : MonoBehaviour
         {
             skillPoints = skillPoints - 1;
             skillPointText.text = "Skill Points: " + skillPoints.ToString();
-            currentMp = currentMp + 10;
+            currentMp += 10;
             mpText.text = "MP: " + currentMp.ToString();
+            
         }
     }
     public void ARangeAdd()
@@ -181,7 +182,7 @@ public class ButtonAddition : MonoBehaviour
     }
     public void NextLevel()
     {
-        statManager.IncreaseStats(currentHp, currentAtk, currentDef, currentMRange, currentARange);
+        statManager.IncreaseStats(currentHp, currentAtk, currentDef, currentMRange, currentARange, (currentMp/10));
     }
     
 } 
