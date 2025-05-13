@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class BaseEnemy : BaseUnit
 {
@@ -115,6 +116,19 @@ public class BaseEnemy : BaseUnit
     {
         yield return new WaitForSeconds(delayTime);
         GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
+    }
+
+
+
+    public bool PlayerInAttackRange()
+    {
+        return true;
+
+        List<Tile> _playerTiles = this.getAttackTiles().Where(t => t._position == UnitManager.Instance.Player.OccupiedTile._position).ToList();
+
+        bool playerInRange = _playerTiles.Count > 0;
+
+        return playerInRange;
     }
 
 

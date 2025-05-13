@@ -362,9 +362,15 @@ public class UnitManager : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
 
-        TurnCheck();
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            ClearEnemyAttackOverlay();
+        }
+        
 
     }
 
@@ -401,9 +407,15 @@ public class UnitManager : MonoBehaviour
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+            TurnCheck();
         }
+
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
+        }
+
         
-        TurnCheck();
     }
 
     
@@ -478,9 +490,32 @@ public class UnitManager : MonoBehaviour
     public void EnemyChoose() {
 
         // if enemy in range then EnemyAttack
-
+        if (Enemy.PlayerInAttackRange())
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyAttack);
+        }
         // else EnemyMove
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        else
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyMove);
+        }
+        
     }
-    
+
+    //----------------ENEMY LOGIC------------------------
+
+    public void HandleEnemyAttack()
+    {
+        Debug.Log("Enemy attack!");
+        ShowEnemyAttackOverlay();
+        PlayAttackAnimation(Enemy);
+        
+        if(Enemy.PlayerInAttackRange())
+        {
+            PlayDamagedAnimation(Player);
+            Player.OnHurt(Enemy._attack);
+        }
+
+        //ClearEnemyAttackOverlay();
+    }
 }

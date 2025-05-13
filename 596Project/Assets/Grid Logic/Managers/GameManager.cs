@@ -99,6 +99,7 @@ public class GameManager : MonoBehaviour
                 UnitManager.Instance.ShowEnemyMovementOverlay();
                 break;
             case GameState.EnemyAttack:
+                UnitManager.Instance.HandleEnemyAttack();
                 break;
             case GameState.Victory:
                 VictoryScreen.Instance.StartVictoryScreen();
