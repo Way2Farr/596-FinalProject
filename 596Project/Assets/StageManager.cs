@@ -15,11 +15,19 @@ public class StageManager : MonoBehaviour
     private float elapsedTime=0;
     private bool isFillingToHalf = true;
     private bool isFillingToFull = false;
-    
+    public GameObject gameStats;
+    public StatManager statManager = null;
 
     void Awake()
     {
-
+        gameStats = GameObject.FindGameObjectWithTag("StatManager");
+        statManager = gameStats.GetComponent<StatManager>();
+        if(statManager._currentRound == 2)
+        {
+            _slider = _sliderTwo;
+            _sliderOne.value = 1f;
+            Debug.Log("Round 2 Done");
+        }
     }
     void Start()
     {
@@ -27,7 +35,7 @@ public class StageManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (isFillingToHalf && _slider.value < 0.5f) 
         {
