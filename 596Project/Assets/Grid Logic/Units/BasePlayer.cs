@@ -84,7 +84,6 @@ public class BasePlayer : BaseUnit
 
     public void PlayerHeal() {
 
-        Debug.Log("has attacked is " + UnitManager.Instance.hasPerformedAction);
         if( healthFlask > 0 && !UnitManager.Instance.hasPerformedAction) {
             _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
             healthFlask =- 1;
@@ -486,7 +485,7 @@ private ParticleSystem windedParticlesInstance;
 
 private void SpawnWindedParticles() {
     windedParticlesInstance = Instantiate(WindedParticles, transform.position, Quaternion.identity, transform);
-    windedParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    windedParticlesInstance.transform.rotation = Quaternion.Euler(-20,0,0);
     windedParticlesInstance.Play();
 }
 
@@ -508,8 +507,21 @@ private void SpawnHitParticles() {
 private ParticleSystem healthParticlesInstance;
 
 private void SpawnHealParticles() {
+    Debug.Log("Spawned Heal!");
     healthParticlesInstance = Instantiate(HealthParticles, transform.position, Quaternion.identity, transform);
     healthParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
     healthParticlesInstance.Play();
 }
+
+
+//______________________________________ Swing
+
+[SerializeField] private ParticleSystem SwingParticles;
+public  ParticleSystem swingParticlesInstance;
+public void SpawnSwingParticles() {
+    swingParticlesInstance = Instantiate(SwingParticles, transform.position, Quaternion.identity, transform);
+    swingParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    swingParticlesInstance.Play();
+}
+
 }

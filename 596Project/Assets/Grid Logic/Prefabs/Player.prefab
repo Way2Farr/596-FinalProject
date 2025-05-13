@@ -175,7 +175,7 @@ MonoBehaviour:
   _name: The Queen
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
   HealTextPrefab: {fileID: 4239752789521403035}
-  healthFlask: 1
+  healthFlask: 2
   healAmount: 5
   _abilities:
   - {fileID: 4789870082975449263}
@@ -198,6 +198,8 @@ MonoBehaviour:
   WindedParticles: {fileID: 1069283824335500348, guid: d8bef63ec6f9036419c8ee3423c0920b, type: 3}
   HitParticles: {fileID: 2288757979178403551, guid: b063dff296a182b40bc3930856be31ee, type: 3}
   HealthParticles: {fileID: 8879666129579583400, guid: 8e66bf22c046d2e4198d198d6101de27, type: 3}
+  SwingParticles: {fileID: 2288757979178403551, guid: b063dff296a182b40bc3930856be31ee, type: 3}
+  swingParticlesInstance: {fileID: 0}
 --- !u!1001 &5916854962887946788
 PrefabInstance:
   m_ObjectHideFlags: 0
