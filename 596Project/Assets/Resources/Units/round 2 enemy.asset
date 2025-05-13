@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d65fe0e61e22c89459666d4772a35b8f, type: 3}
-  m_Name: Enemy1 1
+  m_Name: round 2 enemy
   m_EditorClassIdentifier: 
   Faction: 1
-  UnitPrefab: {fileID: 3142974059691096174, guid: d17609a1904544f46ab946e9254c83bd, type: 3}
+  UnitPrefab: {fileID: 3142974059691096174, guid: 2a0e2b3e1dfe2af44985bcc00cdc9570, type: 3}
   RoundNumber: 2

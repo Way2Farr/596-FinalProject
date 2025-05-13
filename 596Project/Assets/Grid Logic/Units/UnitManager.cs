@@ -133,7 +133,7 @@ public class UnitManager : MonoBehaviour
 
     private T GetSpecificUnit<T>(Faction Faction, RoundNumber RoundNumber) where T : BaseUnit
     {
-        return (T)_units.Where(u => u.RoundNumber == RoundNumber).OrderBy(o => Random.value).First().UnitPrefab;
+        return (T)_units.Where(u => u.RoundNumber == RoundNumber).First().UnitPrefab;
     }
 
 

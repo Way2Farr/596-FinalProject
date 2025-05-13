@@ -93,8 +93,30 @@ public class ButtonAddition : MonoBehaviour
     IEnumerator Fade()
     {
         anim.SetBool("fade", true);
+
+
+        int currentRound = 1;
+
+        if (StatManager.Instance != null)
+        {
+            currentRound = statManager._currentRound;
+        }
+            
         yield return new WaitUntil(() => blackscreen.color.a == 1);
-        SceneManager.LoadScene(scene);
+
+        if (currentRound == 2)
+        {
+            SceneManager.LoadScene("Round 2");
+        }
+            
+        else if (currentRound == 3)
+        {
+            SceneManager.LoadScene("Round 3");
+        }
+        else
+        {
+            SceneManager.LoadScene("Title Screen");
+        }
     }
 
     public void HPAdd()

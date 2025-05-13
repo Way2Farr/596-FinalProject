@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 891a2d8dc05bb5e498d4d7357da0ab69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _roundNumber: 1
   OccupiedTile: {fileID: 0}
   Faction: 0
   _unitAnimator: {fileID: 0}
@@ -170,7 +171,7 @@ MonoBehaviour:
   _attack: 218
   _defense: 10
   _movementRange: 30
-  _attackRange: 20
+  _attackRange: 447
   _currentHealth: 0
   _name: The Queen
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}

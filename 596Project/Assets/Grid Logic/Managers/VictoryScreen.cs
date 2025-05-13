@@ -84,7 +84,16 @@ public class VictoryScreen : MonoBehaviour
     {
         anim.SetBool("fade", true);
         yield return new WaitUntil(() => blackscreen.color.a == 1);
-        SceneManager.LoadScene("Shop (Nick)");
+
+        if (StatManager.Instance._currentRound >= 3)
+        {
+            SceneManager.LoadScene("Title Screen");
+        }
+        else
+        {
+            SceneManager.LoadScene("Shop (Nick)");
+        }
+        
     }
 
     IEnumerator TitleFade()
