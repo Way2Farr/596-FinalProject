@@ -17,6 +17,8 @@ public class VictoryScreen : MonoBehaviour
     public GameObject _gameCanvas;
 
     [SerializeField] private GameObject[] _menu;
+
+    [SerializeField] private GameObject[] _loseScreen;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -26,6 +28,10 @@ public class VictoryScreen : MonoBehaviour
             panel.SetActive(false);
         }
 
+        foreach (GameObject panel in _loseScreen)
+        {
+            panel.SetActive(false);
+        }
 
 
     }
@@ -47,6 +53,17 @@ public class VictoryScreen : MonoBehaviour
 
         // reappear all objects
         foreach (GameObject panel in _menu)
+        {
+            panel.SetActive(true);
+
+        }
+    }
+
+    public void StartLossScreen()
+    {
+
+        // reappear all objects
+        foreach (GameObject panel in _loseScreen)
         {
             panel.SetActive(true);
 

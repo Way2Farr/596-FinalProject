@@ -22,7 +22,11 @@ public class GameManager : MonoBehaviour
     //--------------
     [SerializeField]
 
-    AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound;
+    AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound, _victorySound, _defeatSound;
+
+    [SerializeField]
+
+    float clipVolume = 0.1f;
 
     //--------------
 
@@ -43,6 +47,10 @@ public class GameManager : MonoBehaviour
     public void UpdateGameState(GameState newState)
     {
 
+        if (GameManager.Instance.State == GameManager.GameState.Victory || GameManager.Instance.State == GameManager.GameState.Lose)
+        {
+            return;
+        }
         State = newState;
         Debug.Log(newState.ToString());
 
@@ -58,19 +66,25 @@ public class GameManager : MonoBehaviour
                 break;
                 
             case GameState.PlayerMove:
+
+            SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, clipVolume);
+
             if (UnitManager.Instance.hasMoved) {
                 StartCoroutine(AlreadyMoved());
                 return;
             }
 
             else{
-                SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, 0.4f);
+                
                 UnitManager.Instance.ShowMovementOverlay();
                 UnitManager.Instance.Player.CloseAbilitiesMenu();
             }
                 break;
 
             case GameState.PlayerAttack:
+
+            SoundFXManager.Instance.PlayClip(_menuFightSound, this.transform, clipVolume);
+
             if(UnitManager.Instance.Player != null) {
                 UnitManager.Instance.Player.CloseAbilitiesMenu();
             }
@@ -81,7 +95,7 @@ public class GameManager : MonoBehaviour
                     return;
                 }
                 else{
-                    SoundFXManager.Instance.PlayClip(_menuFightSound, this.transform, 0.4f);
+                    
                     UnitManager.Instance.ShowAttackOverlay();
                 }    
                 break;
@@ -102,9 +116,12 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(UnitManager.Instance.HandleEnemyAttack(1.0f));
                 break;
             case GameState.Victory:
+                SoundFXManager.Instance.PlayClip(_victorySound, this.transform, clipVolume);
                 VictoryScreen.Instance.StartVictoryScreen();
                 break;
             case GameState.Lose:
+                SoundFXManager.Instance.PlayClip(_defeatSound, this.transform, clipVolume);
+                VictoryScreen.Instance.StartLossScreen();
                 break;
             case GameState.Flee:
                 break;
@@ -121,7 +138,9 @@ public class GameManager : MonoBehaviour
         {
             case 0:
 
-                if(!UnitManager.Instance.hasPerformedAction) {
+                SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, clipVolume);
+
+                if (!UnitManager.Instance.hasPerformedAction) {
                 UnitManager.Instance.Player.OpenAbilities(GameState.ChooseOption);
                 }
                 else {
@@ -135,14 +154,14 @@ public class GameManager : MonoBehaviour
                 break;
             case 2:
                 UpdateGameState(GameState.Flee);
-                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, clipVolume);
                 //SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();
                 break;
 
             case 99:
-                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, 0.4f);
+                SoundFXManager.Instance.PlayClip(_menuEndSound, this.transform, clipVolume);
                 SceneManager.LoadScene("Shop (Nick)");
                 UnitManager.Instance.endedTurn = true;
                 UnitManager.Instance.TurnCheck();

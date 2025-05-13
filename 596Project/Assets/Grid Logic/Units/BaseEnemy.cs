@@ -109,7 +109,7 @@ public class BaseEnemy : BaseUnit
 
 
 
-        StartCoroutine(VictoryDelay(2.5f));
+        StartCoroutine(VictoryDelay(0.1f));
     }
 
     public IEnumerator VictoryDelay(float delayTime)
