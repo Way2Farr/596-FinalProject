@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
             else{
                 SoundFXManager.Instance.PlayClip(_menuMoveSound, this.transform, clipVolume);
                 UnitManager.Instance.ShowMovementOverlay();
-                UnitManager.Instance.Player.CloseAbilitiesMenu();
             }
                 break;
 
@@ -89,11 +88,6 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.EnemyChoose:
-                if(UnitManager.Instance.Enemy.isStunned) {
-                    Debug.Log("Enemy is stunned!");
-                    StartCoroutine(HandleStunned());
-                  }
-                  else
                 UnitManager.Instance.EnemyChoose();
                 break;
 
@@ -157,11 +151,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private IEnumerator HandleStunned() {
-        yield return new WaitForSeconds(1.0f);
-        UpdateGameState(GameState.ChooseOption);
-    }
-
     private void SpawnPlayerUnits()
     {
         
@@ -181,7 +170,6 @@ public class GameManager : MonoBehaviour
     Lose,
     Flee,
     Heal,
-    Bane,
-    Stun
+    Bane
 }
 }

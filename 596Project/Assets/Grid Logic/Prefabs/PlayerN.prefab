@@ -192,9 +192,6 @@ MonoBehaviour:
   _baneRange: 10
   BaneIcon: {fileID: 2730817439198128455}
   _inBaneRange: 0
-  _stunRange: 0
-  StunIcon: {fileID: 6810641192566460520}
-  _inStunRange: 0
 --- !u!1001 &8879506169594534992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -271,11 +268,6 @@ MonoBehaviour:
 --- !u!1 &2730817439198128455 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6836350086369965335, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
-  m_PrefabInstance: {fileID: 8879506169594534992}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6810641192566460520 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2719635157677198392, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
   m_PrefabInstance: {fileID: 8879506169594534992}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8079482765878160531 stripped
