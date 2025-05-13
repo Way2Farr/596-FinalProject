@@ -170,7 +170,7 @@ MonoBehaviour:
   _defense: 10
   _movementRange: 20
   _attackRange: 20
-  _currentHealth: 50
+  _currentHealth: 2
   _name: 
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
   BaneIcon: {fileID: 4991782244009639410}

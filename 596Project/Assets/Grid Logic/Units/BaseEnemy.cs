@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class BaseEnemy : BaseUnit
     public GameObject DamageTextPrefab;
     public GameObject BaneIcon;
 
+    public bool _defeated = false;
     private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
 
     public virtual void OnHurt(int attackDamage) {
@@ -70,7 +72,18 @@ public class BaseEnemy : BaseUnit
     } 
 
     void IsDead(){
-        Destroy(gameObject);
+        this._spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
+        _defeated = true;
+
+
+
+        StartCoroutine(VictoryDelay(2.5f));
+    }
+
+    public IEnumerator VictoryDelay(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+        GameManager.Instance.UpdateGameState(GameManager.GameState.Victory);
     }
 
 }

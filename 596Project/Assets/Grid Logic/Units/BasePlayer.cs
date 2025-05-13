@@ -109,7 +109,7 @@ public class BasePlayer : BaseUnit
     }
 
     void IsDead(){
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }   
 
     // Rook behavior (can use later)

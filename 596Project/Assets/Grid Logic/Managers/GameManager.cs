@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
             case GameState.EnemyAttack:
                 break;
             case GameState.Victory:
+                VictoryScreen.Instance.StartVictoryScreen();
                 break;
             case GameState.Lose:
                 break;

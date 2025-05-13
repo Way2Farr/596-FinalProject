@@ -441,7 +441,10 @@ public class UnitManager : MonoBehaviour
     if(hasPerformedAction && hasMoved) { // Complete Turn
         
         TurnReset(); 
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        if (!Enemy._defeated)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        }
         return;
     }
 
@@ -454,7 +457,12 @@ public class UnitManager : MonoBehaviour
         endedTurn = false;
         CheckMagic();
         GameManager.Instance.TurnManager.Tick();
-        GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+
+        if (!Enemy._defeated)
+        {
+            GameManager.Instance.UpdateGameState(GameManager.GameState.EnemyChoose);
+        }
+        
 
     }
 

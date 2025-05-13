@@ -167,10 +167,10 @@ MonoBehaviour:
   _originalChildX: 0
   healthbar: {fileID: 0}
   _maxHealth: 10
-  _attack: 10
+  _attack: 218
   _defense: 10
   _movementRange: 30
-  _attackRange: 20
+  _attackRange: 435
   _currentHealth: 0
   _name: The Queen
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
@@ -243,6 +243,10 @@ PrefabInstance:
     - target: {fileID: 2222883963763577616, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
       propertyPath: m_Name
       value: MagicUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6862909812082286108, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
+      propertyPath: m_text
+      value: 'MP: 3'
       objectReference: {fileID: 0}
     - target: {fileID: 8516248056085324451, guid: 895bdb6a5407cc14fae0ebc56efac189, type: 3}
       propertyPath: m_SortingOrder
