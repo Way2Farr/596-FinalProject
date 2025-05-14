@@ -11,9 +11,9 @@ public class EnemyRound3 : BaseEnemy
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (_healthbar != null) _healthbar.value = (float)_currentHealth / (float)_maxHealth;
     }
 
     public override List<Tile> getMovementTiles()

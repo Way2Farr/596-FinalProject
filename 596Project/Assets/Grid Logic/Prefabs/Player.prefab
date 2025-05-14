@@ -169,10 +169,10 @@ MonoBehaviour:
   _doOffset: 0
   _originalChildX: 0
   _maxHealth: 50
-  _attack: 218
-  _defense: 10
-  _movementRange: 273
-  _attackRange: 447
+  _attack: 50
+  _defense: 30
+  _movementRange: 40
+  _attackRange: 30
   _manaPoint: 3
   _currentHealth: 50
   _name: The Queen
