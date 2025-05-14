@@ -86,7 +86,7 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsMoving, true);
 
 
-        if(GameObject.FindGameObjectsWithTag("Sound").Length <= 2)
+        if(GameObject.FindGameObjectsWithTag("Sound").Length <= 1)
         {
             SoundFXManager.Instance.PlayClip(_moveFX, this.transform, 0.1f);
         }
