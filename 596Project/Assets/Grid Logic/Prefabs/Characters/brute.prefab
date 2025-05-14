@@ -173,7 +173,7 @@ Animator:
   m_GameObject: {fileID: 6113083596650585057}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1b938efa792de94f82f7ec180154c9d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 61079228f7882234388917385d33690f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -194,6 +194,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6560191903133151019}
+  - component: {fileID: 2074197774447708654}
   m_Layer: 0
   m_Name: brute
   m_TagString: Enemy
@@ -219,6 +220,46 @@ Transform:
   - {fileID: 8220977782618392591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
+--- !u!114 &2074197774447708654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798639546016059439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f5114dea619df458c2ebeb10c374c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _roundNumber: 1
+  OccupiedTile: {fileID: 0}
+  Faction: 1
+  _unitAnimator: {fileID: 0}
+  _spriteRenderer: {fileID: 0}
+  _childTransform: {fileID: 0}
+  _healthbar: {fileID: 0}
+  _animOffset: 0
+  _doOffset: 0
+  _originalChildX: 0
+  _maxHealth: 100
+  _attack: 40
+  _defense: 30
+  _movementRange: 10
+  _attackRange: 10
+  _manaPoint: 0
+  _currentHealth: 60
+  _name: Brutus
+  _attackFX: {fileID: 8300000, guid: a46e3c06c5292f34088d63940a479256, type: 3}
+  _moveFX: {fileID: 8300000, guid: 4c9b69a7451ee2c45a744f7a60c9d20f, type: 3}
+  _damageFX: {fileID: 0}
+  DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
+  BaneIcon: {fileID: 4991782244009639410}
+  _defeated: 0
+  StunIcon: {fileID: 1663634788022963312}
+  isStunned: 0
+  BaneParticles: {fileID: 2176258052314786309, guid: 44c99346fd99b964da45c446ce767201, type: 3}
+  StunParticles: {fileID: 1904438122669478446, guid: d4fb1ba2e061f654dabab77858293618, type: 3}
 --- !u!1001 &682930335655290929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -346,6 +387,11 @@ PrefabInstance:
 --- !u!224 &102015058405339851 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 581016725482363642, guid: 9e83159d7b69e7a49844bb0baa0f88dc, type: 3}
+  m_PrefabInstance: {fileID: 682930335655290929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4991782244009639410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5493298653472331203, guid: 9e83159d7b69e7a49844bb0baa0f88dc, type: 3}
   m_PrefabInstance: {fileID: 682930335655290929}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1578345072290941220
