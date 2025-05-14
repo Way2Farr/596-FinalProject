@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: round 2 enemy
   m_EditorClassIdentifier: 
   Faction: 1
-  UnitPrefab: {fileID: 3142974059691096174, guid: 2a0e2b3e1dfe2af44985bcc00cdc9570, type: 3}
+  UnitPrefab: {fileID: 1649581632051525853, guid: 236fcd4a22e4739418f7bb814753433d, type: 3}
   RoundNumber: 2

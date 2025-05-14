@@ -7,8 +7,9 @@ public class StatManager : MonoBehaviour
     public int _currentRound = 1;
 
     [SerializeField]
-    public int _maxHealth, _attack, _defense, _movementRange, _attackRange = 0;
+    public int _maxHealth, _attack, _defense, _movementRange, _attackRange,_manaPoint = 0;
     public int _currentHealth;
+    public int _origMana;
 
     [SerializeField]
     public bool _inBattlePhase, _inShopPhase;
@@ -32,6 +33,7 @@ public class StatManager : MonoBehaviour
             _defense = UnitManager.Instance.Player._defense;
             _movementRange = UnitManager.Instance.Player._movementRange;
             _attackRange = UnitManager.Instance.Player._attackRange;
+            _manaPoint = UnitManager.Instance.Player._manaPoint;
 
         }
 
@@ -48,7 +50,7 @@ public class StatManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void IncreaseStats (int health, int attack, int defense, int movementRange, int attackRange)
+    public void IncreaseStats (int health, int attack, int defense, int movementRange, int attackRange, int manaPoint)
     {
         _currentRound++;
         _maxHealth = health;
@@ -56,6 +58,7 @@ public class StatManager : MonoBehaviour
         _defense = defense;
         _movementRange = movementRange;
         _attackRange = attackRange;
+        _manaPoint = manaPoint;
     }
 
 
