@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     //--------------
     [SerializeField]
 
-    AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound, _victorySound, _defeatSound;
+    public AudioClip _playerMoveSound, _menuMoveSound, _menuFightSound, _menuEndSound, _victorySound, _defeatSound;
 
     [SerializeField]
 

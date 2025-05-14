@@ -184,6 +184,10 @@ MonoBehaviour:
   healthFlask: 2
   healAmount: 5
   MenuShow: 0
+  _healClip: {fileID: 8300000, guid: 3e121b5d8cab6be42b597e32fde18b9b, type: 3}
+  _stunClip: {fileID: 8300000, guid: fdce091ebc4bc164db42e28a91b17317, type: 3}
+  _baneClip: {fileID: 8300000, guid: 6c70b0b686e38be408d614ceb075ebfb, type: 3}
+  _windedClip: {fileID: 8300000, guid: d2e5cf9b04a38bc4f86f920145ab8824, type: 3}
   _abilities:
   - {fileID: 4789870082975449263}
   - {fileID: 3908642008739669459}
