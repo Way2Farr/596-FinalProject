@@ -132,6 +132,6 @@ public class BaseUnit : MonoBehaviour
 
     private void Update()
     {
-        if (_healthbar != null) _healthbar.value = (float)_currentHealth/_maxHealth;
+        if (_healthbar != null) _healthbar.value = (float)_currentHealth/(float)_maxHealth;
     }
 }
