@@ -243,7 +243,7 @@ MonoBehaviour:
   _doOffset: 0
   _originalChildX: 0
   _maxHealth: 60
-  _attack: 80
+  _attack: 52
   _defense: 10
   _movementRange: 60
   _attackRange: 70
