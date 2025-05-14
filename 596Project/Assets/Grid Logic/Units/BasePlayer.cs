@@ -29,8 +29,8 @@ public class BasePlayer : BaseUnit
     void Update()
     {
         ManaPoints.SetText("MP: " + _manaPoint);
-    } 
-
+        if (_healthbar != null) _healthbar.value = (float)_currentHealth / (float)_maxHealth;
+    }
     //___________________________________________________________________________________\\
     // DAMAGE FUNCTION
     public virtual void OnHurt(int attackDamage) {

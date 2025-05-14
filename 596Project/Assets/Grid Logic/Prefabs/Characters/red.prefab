@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749231e816d6565488d7204c87b5c9e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundNumber: 1
+  _roundNumber: 2
   OccupiedTile: {fileID: 0}
   Faction: 1
   _unitAnimator: {fileID: 0}
@@ -243,10 +243,11 @@ MonoBehaviour:
   _doOffset: 0
   _originalChildX: 0
   _maxHealth: 60
-  _attack: 40
-  _defense: 10
-  _movementRange: 60
-  _attackRange: 20
+  _attack: 37
+  _defense: 23
+  _movementRange: 65
+  _attackRange: 30
+  _manaPoint: 0
   _currentHealth: 60
   _name: 
   _attackFX: {fileID: 8300000, guid: 00d4aba60eff93047ae7938ab70dde38, type: 3}
