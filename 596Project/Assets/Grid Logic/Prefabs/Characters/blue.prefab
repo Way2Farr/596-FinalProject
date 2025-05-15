@@ -261,8 +261,9 @@ MonoBehaviour:
   isStunned: 0
   BaneParticles: {fileID: 2176258052314786309, guid: 44c99346fd99b964da45c446ce767201, type: 3}
   StunParticles: {fileID: 1904438122669478446, guid: d4fb1ba2e061f654dabab77858293618, type: 3}
-  enemyHitParticles: {fileID: 0}
-  EnemySwingParticles: {fileID: 0}
+  enemyHitParticles: {fileID: 943566439086783417, guid: c1c415b61dd54554ca2f1eb422e2b3bb, type: 3}
+  enemyHitParticlesInstance: {fileID: 0}
+  EnemySwingParticles: {fileID: 2288757979178403551, guid: 1e5b80925f4b9c34ea8d282d7a950334, type: 3}
   enemySwingParticlesInstance: {fileID: 0}
 --- !u!1001 &682930335655290929
 PrefabInstance:
