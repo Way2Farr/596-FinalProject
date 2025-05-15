@@ -22,11 +22,14 @@ public class BaseEnemy : BaseUnit
         int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
 
         _currentHealth -= dmgTaken;
+        SpawnEnemyHitParticles();
 
-        if(DamageTextPrefab) {
+        if (DamageTextPrefab)
+        {
             ShowDmgTxt(dmgTaken);
         }
-        else {
+        else
+        {
             Debug.Log("Error at ShowDmgtxt");
         }
 
@@ -140,14 +143,37 @@ private void SpawnBaneParticles() {
 [SerializeField] private ParticleSystem StunParticles;
 private ParticleSystem stunParticlesInstance;
 
-private void SpawnStunParticles() {
-    stunParticlesInstance = Instantiate(StunParticles, transform.position, Quaternion.identity, transform);
-    stunParticlesInstance.Play();
-    stunParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    private void SpawnStunParticles()
+    {
+        stunParticlesInstance = Instantiate(StunParticles, transform.position, Quaternion.identity, transform);
+        stunParticlesInstance.Play();
+        stunParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
+    }
+
+    [SerializeField] private ParticleSystem enemyHitParticles;
+    public ParticleSystem enemyHitParticlesInstance;
+    public void SpawnEnemyHitParticles() {
+
+        enemyHitParticlesInstance = Instantiate(enemyHitParticles, transform.position, Quaternion.identity, transform);
+        enemyHitParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+        enemyHitParticlesInstance.Play();
 }
+
+    [SerializeField] private ParticleSystem EnemySwingParticles;
+    public  ParticleSystem enemySwingParticlesInstance;
+    public void SpawnEnemySwingParticles() {
+
+        enemySwingParticlesInstance = Instantiate(EnemySwingParticles, transform.position, Quaternion.identity, transform);
+        enemySwingParticlesInstance.Play();
+        enemySwingParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+        
+}
+
+    //______________________________________Health
+
     // --------- HANDLE ENEMY BEHAVIOR --------------
 
-    
+
 
     public bool PlayerInAttackRange()
     {

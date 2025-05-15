@@ -39,7 +39,6 @@ public class BasePlayer : BaseUnit
 
         _currentHealth -= dmgTaken;
         SpawnHitParticles();
-        hitParticlesInstance.Play();
 
 
         if(DamageTextPrefab) {
@@ -512,11 +511,12 @@ private void SpawnWindedParticles() {
     windedParticlesInstance.Play();
 }
 
-//______________________________________ Hit
+//______________________________________ OnHit
 
 [SerializeField] private ParticleSystem HitParticles;
-private ParticleSystem hitParticlesInstance;
-private void SpawnHitParticles() {
+public ParticleSystem hitParticlesInstance;
+public void SpawnHitParticles() {
+
     hitParticlesInstance = Instantiate(HitParticles, transform.position, Quaternion.identity, transform);
     hitParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
     hitParticlesInstance.Play();
@@ -542,6 +542,9 @@ private void SpawnHealParticles() {
 [SerializeField] private ParticleSystem SwingParticles;
 public  ParticleSystem swingParticlesInstance;
 public void SpawnSwingParticles() {
+
+
+
     swingParticlesInstance = Instantiate(SwingParticles, transform.position, Quaternion.identity, transform);
     swingParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
     swingParticlesInstance.Play();

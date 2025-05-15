@@ -376,8 +376,8 @@ public class UnitManager : MonoBehaviour
     public IEnumerator PlayAttackAnimation(BaseUnit attacker)
     {
         attacker.startAttacking();
-        Instance.Player.SpawnSwingParticles();
-        Instance.Player.swingParticlesInstance.Play();
+
+        
         float attackLength = 2.0f;
 
 
@@ -402,8 +402,9 @@ public class UnitManager : MonoBehaviour
         StartCoroutine(DelaySoundFX(attacker, attackLength - attackLength * 5.0f/6.0f));
         // wait
         yield return new WaitForSeconds(attackLength);
-        Instance.Player.swingParticlesInstance.Stop();
+        
         attacker.stopAttacking();
+
         // switch states
         if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
         {
