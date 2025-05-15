@@ -117,12 +117,21 @@ public class GameManager : MonoBehaviour
                 break;
 
             case GameState.EnemyChoose:
-                if(UnitManager.Instance.Enemy.isStunned) {
+
+                if (UnitManager.Instance.Enemy.isStunned)
+                {
                     Debug.Log("Enemy is stunned!");
                     StartCoroutine(HandleStunned());
-                  }
-                  else
-                UnitManager.Instance.EnemyChoose();
+                }
+                else
+
+                if (StatManager.Instance._currentRound == 3) {
+                if (UnitManager.Instance.Enemy is BossHard boss)
+                {
+                    boss.BossStages();
+                }
+            }
+                    UnitManager.Instance.EnemyChoose();
                 break;
 
             case GameState.EnemyMove:
@@ -209,19 +218,19 @@ public class GameManager : MonoBehaviour
     }
 
     public enum GameState
-{
-    SpawnUnits,
-    ChooseOption,
-    PlayerMove,
-    PlayerAttack,
-    EnemyChoose,
-    EnemyMove,
-    EnemyAttack,
-    Victory,
-    Lose,
-    Flee,
-    Heal,
-    Bane,
-    Stun
+    {
+        SpawnUnits,
+        ChooseOption,
+        PlayerMove,
+        PlayerAttack,
+        EnemyChoose,
+        EnemyMove,
+        EnemyAttack,
+        Victory,
+        Lose,
+        Flee,
+        Heal,
+        Bane,
+        Stun,
 }
 }

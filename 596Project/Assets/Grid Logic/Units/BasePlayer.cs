@@ -606,11 +606,16 @@ public class BasePlayer : BaseUnit
 
 [SerializeField] private ParticleSystem HitByBossParticles;
 public ParticleSystem hitByPossParticlesInstance;
-public void SpawnHitByBossParticles() {
+    public void SpawnHitByBossParticles()
+    {
 
-    hitByPossParticlesInstance = Instantiate(HitByBossParticles, transform.position, Quaternion.identity, transform);
-    hitByPossParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
-    hitByPossParticlesInstance.Play();
+
+        hitByPossParticlesInstance = Instantiate(HitByBossParticles, transform.position, Quaternion.identity, transform);
+        hitByPossParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        hitByPossParticlesInstance.Play();
+    
+        float totalLifetime = hitByPossParticlesInstance.main.duration + hitByPossParticlesInstance.main.startLifetime.constantMax;
+        Destroy(hitByPossParticlesInstance.gameObject, totalLifetime);
 }
 
 }

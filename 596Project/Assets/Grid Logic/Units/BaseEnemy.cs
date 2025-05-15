@@ -19,23 +19,36 @@ public class BaseEnemy : BaseUnit
 
     public virtual void OnHurt(int attackDamage) {
 
-        int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
-
-        _currentHealth -= dmgTaken;
-        SpawnEnemyHitParticles();
-
-        if (DamageTextPrefab)
+        if (StatManager.Instance._currentRound == 3)
         {
-            ShowDmgTxt(dmgTaken);
+            BossHard boss = UnitManager.Instance.Enemy as BossHard;
+            if (boss != null)
+            {
+                boss.BossOnHurt(attackDamage);
+            }
         }
         else
         {
-            Debug.Log("Error at ShowDmgtxt");
-        }
 
-        if(_currentHealth <= 0) {
-            IsDead();
-        } 
+            int dmgTaken = Mathf.Max(attackDamage - (_defense / 3), 0);
+
+            _currentHealth -= dmgTaken;
+            SpawnEnemyHitParticles();
+
+            if (DamageTextPrefab)
+            {
+                ShowDmgTxt(dmgTaken);
+            }
+            else
+            {
+                Debug.Log("Error at ShowDmgtxt");
+            }
+
+            if (_currentHealth <= 0)
+            {
+                IsDead();
+            }
+        }
     }
 
 
@@ -94,6 +107,7 @@ public class BaseEnemy : BaseUnit
             }
         }
     }
+    public
     void ShowDmgTxt(int damage) {
         Vector3 offsetPos = transform.position + damageOffsetPos;
         GameObject damageTextPro = Instantiate(DamageTextPrefab, offsetPos, Quaternion.identity, transform);
@@ -110,7 +124,7 @@ public class BaseEnemy : BaseUnit
         Destroy(damageTextPro, 1.5f);
     } 
 
-    void IsDead(){
+    public void IsDead(){
         this._spriteRenderer.color = new Color(1f, 1f, 1f, 0f);
         this._healthbar.gameObject.SetActive(false);
         _defeated = true;

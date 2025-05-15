@@ -284,14 +284,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a0239e114353d4f8bb876a17d79f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentRound: 1
-  _maxHealth: 0
-  _attack: 0
-  _defense: 0
-  _movementRange: 0
-  _attackRange: 0
+  _currentRound: 3
+  _maxHealth: 1000
+  _attack: 50
+  _defense: 10
+  _movementRange: 30
+  _attackRange: 30
   _manaPoint: 0
-  _currentHealth: 1
+  _currentHealth: 1000
   _origMana: 0
   _inBattlePhase: 0
   _inShopPhase: 0

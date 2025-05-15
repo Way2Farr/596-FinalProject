@@ -351,6 +351,14 @@ public class UnitManager : MonoBehaviour
             if (Enemy.transform.position.x == _endTile.transform.position.x && Enemy.transform.position.y == _endTile.transform.position.y)
             {
 
+
+                if (Enemy.OccupiedTile != null)
+                {
+                    Enemy.OccupiedTile.OccupiedUnit = null; // Clear old tile
+                }
+                Enemy.OccupiedTile = _endTile;
+                _endTile.OccupiedUnit = Enemy;
+                
                 _startingTile = null;
                 _endTile = null;
 
@@ -362,9 +370,6 @@ public class UnitManager : MonoBehaviour
                     Enemy.stopMoving();
                     GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
                 }
-                
-
-
             }
 
         }
@@ -537,10 +542,17 @@ public class UnitManager : MonoBehaviour
     }
 
 
-    public void CheckMagic() {
+    public void CheckMagic()
+    {
         Player.WindedDuration();
         Enemy.BaneDuration();
         Enemy.StunDuration();
+
+        if (StatManager.Instance._currentRound == 3)
+        {
+            if(Enemy is BossHard boss)
+            boss.ChargeDuration();
+        }
     }
 
     public void EnemyChoose() {
