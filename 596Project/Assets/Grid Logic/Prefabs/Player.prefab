@@ -208,9 +208,12 @@ MonoBehaviour:
   _inStunRange: 0
   WindedParticles: {fileID: 1069283824335500348, guid: d8bef63ec6f9036419c8ee3423c0920b, type: 3}
   HitParticles: {fileID: 943566439086783417, guid: 2319b078204b3ce42979d58ad4e98882, type: 3}
+  hitParticlesInstance: {fileID: 0}
   HealthParticles: {fileID: 8879666129579583400, guid: 8e66bf22c046d2e4198d198d6101de27, type: 3}
   SwingParticles: {fileID: 2288757979178403551, guid: b063dff296a182b40bc3930856be31ee, type: 3}
   swingParticlesInstance: {fileID: 0}
+  HitByBossParticles: {fileID: 6013317033843827723, guid: 645ebd7cef59b7b40b27c29bf3e99cf2, type: 3}
+  hitByPossParticlesInstance: {fileID: 0}
 --- !u!1001 &5916854962887946788
 PrefabInstance:
   m_ObjectHideFlags: 0

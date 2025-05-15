@@ -157,6 +157,12 @@ public class BaseUnit : MonoBehaviour
         }
         if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
         {
+
+            if (StatManager.Instance._currentRound == 3)
+            {
+                UnitManager.Instance.Player.SpawnHitByBossParticles();
+            }
+            else 
             UnitManager.Instance.Player.SpawnHitParticles();
         }
     }

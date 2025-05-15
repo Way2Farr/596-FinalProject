@@ -10,11 +10,11 @@ public class BasePlayer : BaseUnit
     public GameObject DamageTextPrefab;
     public GameObject HealTextPrefab;
 
-    [SerializeField]public int healthFlask = 1;
-    [SerializeField]public int healAmount = 5;
+    [SerializeField] public int healthFlask = 1;
+    [SerializeField] public int healAmount = 5;
 
-    private static readonly Vector3 damageOffsetPos = new Vector3(0,1,0);
-    private static readonly Vector3 healOffsetPos = new Vector3(0,1,0);
+    private static readonly Vector3 damageOffsetPos = new Vector3(0, 1, 0);
+    private static readonly Vector3 healOffsetPos = new Vector3(0, 1, 0);
 
     public bool MenuShow = false;
 
@@ -22,8 +22,8 @@ public class BasePlayer : BaseUnit
     AudioClip _healClip, _stunClip, _baneClip, _windedClip;
     void Start()
     {
-     _currentHealth = _maxHealth;
-     ManaPoints.SetText("MP: " + _manaPoint);
+        _currentHealth = _maxHealth;
+        ManaPoints.SetText("MP: " + _manaPoint);
     }
 
     void Update()
@@ -33,66 +33,78 @@ public class BasePlayer : BaseUnit
     }
     //___________________________________________________________________________________\\
     // DAMAGE FUNCTION
-    public virtual void OnHurt(int attackDamage) {
+    public virtual void OnHurt(int attackDamage)
+    {
 
-        int dmgTaken = Mathf.Max(attackDamage - (_defense / 3),0);
+        int dmgTaken = Mathf.Max(attackDamage - (_defense / 3), 0);
 
         _currentHealth -= dmgTaken;
         SpawnHitParticles();
 
 
-        if(DamageTextPrefab) {
+        if (DamageTextPrefab)
+        {
             ShowDmgTxt(dmgTaken);
         }
-        else {
+        else
+        {
             Debug.Log("Error at Player.ShowDmgtxt");
         }
 
-        if(_currentHealth <= 0) {
+        if (_currentHealth <= 0)
+        {
             IsDead();
-        } 
+        }
     }
 
-    void ShowDmgTxt(int damage) {
+    void ShowDmgTxt(int damage)
+    {
         Vector3 offsetPos = transform.position + damageOffsetPos;
         GameObject damageTextPro = Instantiate(DamageTextPrefab, offsetPos, Quaternion.identity, transform);
-        damageTextPro.transform.rotation = Quaternion.Euler(-90,0,0);
+        damageTextPro.transform.rotation = Quaternion.Euler(-90, 0, 0);
         TMP_Text textC = damageTextPro.GetComponentInChildren<TMP_Text>();
-        
-        if (textC != null) {
+
+        if (textC != null)
+        {
             textC.text = damage.ToString();
         }
-        else {
+        else
+        {
             Debug.Log("Error with PlayerDMG");
         }
 
         Destroy(damageTextPro, 1.5f);
         hitParticlesInstance.Stop();
-    } 
- //___________________________________________________________________________________\\
- // HEAL FUNCTION
-    void ShowHealTxt() {
-            
-            Vector3 offsetPos = transform.position + healOffsetPos;
-            GameObject healTextPro = Instantiate(HealTextPrefab, offsetPos, Quaternion.identity, transform);
-            healTextPro.transform.rotation = Quaternion.Euler(-90,0,0);
-            TMP_Text textH = healTextPro.GetComponentInChildren<TMP_Text>();
-            
-            if (textH != null) {
-                textH.text = "" + healAmount;
-            }
-            else {
-                Debug.Log("Error with PlayerHeal");
-            }
+    }
+    //___________________________________________________________________________________\\
+    // HEAL FUNCTION
+    void ShowHealTxt()
+    {
 
-            Destroy(healTextPro, 1.5f);
-        } 
+        Vector3 offsetPos = transform.position + healOffsetPos;
+        GameObject healTextPro = Instantiate(HealTextPrefab, offsetPos, Quaternion.identity, transform);
+        healTextPro.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        TMP_Text textH = healTextPro.GetComponentInChildren<TMP_Text>();
 
-    public void PlayerHeal() {
+        if (textH != null)
+        {
+            textH.text = "" + healAmount;
+        }
+        else
+        {
+            Debug.Log("Error with PlayerHeal");
+        }
 
-        if( healthFlask > 0 && !UnitManager.Instance.hasPerformedAction) {
+        Destroy(healTextPro, 1.5f);
+    }
+
+    public void PlayerHeal()
+    {
+
+        if (healthFlask > 0 && !UnitManager.Instance.hasPerformedAction)
+        {
             _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
-            healthFlask =- 1;
+            healthFlask = -1;
             CloseAbilitiesMenu();
             SpawnHealParticles();
             healthParticlesInstance.Play();
@@ -100,32 +112,38 @@ public class BasePlayer : BaseUnit
             ShowHealTxt();
 
             SoundFXManager.Instance.PlayClip(_healClip, this.transform, 0.1f);
-            if (UnitManager.Instance.hasMoved){
-            UnitManager.Instance.TurnCheck();
+            if (UnitManager.Instance.hasMoved)
+            {
+                UnitManager.Instance.TurnCheck();
             }
-            else {
+            else
+            {
                 return;
             }
-            
+
         }
-        else {
-            if (UnitManager.Instance.hasPerformedAction && healthFlask > 0){
-            MenuManager.Instance.EventMessages("You healed this turn already!");
+        else
+        {
+            if (UnitManager.Instance.hasPerformedAction && healthFlask > 0)
+            {
+                MenuManager.Instance.EventMessages("You healed this turn already!");
             }
-            else if(healthFlask <= 0) {
+            else if (healthFlask <= 0)
+            {
                 MenuManager.Instance.EventMessages("You're out of health flasks!");
-            return;
+                return;
             }
             CloseAbilitiesMenu();
             return;
         }
     }
 
-    void IsDead(){
+    void IsDead()
+    {
         //Destroy(gameObject);
         GameManager.Instance.UpdateGameState(GameManager.GameState.Lose);
         VictoryScreen.Instance.StartLossScreen();
-    }   
+    }
 
     // Rook behavior (can use later)
     /*public override List<Tile> getMovementTiles()
@@ -147,27 +165,29 @@ public class BasePlayer : BaseUnit
         return _inRangeTiles;
     }
 
- //___________________________________________________________________________________\\
-// PLAYER UI METHODS
+    //___________________________________________________________________________________\\
+    // PLAYER UI METHODS
     [SerializeField] private GameObject[] _abilities;
     [SerializeField] private GameObject[] _magic;
 
 
-    
-    public virtual void OpenAbilities(GameManager.GameState state) {
+
+    public virtual void OpenAbilities(GameManager.GameState state)
+    {
 
         SoundFXManager.Instance.PlayClip(GameManager.Instance._menuEndSound, this.transform, 0.1f);
 
         Debug.Log("WHAT STATE AM I" + GameManager.Instance.State);
         Debug.Log("Abilities array length: " + _abilities.Length);
-        if(state == GameManager.GameState.ChooseOption ){
+        if (state == GameManager.GameState.ChooseOption)
+        {
 
-            foreach(GameObject abilityPanel in _abilities)
+            foreach (GameObject abilityPanel in _abilities)
             {
                 abilityPanel.SetActive(true);
                 MenuShow = true;
                 Debug.Log("Opening Ability Panel!");
-            } 
+            }
         }
         else
         {
@@ -180,44 +200,47 @@ public class BasePlayer : BaseUnit
         }
     }
     public void CloseAbilitiesMenu()
-{
-    foreach (GameObject abilityPanel in _abilities)
     {
-        abilityPanel.SetActive(false);
-        MenuShow = false;
+        foreach (GameObject abilityPanel in _abilities)
+        {
+            abilityPanel.SetActive(false);
+            MenuShow = false;
+        }
+        Debug.Log("Abilities menu closed.");
     }
-    Debug.Log("Abilities menu closed.");
-}
 
 
-    public virtual void OpenMagic() {
+    public virtual void OpenMagic()
+    {
 
-            if(!UnitManager.Instance.hasPerformedAction){
+        if (!UnitManager.Instance.hasPerformedAction)
+        {
 
             CloseAbilitiesMenu();
 
-            foreach(GameObject magicPanel in _magic)
+            foreach (GameObject magicPanel in _magic)
             {
                 magicPanel.SetActive(true);
                 MenuShow = true;
 
-            } 
+            }
         }
-        else {
+        else
+        {
             MenuManager.Instance.EventMessages("You already performed an action!");
-                return;  
+            return;
         }
     }
 
     public void CloseMagicMenu()
-{
-    foreach (GameObject magicPanel in _magic)
     {
-        magicPanel.SetActive(false);
-        MenuShow = false;
+        foreach (GameObject magicPanel in _magic)
+        {
+            magicPanel.SetActive(false);
+            MenuShow = false;
+        }
+        Debug.Log("Magic menu closed.");
     }
-    Debug.Log("Magic menu closed.");
-}
 
 
 
@@ -242,134 +265,151 @@ public class BasePlayer : BaseUnit
                     MenuManager.Instance.EventMessages("You already performed an action!");
                     return;
                 }
-            break;
+                break;
 
             case 7:
                 CloseAbilitiesMenu();
                 CloseMagicMenu();
-                if(!UnitManager.Instance.hasPerformedAction){
-                GameManager.Instance.UpdateGameState(GameManager.GameState.Bane);
-                Bane();
+                if (!UnitManager.Instance.hasPerformedAction)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.Bane);
+                    Bane();
                     SoundFXManager.Instance.PlayClip(_baneClip, this.transform, 0.1f);
                 }
-                else {
-                MenuManager.Instance.EventMessages("You already performed an action!");
-                return;
+                else
+                {
+                    MenuManager.Instance.EventMessages("You already performed an action!");
+                    return;
                 }
-            break;
+                break;
 
             case 8:
                 CloseAbilitiesMenu();
                 CloseMagicMenu();
-                if(!UnitManager.Instance.hasPerformedAction){
-                GameManager.Instance.UpdateGameState(GameManager.GameState.Stun);
-                SoundFXManager.Instance.PlayClip(_stunClip, this.transform, 0.1f);
-                Stun();
+                if (!UnitManager.Instance.hasPerformedAction)
+                {
+                    GameManager.Instance.UpdateGameState(GameManager.GameState.Stun);
+                    SoundFXManager.Instance.PlayClip(_stunClip, this.transform, 0.1f);
+                    Stun();
                 }
-                else {
-                MenuManager.Instance.EventMessages("You already performed an action!");
-                return;
+                else
+                {
+                    MenuManager.Instance.EventMessages("You already performed an action!");
+                    return;
                 }
-            break;
+                break;
         }
     }
 
- //___________________________________________________________________________________\\
-// WINDED BUFF
+    //___________________________________________________________________________________\\
+    // WINDED BUFF
     int speedBuff = 20;
 
-    int speedDuration;    
+    int speedDuration;
     int originalSpeed;
 
     public GameObject WindedIcon;
 
     public TMP_Text ManaPoints;
-    void Winded() {
-        
+    void Winded()
+    {
+
         CloseAbilitiesMenu();
 
-        if(speedDuration > 0) {
+        if (speedDuration > 0)
+        {
             MenuManager.Instance.EventMessages("Winded is still active!");
             return;
         }
 
-        if( UnitManager.Instance.hasPerformedAction) {
+        if (UnitManager.Instance.hasPerformedAction)
+        {
             MenuManager.Instance.EventMessages("You already performed an action!");
             return;
         }
 
-        if(_manaPoint > 0 ){
-            if(speedDuration <= 0) {
-            speedDuration = 2;
-            originalSpeed = _movementRange;
-            _movementRange += speedBuff;
-            _manaPoint--;
+        if (_manaPoint > 0)
+        {
+            if (speedDuration <= 0)
+            {
+                speedDuration = 2;
+                originalSpeed = _movementRange;
+                _movementRange += speedBuff;
+                _manaPoint--;
 
-            UnitManager.Instance.hasPerformedAction = true;
-            WindedIcon.SetActive(true);
-            ManaPoints.text = "MP: " +_manaPoint; 
-            SpawnWindedParticles();
+                UnitManager.Instance.hasPerformedAction = true;
+                WindedIcon.SetActive(true);
+                ManaPoints.text = "MP: " + _manaPoint;
+                SpawnWindedParticles();
 
             }
         }
-        else {
+        else
+        {
             MenuManager.Instance.EventMessages("You don't have enough mana!");
-        
+
         }
         GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
     }
 
-    public void WindedDuration() {
-        if(speedDuration > 0) {
+    public void WindedDuration()
+    {
+        if (speedDuration > 0)
+        {
             speedDuration--;
-            if(speedDuration == 0) {
+            if (speedDuration == 0)
+            {
                 _movementRange = originalSpeed;
                 WindedIcon.SetActive(false);
                 windedParticlesInstance.Stop();
                 MenuManager.Instance.EventMessages("Winded has ended!");
                 GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-                
+
             }
         }
     }
 
- //___________________________________________________________________________________\\
+    //___________________________________________________________________________________\\
 
     public int _baneRange;
     public GameObject BaneIcon;
 
-    void Bane() {
+    void Bane()
+    {
 
         CloseAbilitiesMenu();
 
-        if( UnitManager.Instance.hasPerformedAction) {
+        if (UnitManager.Instance.hasPerformedAction)
+        {
             MenuManager.Instance.EventMessages("You already performed an action!");
             return;
         }
 
-        if(_manaPoint > 0) {
-                ShowBaneOverlay();
-                
+        if (_manaPoint > 0)
+        {
+            ShowBaneOverlay();
+
         }
-        else {
+        else
+        {
             MenuManager.Instance.EventMessages("Not enough mana!");
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
         }
-  
-        
+
+
     }
     public virtual List<Tile> GetBaneTiles()
     {
         float tempRange = this.GetBaneRange();
-      List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values
-        .Where(t => Vector2.Distance(this.transform.position, t.transform.position)
-         <= tempRange && t._position != OccupiedTile._position).ToList();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values
+          .Where(t => Vector2.Distance(this.transform.position, t.transform.position)
+           <= tempRange && t._position != OccupiedTile._position).ToList();
 
         return _inRangeTiles;
     }
 
-    public int GetBaneRange() 
-    { 
+    public int GetBaneRange()
+    {
         return _baneRange;
     }
 
@@ -391,69 +431,76 @@ public class BasePlayer : BaseUnit
         {
             tile.RangeInactive();
         }
-       
+
     }
 
     public bool _inBaneRange;
 
-    public void HandleBane(BaseEnemy enemy) {
-            if(enemy != null && _inBaneRange) {
+    public void HandleBane(BaseEnemy enemy)
+    {
+        if (enemy != null && _inBaneRange)
+        {
             enemy.InflictBane(3);
-            ClearBaneOverlay();;
+            ClearBaneOverlay(); ;
             _manaPoint--;
             ManaPoints.text = "MP: " + _manaPoint;
             UnitManager.Instance.hasPerformedAction = true;
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
             BaneIcon.SetActive(true);
 
-            }
-            else {
-                ClearBaneOverlay();
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-                
-            }
+        }
+        else
+        {
+            ClearBaneOverlay();
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
 
         }
 
+    }
 
- //___________________________________________________________________________________\\
-// Stun BUFF
+
+    //___________________________________________________________________________________\\
+    // Stun BUFF
 
     public int _stunRange;
     public GameObject StunIcon;
 
-    void Stun() {
+    void Stun()
+    {
 
         CloseAbilitiesMenu();
 
-        if( UnitManager.Instance.hasPerformedAction) {
+        if (UnitManager.Instance.hasPerformedAction)
+        {
             MenuManager.Instance.EventMessages("You already performed an action!");
             return;
         }
 
-        if(_manaPoint > 0) {
-                ShowStunOverlay();
-    
+        if (_manaPoint > 0)
+        {
+            ShowStunOverlay();
+
         }
-        else {
+        else
+        {
             MenuManager.Instance.EventMessages("Not enough mana!");
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
         }
-  
-        
+
+
     }
     public virtual List<Tile> GetStunTiles()
     {
         float tempRange = this.GetStunRange();
-      List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values
-        .Where(t => Vector2.Distance(this.transform.position, t.transform.position)
-         <= tempRange && t._position != OccupiedTile._position).ToList();
+        List<Tile> _inRangeTiles = GridManager.Instance._tiles.Values
+          .Where(t => Vector2.Distance(this.transform.position, t.transform.position)
+           <= tempRange && t._position != OccupiedTile._position).ToList();
 
         return _inRangeTiles;
     }
 
-    public int GetStunRange() 
-    { 
+    public int GetStunRange()
+    {
         return _stunRange;
     }
 
@@ -475,13 +522,15 @@ public class BasePlayer : BaseUnit
         {
             tile.RangeInactive();
         }
-       
+
     }
 
     public bool _inStunRange;
 
-    public void HandleStun(BaseEnemy enemy) {
-            if(enemy != null && _inStunRange) {
+    public void HandleStun(BaseEnemy enemy)
+    {
+        if (enemy != null && _inStunRange)
+        {
             enemy.InflictStun(3);
             ClearStunOverlay();
             _manaPoint--;
@@ -490,64 +539,78 @@ public class BasePlayer : BaseUnit
             GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
             StunIcon.SetActive(true);
 
-            }
-            else {
-                ClearStunOverlay();
-                GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
-                
-            }
+        }
+        else
+        {
+            ClearStunOverlay();
+            GameManager.Instance.UpdateGameState(GameManager.GameState.ChooseOption);
 
         }
 
-//______________________________________Winded
-// Winded Particle Systems
+    }
 
-[SerializeField] private ParticleSystem WindedParticles;
-private ParticleSystem windedParticlesInstance;
+    //______________________________________Winded
+    // Winded Particle Systems
 
-private void SpawnWindedParticles() {
-    windedParticlesInstance = Instantiate(WindedParticles, transform.position, Quaternion.identity, transform);
-    windedParticlesInstance.transform.rotation = Quaternion.Euler(-20,0,0);
-    windedParticlesInstance.Play();
-}
+    [SerializeField] private ParticleSystem WindedParticles;
+    private ParticleSystem windedParticlesInstance;
 
-//______________________________________ OnHit
+    private void SpawnWindedParticles()
+    {
+        windedParticlesInstance = Instantiate(WindedParticles, transform.position, Quaternion.identity, transform);
+        windedParticlesInstance.transform.rotation = Quaternion.Euler(-20, 0, 0);
+        windedParticlesInstance.Play();
+    }
 
-[SerializeField] private ParticleSystem HitParticles;
-public ParticleSystem hitParticlesInstance;
-public void SpawnHitParticles() {
+    //______________________________________ OnHit
 
-    hitParticlesInstance = Instantiate(HitParticles, transform.position, Quaternion.identity, transform);
-    hitParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
-    hitParticlesInstance.Play();
-}
+    [SerializeField] private ParticleSystem HitParticles;
+    public ParticleSystem hitParticlesInstance;
+    public void SpawnHitParticles()
+    {
 
-
-//______________________________________Health
-
-
-[SerializeField] private ParticleSystem HealthParticles;
-private ParticleSystem healthParticlesInstance;
-
-private void SpawnHealParticles() {
-    Debug.Log("Spawned Heal!");
-    healthParticlesInstance = Instantiate(HealthParticles, transform.position, Quaternion.identity, transform);
-    healthParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
-    healthParticlesInstance.Play();
-}
+        hitParticlesInstance = Instantiate(HitParticles, transform.position, Quaternion.identity, transform);
+        hitParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        hitParticlesInstance.Play();
+    }
 
 
-//______________________________________ Swing
-
-[SerializeField] private ParticleSystem SwingParticles;
-public  ParticleSystem swingParticlesInstance;
-public void SpawnSwingParticles() {
+    //______________________________________Health
 
 
+    [SerializeField] private ParticleSystem HealthParticles;
+    private ParticleSystem healthParticlesInstance;
 
-    swingParticlesInstance = Instantiate(SwingParticles, transform.position, Quaternion.identity, transform);
-    swingParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
-    swingParticlesInstance.Play();
+    private void SpawnHealParticles()
+    {
+        Debug.Log("Spawned Heal!");
+        healthParticlesInstance = Instantiate(HealthParticles, transform.position, Quaternion.identity, transform);
+        healthParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        healthParticlesInstance.Play();
+    }
+
+
+    //______________________________________ Swing
+
+    [SerializeField] private ParticleSystem SwingParticles;
+    public ParticleSystem swingParticlesInstance;
+    public void SpawnSwingParticles()
+    {
+
+
+
+        swingParticlesInstance = Instantiate(SwingParticles, transform.position, Quaternion.identity, transform);
+        swingParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
+        swingParticlesInstance.Play();
+    }
+
+[SerializeField] private ParticleSystem HitByBossParticles;
+public ParticleSystem hitByPossParticlesInstance;
+public void SpawnHitByBossParticles() {
+
+    hitByPossParticlesInstance = Instantiate(HitByBossParticles, transform.position, Quaternion.identity, transform);
+    hitByPossParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+    hitByPossParticlesInstance.Play();
 }
 
 }
