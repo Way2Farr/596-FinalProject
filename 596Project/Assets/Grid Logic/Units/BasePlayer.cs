@@ -602,6 +602,10 @@ public class BasePlayer : BaseUnit
         swingParticlesInstance = Instantiate(SwingParticles, transform.position, Quaternion.identity, transform);
         swingParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
         swingParticlesInstance.Play();
+
+        float totalLifetime = swingParticlesInstance.main.duration + swingParticlesInstance.main.startLifetime.constantMax;
+        Destroy(swingParticlesInstance.gameObject, totalLifetime);
+
     }
 
 [SerializeField] private ParticleSystem HitByBossParticles;

@@ -126,24 +126,6 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsIdle, true);
         _unitAnimator.SetBool(IsAttacking, false);
 
-        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
-        {
-            UnitManager.Instance.Player.swingParticlesInstance.Stop();
-
-            if (UnitManager.Instance.Player.swingParticlesInstance != null)
-            {
-                Destroy(UnitManager.Instance.Player.swingParticlesInstance.gameObject);
-            }
-        }
-
-        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
-        {
-            UnitManager.Instance.Enemy.enemySwingParticlesInstance.Stop();
-            if (UnitManager.Instance.Enemy.enemySwingParticlesInstance != null)
-            {
-                Destroy(UnitManager.Instance.Enemy.enemySwingParticlesInstance.gameObject);
-            }
-        }
     }
 
     public void startDamaging()

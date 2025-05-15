@@ -166,21 +166,28 @@ private ParticleSystem stunParticlesInstance;
 
     [SerializeField] private ParticleSystem enemyHitParticles;
     public ParticleSystem enemyHitParticlesInstance;
-    public void SpawnEnemyHitParticles() {
+    public void SpawnEnemyHitParticles()
+    {
 
         enemyHitParticlesInstance = Instantiate(enemyHitParticles, transform.position, Quaternion.identity, transform);
-        enemyHitParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+        enemyHitParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
         enemyHitParticlesInstance.Play();
+        
+        float totalLifetime = enemyHitParticlesInstance.main.duration + enemyHitParticlesInstance.main.startLifetime.constantMax;
+        Destroy(enemyHitParticlesInstance.gameObject, totalLifetime);
 }
 
     [SerializeField] private ParticleSystem EnemySwingParticles;
     public  ParticleSystem enemySwingParticlesInstance;
-    public void SpawnEnemySwingParticles() {
+    public void SpawnEnemySwingParticles()
+    {
 
         enemySwingParticlesInstance = Instantiate(EnemySwingParticles, transform.position, Quaternion.identity, transform);
         enemySwingParticlesInstance.Play();
-        enemySwingParticlesInstance.transform.rotation = Quaternion.Euler(-90,0,0);
+        enemySwingParticlesInstance.transform.rotation = Quaternion.Euler(-90, 0, 0);
         
+            float totalLifetime = enemySwingParticlesInstance.main.duration + enemySwingParticlesInstance.main.startLifetime.constantMax;
+            Destroy(enemySwingParticlesInstance.gameObject, totalLifetime);
 }
 
     //______________________________________Health
