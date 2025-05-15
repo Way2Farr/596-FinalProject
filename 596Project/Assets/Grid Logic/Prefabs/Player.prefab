@@ -168,13 +168,13 @@ MonoBehaviour:
   _animOffset: 216
   _doOffset: 0
   _originalChildX: 0
-  _maxHealth: 70
-  _attack: 40
+  _maxHealth: 60
+  _attack: 30
   _defense: 40
   _movementRange: 40
   _attackRange: 40
   _manaPoint: 3
-  _currentHealth: 50
+  _currentHealth: 60
   _name: The Queen
   _attackFX: {fileID: 8300000, guid: a46e3c06c5292f34088d63940a479256, type: 3}
   _moveFX: {fileID: 8300000, guid: 82d03f9d6cbe4f1419f3a282d688ea43, type: 3}
