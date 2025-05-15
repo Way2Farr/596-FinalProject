@@ -106,6 +106,16 @@ public class BaseUnit : MonoBehaviour
 
     public void startAttacking()
     {
+
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            UnitManager.Instance.Player.SpawnSwingParticles();
+        }
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            UnitManager.Instance.Enemy.SpawnEnemySwingParticles();
+        }
+
         _unitAnimator.SetBool(IsIdle, false);
         _unitAnimator.SetBool(IsAttacking, true);
 
@@ -115,6 +125,25 @@ public class BaseUnit : MonoBehaviour
     {
         _unitAnimator.SetBool(IsIdle, true);
         _unitAnimator.SetBool(IsAttacking, false);
+
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            UnitManager.Instance.Player.swingParticlesInstance.Stop();
+
+            if (UnitManager.Instance.Player.swingParticlesInstance != null)
+            {
+                Destroy(UnitManager.Instance.Player.swingParticlesInstance.gameObject);
+            }
+        }
+
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            UnitManager.Instance.Enemy.enemySwingParticlesInstance.Stop();
+            if (UnitManager.Instance.Enemy.enemySwingParticlesInstance != null)
+            {
+                Destroy(UnitManager.Instance.Enemy.enemySwingParticlesInstance.gameObject);
+            }
+        }
     }
 
     public void startDamaging()
@@ -122,12 +151,21 @@ public class BaseUnit : MonoBehaviour
         _unitAnimator.SetBool(IsIdle, false);
         _unitAnimator.SetBool(IsDamaged, true);
 
+        if (GameManager.Instance.State == GameManager.GameState.PlayerAttack)
+        {
+            UnitManager.Instance.Enemy.SpawnEnemyHitParticles();
+        }
+        if (GameManager.Instance.State == GameManager.GameState.EnemyAttack)
+        {
+            UnitManager.Instance.Player.SpawnHitParticles();
+        }
     }
 
     public void stopDamaging()
     {
         _unitAnimator.SetBool(IsIdle, true);
         _unitAnimator.SetBool(IsDamaged, false);
+
     }
 
     private void Update()

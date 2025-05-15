@@ -168,21 +168,21 @@ MonoBehaviour:
   _animOffset: 216
   _doOffset: 0
   _originalChildX: 0
-  _maxHealth: 60
-  _attack: 30
-  _defense: 40
-  _movementRange: 40
+  _maxHealth: 100
+  _attack: 40
+  _defense: 30
+  _movementRange: 20
   _attackRange: 40
   _manaPoint: 3
-  _currentHealth: 60
+  _currentHealth: 50
   _name: The Queen
   _attackFX: {fileID: 8300000, guid: a46e3c06c5292f34088d63940a479256, type: 3}
   _moveFX: {fileID: 8300000, guid: 82d03f9d6cbe4f1419f3a282d688ea43, type: 3}
   _damageFX: {fileID: 0}
-  DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
-  HealTextPrefab: {fileID: 4239752789521403035}
+  DamageTextPrefab: {fileID: 7255177664821208963, guid: 51b6f5fa2f6067b4d895dae422247168, type: 3}
+  HealTextPrefab: {fileID: 1378469350046611512, guid: cd80d69a49fbc0b43a658b23c6f39aa7, type: 3}
   healthFlask: 2
-  healAmount: 5
+  healAmount: 20
   MenuShow: 0
   _healClip: {fileID: 8300000, guid: 3e121b5d8cab6be42b597e32fde18b9b, type: 3}
   _stunClip: {fileID: 8300000, guid: fdce091ebc4bc164db42e28a91b17317, type: 3}
@@ -207,7 +207,8 @@ MonoBehaviour:
   StunIcon: {fileID: 8620718689268940316}
   _inStunRange: 0
   WindedParticles: {fileID: 1069283824335500348, guid: d8bef63ec6f9036419c8ee3423c0920b, type: 3}
-  HitParticles: {fileID: 2288757979178403551, guid: b063dff296a182b40bc3930856be31ee, type: 3}
+  HitParticles: {fileID: 943566439086783417, guid: 2319b078204b3ce42979d58ad4e98882, type: 3}
+  hitParticlesInstance: {fileID: 0}
   HealthParticles: {fileID: 8879666129579583400, guid: 8e66bf22c046d2e4198d198d6101de27, type: 3}
   SwingParticles: {fileID: 2288757979178403551, guid: b063dff296a182b40bc3930856be31ee, type: 3}
   swingParticlesInstance: {fileID: 0}
@@ -472,11 +473,6 @@ GameObject:
 --- !u!1 &4215581899579588128 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7965982002544947123, guid: 146756525d2c7034dbda3fff96c74cfd, type: 3}
-  m_PrefabInstance: {fileID: 6056245337039393171}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4239752789521403035 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7987903292744949000, guid: 146756525d2c7034dbda3fff96c74cfd, type: 3}
   m_PrefabInstance: {fileID: 6056245337039393171}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &4789870082975449263 stripped

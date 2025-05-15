@@ -152,7 +152,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 162
-  m_Sprite: {fileID: 685057979, guid: cccef20be0ac1fb4c90977707b7a2fa4, type: 3}
+  m_Sprite: {fileID: -1345898005, guid: 91389de6c685cb5489767d56a3143859, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -173,7 +173,7 @@ Animator:
   m_GameObject: {fileID: 6113083596650585057}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d1b938efa792de94f82f7ec180154c9d, type: 2}
+  m_Controller: {fileID: 9100000, guid: 61079228f7882234388917385d33690f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -194,9 +194,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6560191903133151019}
-  - component: {fileID: 1649581632051525853}
+  - component: {fileID: 2074197774447708654}
   m_Layer: 0
-  m_Name: red
+  m_Name: brute
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,7 +220,7 @@ Transform:
   - {fileID: 8220977782618392591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
---- !u!114 &1649581632051525853
+--- !u!114 &2074197774447708654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,10 +229,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7798639546016059439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 749231e816d6565488d7204c87b5c9e6, type: 3}
+  m_Script: {fileID: 11500000, guid: e8f5114dea619df458c2ebeb10c374c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundNumber: 2
+  _roundNumber: 1
   OccupiedTile: {fileID: 0}
   Faction: 1
   _unitAnimator: {fileID: 0}
@@ -242,15 +242,15 @@ MonoBehaviour:
   _animOffset: 0
   _doOffset: 0
   _originalChildX: 0
-  _maxHealth: 60
-  _attack: 37
-  _defense: 23
-  _movementRange: 65
-  _attackRange: 30
+  _maxHealth: 100
+  _attack: 40
+  _defense: 30
+  _movementRange: 10
+  _attackRange: 10
   _manaPoint: 0
   _currentHealth: 60
-  _name: 
-  _attackFX: {fileID: 8300000, guid: 00d4aba60eff93047ae7938ab70dde38, type: 3}
+  _name: Brutus
+  _attackFX: {fileID: 8300000, guid: a46e3c06c5292f34088d63940a479256, type: 3}
   _moveFX: {fileID: 8300000, guid: 4c9b69a7451ee2c45a744f7a60c9d20f, type: 3}
   _damageFX: {fileID: 0}
   DamageTextPrefab: {fileID: 5411842268007955174, guid: ee45b465b70f4d8438a649157b7a4caa, type: 3}
@@ -260,10 +260,6 @@ MonoBehaviour:
   isStunned: 0
   BaneParticles: {fileID: 2176258052314786309, guid: 44c99346fd99b964da45c446ce767201, type: 3}
   StunParticles: {fileID: 1904438122669478446, guid: d4fb1ba2e061f654dabab77858293618, type: 3}
-  enemyHitParticles: {fileID: 943566439086783417, guid: c1c415b61dd54554ca2f1eb422e2b3bb, type: 3}
-  enemyHitParticlesInstance: {fileID: 0}
-  EnemySwingParticles: {fileID: 2288757979178403551, guid: 1e5b80925f4b9c34ea8d282d7a950334, type: 3}
-  enemySwingParticlesInstance: {fileID: 0}
 --- !u!1001 &682930335655290929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -424,11 +420,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266462586811710071, guid: 22ee8cd166ac9db4db800245c31ff4b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.07
+      value: -1.17
       objectReference: {fileID: 0}
     - target: {fileID: 1266462586811710071, guid: 22ee8cd166ac9db4db800245c31ff4b9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 7427691693595359478, guid: 22ee8cd166ac9db4db800245c31ff4b9, type: 3}
       propertyPath: m_Name
