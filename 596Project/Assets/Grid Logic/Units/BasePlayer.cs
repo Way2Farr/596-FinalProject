@@ -18,6 +18,8 @@ public class BasePlayer : BaseUnit
 
     public bool MenuShow = false;
 
+    [SerializeField]
+    AudioClip _healClip, _stunClip, _baneClip, _windedClip;
     void Start()
     {
      _currentHealth = _maxHealth;
@@ -27,8 +29,8 @@ public class BasePlayer : BaseUnit
     void Update()
     {
         ManaPoints.SetText("MP: " + _manaPoint);
-    } 
-
+        if (_healthbar != null) _healthbar.value = (float)_currentHealth / (float)_maxHealth;
+    }
     //___________________________________________________________________________________\\
     // DAMAGE FUNCTION
     public virtual void OnHurt(int attackDamage) {
@@ -98,6 +100,7 @@ public class BasePlayer : BaseUnit
             UnitManager.Instance.hasPerformedAction = true;
             ShowHealTxt();
 
+            SoundFXManager.Instance.PlayClip(_healClip, this.transform, 0.1f);
             if (UnitManager.Instance.hasMoved){
             UnitManager.Instance.TurnCheck();
             }
@@ -153,6 +156,9 @@ public class BasePlayer : BaseUnit
 
     
     public virtual void OpenAbilities(GameManager.GameState state) {
+
+        SoundFXManager.Instance.PlayClip(GameManager.Instance._menuEndSound, this.transform, 0.1f);
+
         Debug.Log("WHAT STATE AM I" + GameManager.Instance.State);
         Debug.Log("Abilities array length: " + _abilities.Length);
         if(state == GameManager.GameState.ChooseOption ){
@@ -227,11 +233,15 @@ public class BasePlayer : BaseUnit
             case 6:
                 CloseAbilitiesMenu();
                 CloseMagicMenu();
-                if(!UnitManager.Instance.hasPerformedAction)
-                Winded();
-                else {
-                MenuManager.Instance.EventMessages("You already performed an action!");
-                return;  
+                if (!UnitManager.Instance.hasPerformedAction)
+                {
+                    Winded();
+                    SoundFXManager.Instance.PlayClip(_windedClip, this.transform, 0.1f);
+                }
+                else
+                {
+                    MenuManager.Instance.EventMessages("You already performed an action!");
+                    return;
                 }
             break;
 
@@ -241,6 +251,7 @@ public class BasePlayer : BaseUnit
                 if(!UnitManager.Instance.hasPerformedAction){
                 GameManager.Instance.UpdateGameState(GameManager.GameState.Bane);
                 Bane();
+                    SoundFXManager.Instance.PlayClip(_baneClip, this.transform, 0.1f);
                 }
                 else {
                 MenuManager.Instance.EventMessages("You already performed an action!");
@@ -253,6 +264,7 @@ public class BasePlayer : BaseUnit
                 CloseMagicMenu();
                 if(!UnitManager.Instance.hasPerformedAction){
                 GameManager.Instance.UpdateGameState(GameManager.GameState.Stun);
+                SoundFXManager.Instance.PlayClip(_stunClip, this.transform, 0.1f);
                 Stun();
                 }
                 else {

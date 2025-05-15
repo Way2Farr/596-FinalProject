@@ -243,10 +243,11 @@ MonoBehaviour:
   _doOffset: 0
   _originalChildX: 0
   _maxHealth: 50
-  _attack: 10
+  _attack: 20
   _defense: 10
   _movementRange: 20
   _attackRange: 20
+  _manaPoint: 0
   _currentHealth: 50
   _name: 
   _attackFX: {fileID: 8300000, guid: 00d4aba60eff93047ae7938ab70dde38, type: 3}

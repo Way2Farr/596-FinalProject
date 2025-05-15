@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2dfa5ea0b46025439ba022e7ea99abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundNumber: 1
+  _roundNumber: 3
   OccupiedTile: {fileID: 0}
   Faction: 1
   _unitAnimator: {fileID: 0}
@@ -243,10 +243,11 @@ MonoBehaviour:
   _doOffset: 0
   _originalChildX: 0
   _maxHealth: 60
-  _attack: 40
+  _attack: 52
   _defense: 10
   _movementRange: 60
-  _attackRange: 20
+  _attackRange: 70
+  _manaPoint: 0
   _currentHealth: 60
   _name: blue
   _attackFX: {fileID: 8300000, guid: a46e3c06c5292f34088d63940a479256, type: 3}
@@ -419,11 +420,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1266462586811710071, guid: 22ee8cd166ac9db4db800245c31ff4b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.17
+      value: -1.7
       objectReference: {fileID: 0}
     - target: {fileID: 1266462586811710071, guid: 22ee8cd166ac9db4db800245c31ff4b9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.25
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 7427691693595359478, guid: 22ee8cd166ac9db4db800245c31ff4b9, type: 3}
       propertyPath: m_Name

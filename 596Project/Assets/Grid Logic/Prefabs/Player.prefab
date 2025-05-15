@@ -168,11 +168,11 @@ MonoBehaviour:
   _animOffset: 216
   _doOffset: 0
   _originalChildX: 0
-  _maxHealth: 50
-  _attack: 218
-  _defense: 10
-  _movementRange: 273
-  _attackRange: 447
+  _maxHealth: 70
+  _attack: 40
+  _defense: 40
+  _movementRange: 40
+  _attackRange: 40
   _manaPoint: 3
   _currentHealth: 50
   _name: The Queen
@@ -184,6 +184,10 @@ MonoBehaviour:
   healthFlask: 2
   healAmount: 5
   MenuShow: 0
+  _healClip: {fileID: 8300000, guid: 3e121b5d8cab6be42b597e32fde18b9b, type: 3}
+  _stunClip: {fileID: 8300000, guid: fdce091ebc4bc164db42e28a91b17317, type: 3}
+  _baneClip: {fileID: 8300000, guid: 6c70b0b686e38be408d614ceb075ebfb, type: 3}
+  _windedClip: {fileID: 8300000, guid: d2e5cf9b04a38bc4f86f920145ab8824, type: 3}
   _abilities:
   - {fileID: 4789870082975449263}
   - {fileID: 3908642008739669459}
